@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winning Writing — Draft Critic</title>
+  <meta name="description" content="A draft-critique tool built on Stanford GSB's Winning Writing course.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Winning Writing — Draft Critic</h1>
+    <p>Paste a draft. Pick a mode. See where it breaks the rules. Then send it to Claude for the rewrite.</p>
+  </header>
+
+  <main>
+    <section>
+      <div id="mode-tabs"></div>
+
+      <div class="card">
+        <div class="draft-toolbar">
+          <span>Target: <strong id="target-label">—</strong></span>
+          <div class="toolbar-actions">
+            <button class="btn" id="load-sample">Load bad sample</button>
+            <button class="btn" id="clear-draft">Clear</button>
+          </div>
+        </div>
+        <textarea id="draft" placeholder="Paste your draft here. The tool runs offline — nothing is sent anywhere."></textarea>
+
+        <div class="scorerow" style="margin-top:1rem;">
+          <div class="score-card" id="word-count-card">
+            <span class="num" id="word-count">0</span>
+            words
+          </div>
+          <div class="score-card">
+            <span class="num" id="reading-time">0</span>
+            min read
+          </div>
+          <div class="score-card" id="jargon-count-card">
+            <span class="num" id="jargon-count">0</span>
+            banned hits
+          </div>
+          <div class="score-card">
+            <span class="num" id="bluf-score">0/10</span>
+            BLUF
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Highlighted draft</h2>
+        <p style="font-size:0.85rem; color:var(--muted); margin:0 0 0.6rem;">
+          Banned words and AI tells are highlighted in yellow. Clean draft = no highlights.
+        </p>
+        <div id="highlighted"></div>
+      </div>
+
+      <div class="card">
+        <h2>Issues found</h2>
+        <ul id="jargon-hits"></ul>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h2>Send to Claude</h2>
+        <p style="font-size:0.9rem; color:var(--muted); margin:0 0 0.8rem;">
+          Builds a critique prompt with the draft + the right rules for this mode and copies it. Paste into Claude (any version) to get a graded rewrite.
+        </p>
+        <button class="btn btn-primary" id="copy-critique">Copy critique prompt</button>
+      </div>
+
+      <div class="card">
+        <h2>Heuristics</h2>
+        <div class="heuristic">
+          <span class="label">BLUF</span>
+          <span class="num" id="bluf-score-inline">—</span>
+          <span class="note" id="bluf-note">—</span>
+        </div>
+        <div class="heuristic">
+          <span class="label">Story</span>
+          <span class="num" id="story-score">—</span>
+          <span class="note" id="story-note">—</span>
+        </div>
+        <p style="font-size:0.8rem; color:var(--muted); margin-top:0.6rem;">
+          Heuristic, not authoritative. The Claude critique gives a real rubric score.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Pre-send checklist</h2>
+        <ul id="checklist"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Six-word summary</h2>
+        <p style="font-size:0.88rem; color:var(--muted); margin:0 0 0.5rem;">
+          Tell the story in six words. Hemingway: <em>"For sale: baby shoes, never worn."</em>
+        </p>
+        <input type="text" id="six-word-input" placeholder="Six words. A story.">
+        <div class="six-row">
+          <span>Count: <strong id="six-count">0</strong> / 6</span>
+          <span>Tip: it should tell a <em>story</em>, not list traits.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Key principles</h2>
+        <p style="font-size:0.85rem; color:var(--muted); margin:0 0 0.6rem;">
+          What this tool checks against. Edit <code>ui/data.js</code> → <code>PRINCIPLES</code> to add your own.
+        </p>
+        <div id="principles"></div>
+      </div>
+
+      <div class="card">
+        <h2>Reference</h2>
+        <p style="font-size:0.88rem; color:var(--muted); margin:0;">
+          Full rules in the <a href="../points/" target="_blank"><code>points/</code></a> directory.
+          Drop the <code>skills/</code> folder into <code>~/.claude/skills/</code> for in-Claude versions of these tools.
+        </p>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    Built on Stanford GSB <em>Winning Writing</em> (Glenn Kramon, GSBGEN 352.1) and Rachel Konrad's cold-outreach lectures.
+    <br>
+    No tracking. No backend. Open the file. Paste. Cut.
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
