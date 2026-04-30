@@ -5,6 +5,7 @@ const $ = (id) => document.getElementById(id);
 const state = {
   mode: 'cold-email',
   draft: '',
+  audience: '',
 };
 
 // ---------- Mode tabs ----------
@@ -288,6 +289,21 @@ function analyze() {
   $('rhythm-score').textContent = `${rhythm.score}/10`;
   $('rhythm-note').textContent = rhythm.note;
 
+  // Audience readiness
+  const aud = state.audience.trim();
+  const audEl = $('audience-score');
+  const audNoteEl = $('audience-note');
+  if (!aud) {
+    audEl.textContent = '0/10';
+    audNoteEl.textContent = 'No audience specified — Kramon\'s rule 2: know your audience before you write.';
+  } else if (aud.length < 25) {
+    audEl.textContent = '5/10';
+    audNoteEl.textContent = 'Audience is named but thin — add what they care about, what role they play, what they want to feel.';
+  } else {
+    audEl.textContent = '10/10';
+    audNoteEl.textContent = 'Audience is specific — every revision below is grounded in this reader.';
+  }
+
   // Six-word counter
   const six = $('six-word-input').value.trim();
   const sixCount = six ? six.split(/\s+/).length : 0;
@@ -300,10 +316,14 @@ function analyze() {
 function buildCritiquePrompt() {
   const m = MODES[state.mode];
   const refs = m.pointsRefs.map((r) => `- ${r}`).join('\n');
+  const audienceLine = state.audience.trim()
+    ? `Audience: ${state.audience.trim()}\n`
+    : `Audience: (the writer didn't specify — flag this as your first critique point)\n`;
   return `You are a Winning Writing critic. Grade and rewrite the draft below using the rules from Stanford GSB's Winning Writing course (Glenn Kramon + Rachel Konrad).
 
 Mode: ${m.label}
 Target length: ${m.targetWordsLabel}
+${audienceLine}
 
 Reference material (in points/):
 ${refs}
@@ -415,6 +435,10 @@ function init() {
 
   $('draft').addEventListener('input', (e) => {
     state.draft = e.target.value;
+    analyze();
+  });
+  $('audience').addEventListener('input', (e) => {
+    state.audience = e.target.value;
     analyze();
   });
   $('six-word-input').addEventListener('input', analyze);

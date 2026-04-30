@@ -152,6 +152,37 @@ section { min-width: 0; }
 }
 .btn-primary:hover { background: #000; }
 
+.audience-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0.8rem;
+  padding: 0.7rem 0.85rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+}
+.audience-row label { font-size: 0.9rem; color: var(--ink); }
+.audience-row .hint {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 0.15rem;
+  line-height: 1.45;
+}
+.audience-row input[type="text"] {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.audience-row input[type="text"]:focus { outline: 2px solid var(--ink); outline-offset: -1px; }
+
 #draft {
   width: 100%;
   min-height: 320px;

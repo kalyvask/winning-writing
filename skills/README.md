@@ -16,19 +16,37 @@ cp -r skills/* ~/.claude/skills/
 
 Each skill has frontmatter that tells Claude when to auto-invoke it.
 
-## The eight skills
+## The eleven skills
 
+### Drafting and critique
 | Skill | Triggers when |
 |-------|---------------|
 | [cold-email-coach](cold-email-coach/SKILL.md) | Drafting or critiquing a cold email, LinkedIn DM, intro request |
 | [op-ed-coach](op-ed-coach/SKILL.md) | Drafting an op-ed, opinion piece, or LinkedIn long-form |
 | [pitch-coach](pitch-coach/SKILL.md) | VC pitch, internal pitch, six-word product summary, mission statement |
 | [gratitude-note-coach](gratitude-note-coach/SKILL.md) | Thank-you notes, recommendation letters, recognition |
-| [concision-drill](concision-drill/SKILL.md) | Cutting a draft to a target word count without losing substance |
-| [jargon-killer](jargon-killer/SKILL.md) | Scrubbing banned words and replacing them |
-| [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [winning-writing-critic](winning-writing-critic/SKILL.md) | Grading any draft against the full rubric and rewriting |
+
+### Cold-outreach pipeline (run in order before drafting)
+| Skill | Triggers when |
+|-------|---------------|
+| [recipient-research](recipient-research/SKILL.md) | Building a dossier on someone you want to email — public role, podcasts, distinctive details |
+| [connection-finder](connection-finder/SKILL.md) | Finding specific, genuine "like you" hooks between you and the recipient |
+| [fun-angle](fun-angle/SKILL.md) | Adding the dry / self-deprecating / unexpected line that makes the email memorable |
+
+### Surgical edits
+| Skill | Triggers when |
+|-------|---------------|
+| [concision-drill](concision-drill/SKILL.md) | Cutting to a target word count without losing substance |
+| [jargon-killer](jargon-killer/SKILL.md) | Scrubbing banned words and AI tells |
+| [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 
 ## How they fit together
 
-Most skills point back to `points/` for the source rules. The critic skill orchestrates the others — it's the one to invoke when you don't know which specialized skill applies.
+The recommended cold-outreach flow:
+
+```
+recipient-research → connection-finder → fun-angle → cold-email-coach
+```
+
+For everything else, `winning-writing-critic` is the orchestrator — invoke it when you don't know which specialized skill applies, and it'll grade the draft and route to the right one. Most skills point back to `points/` for the source rules.

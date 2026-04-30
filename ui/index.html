@@ -25,6 +25,15 @@
             <button class="btn" id="clear-draft">Clear</button>
           </div>
         </div>
+
+        <div class="audience-row">
+          <label for="audience">
+            <strong>Audience</strong>
+            <span class="hint">Who is reading this? Be specific — name, role, what they care about. The tool weaves this into the Claude prompt and the rubric.</span>
+          </label>
+          <input type="text" id="audience" placeholder="e.g. Sarah Chen, head of Applied AI at Anthropic — cares about evals + agent orchestration">
+        </div>
+
         <textarea id="draft" placeholder="Paste your draft here. The tool runs offline — nothing is sent anywhere."></textarea>
 
         <div class="scorerow" style="margin-top:1rem;">
@@ -86,6 +95,11 @@
           <span class="label">Rhythm</span>
           <span class="num" id="rhythm-score">—</span>
           <span class="note" id="rhythm-note">—</span>
+        </div>
+        <div class="heuristic">
+          <span class="label">Audience</span>
+          <span class="num" id="audience-score">—</span>
+          <span class="note" id="audience-note">—</span>
         </div>
         <p style="font-size:0.8rem; color:var(--muted); margin-top:0.6rem;">
           Heuristic, not authoritative. The Claude critique gives a real rubric score.
