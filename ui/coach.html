@@ -9,82 +9,77 @@
 <body>
   <header>
     <nav class="topnav">
-      <a href="index.html">Draft Critic (offline)</a>
-      <a href="coach.html" class="active">Coach (Claude-powered)</a>
+      <a href="index.html">Draft Critic</a>
+      <a href="coach.html" class="active">Coach</a>
     </nav>
-    <h1>Winning Writing — Coach</h1>
+    <h1><em>Winning</em> Writing — Coach</h1>
     <p>Tell Claude who you're writing to and what you want. It researches the recipient, finds genuine connections to you, drafts the email, and scores it. Three fields, one button.</p>
   </header>
 
-  <main class="coach-main">
-    <section class="coach-form">
-      <div class="card">
-        <h2>1. Who are you emailing?</h2>
-        <p class="hint">Just a name + role or company is enough. Coach searches the web for the rest — LinkedIn, podcasts, recent posts, blog, news.</p>
-        <input type="text" id="recipient" placeholder="e.g. Bret Taylor, CEO of Sierra" autocomplete="off">
-      </div>
-
-      <div class="card">
-        <h2>2. What do you want?</h2>
-        <p class="hint">In one sentence. Coach figures out the rest — why-now, the right ask size, how to frame the offer.</p>
-        <textarea id="ask" rows="2" placeholder="e.g. I want to be hired as a PM at Sierra after I graduate in June"></textarea>
-      </div>
-
-      <div class="card about-card">
-        <h2>3. About you <span class="optional">(strongly recommended)</span></h2>
-        <p class="hint">
-          Brief Claude on who you are — career, distinctive credentials, what you're building. Persists in your browser.
-        </p>
-        <p class="hint pro-tip">
-          <strong>Pro tip:</strong> drop a <code>context/about-me.md</code> file in your repo (template included) and click <em>Load from file</em>. That way every session writes in the same voice — you don't have to retype.
-        </p>
-        <div class="row-buttons">
-          <button class="btn" id="load-about">Load from context/about-me.md</button>
-          <button class="btn" id="clear-about">Clear</button>
-        </div>
-        <textarea id="about-me" rows="6" placeholder="Briefly: who you are, what you've built, what you're working on now. The more specific, the more 'like you' lines Claude can find."></textarea>
-      </div>
-
-      <div class="card">
-        <h2>Optional: existing draft</h2>
-        <p class="hint">If you have one, paste it. Coach critiques line-by-line then rewrites. Leave empty to draft from scratch.</p>
-        <textarea id="draft-input" rows="5" placeholder="(optional)"></textarea>
-      </div>
-
-      <div class="card api-card">
-        <h2>Claude API</h2>
-        <p class="hint">
-          Stored only in your browser's localStorage. Sent only to <code>api.anthropic.com</code>.
-          Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.
-        </p>
-        <label>API key
-          <input type="password" id="api-key" placeholder="sk-ant-...">
-        </label>
-        <label>Model
-          <select id="model">
-            <option value="claude-sonnet-4-6">Sonnet 4.6 (recommended)</option>
-            <option value="claude-opus-4-7">Opus 4.7 (highest quality)</option>
-            <option value="claude-haiku-4-5-20251001">Haiku 4.5 (cheapest)</option>
-          </select>
-        </label>
-        <label class="checkbox-row">
-          <input type="checkbox" id="enable-search" checked>
-          <span>Let Claude search the web to research the recipient</span>
-        </label>
-        <button class="btn btn-primary btn-large" id="run">Run the coach</button>
-        <div id="status" class="status"></div>
-      </div>
+  <main>
+    <section class="section">
+      <h2><span class="num">1</span>Who are you emailing?</h2>
+      <p class="desc">A name plus role or company is enough. <strong>Coach searches the web for the rest</strong> — LinkedIn, podcasts, recent posts, news.</p>
+      <input type="text" id="recipient" placeholder="e.g. Bret Taylor, CEO of Sierra" autocomplete="off">
     </section>
 
-    <section class="coach-output">
-      <div class="card">
-        <h2>Output</h2>
-        <p class="hint" id="output-hint">Fill in the three fields, then click "Run the coach." Claude's full pipeline output appears here.</p>
-        <div id="output"></div>
-        <div id="raw-toggle" style="display:none;">
-          <button class="btn" id="show-raw">Show raw response</button>
-          <pre id="raw" style="display:none;"></pre>
-        </div>
+    <section class="section">
+      <h2><span class="num">2</span>What do you want?</h2>
+      <p class="desc">One sentence. Coach figures out the rest — why-now, ask size, how to frame the offer.</p>
+      <textarea id="ask" rows="2" placeholder="e.g. I want to be hired as a PM at Sierra after I graduate in June"></textarea>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">3</span>About you <span style="font-size:var(--t-xs);font-weight:400;color:var(--ink-faint);font-family:var(--sans);letter-spacing:0;">strongly recommended</span></h2>
+      <p class="desc">Brief Claude on who you are. Persists in your browser between runs.</p>
+      <p class="desc"><strong>Pro tip:</strong> drop a <code>context/about-me.md</code> file in your repo (template included) and click <em>Load from file</em>. Every session writes in the same voice — no retyping.</p>
+      <div class="row-buttons">
+        <button class="btn" id="load-about">Load from context/about-me.md</button>
+        <button class="btn" id="clear-about">Clear</button>
+      </div>
+      <textarea id="about-me" rows="6" placeholder="Briefly: who you are, what you've built, what you're working on now. The more specific, the more 'like you' lines Claude can find."></textarea>
+    </section>
+
+    <section class="section">
+      <h2>Optional: existing draft</h2>
+      <p class="desc">If you have one, paste it. Coach critiques line-by-line, then rewrites. Leave empty to draft from scratch.</p>
+      <textarea id="draft-input" rows="5" placeholder="(optional)"></textarea>
+    </section>
+
+    <div class="card">
+      <h3>Run the coach</h3>
+      <p class="desc" style="margin-bottom:var(--s-3);">Stored only in your browser's localStorage. Sent only to <code>api.anthropic.com</code>. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.</p>
+
+      <label class="field">
+        <span class="lbl">API key</span>
+        <input type="password" id="api-key" placeholder="sk-ant-...">
+      </label>
+
+      <label class="field">
+        <span class="lbl">Model</span>
+        <select id="model">
+          <option value="claude-sonnet-4-6">Sonnet 4.6 — recommended</option>
+          <option value="claude-opus-4-7">Opus 4.7 — highest quality</option>
+          <option value="claude-haiku-4-5-20251001">Haiku 4.5 — cheapest</option>
+        </select>
+      </label>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="enable-search" checked>
+        <span>Let Claude search the web to research the recipient</span>
+      </label>
+
+      <button class="btn btn-primary btn-large" id="run">Run the coach</button>
+      <div id="status" class="status"></div>
+    </div>
+
+    <section class="section" style="margin-top:var(--s-6);">
+      <h2>Output</h2>
+      <p class="desc" id="output-hint">Fill in the three fields above, then click <strong>Run the coach</strong>. Claude's full pipeline output appears here — dossier, connection angles, subject lines, the email, scored rubric.</p>
+      <div class="output" id="output"></div>
+      <div id="raw-toggle" style="display:none; margin-top:var(--s-3);">
+        <button class="btn" id="show-raw">Show raw response</button>
+        <pre id="raw" style="display:none;"></pre>
       </div>
     </section>
   </main>
