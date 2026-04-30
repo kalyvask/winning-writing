@@ -15,7 +15,7 @@ Before every piece, ask: **how will this make them feel?**
 3. **Bottom line up front (BLUF).** Military principle. Lead with the conclusion. Applies to emails, memos, pitches, everything.
 4. **Start with what they don't know** — not what they already know. Don't open with flattery about their accomplishments; they know what they've done.
 5. **Be shorter.** Always. Cut without losing substance.
-6. **Vary sentence length.** Short. Then medium. Then occasionally long enough to carry the rhythm. Creates music. Keeps readers engaged.
+6. **Vary sentence length.** Short. Then medium. Then occasionally long enough to carry the rhythm. Creates music. Keeps readers engaged. **Caveat:** stacks of very short sentences in a row read choppy and AI-flavored — the modern AI tell. Mix in medium and long sentences so the prose breathes.
 7. **Write as you'd speak to a friend.** Conversational, warm, human. If you wouldn't say it at dinner, don't write it.
 8. **Say what you like AND what you would like.** Never only what you don't like. Criticism without praise loses people instantly.
 9. **Add warmth and humor.** Even a single line that makes them smile is powerful. A PS works.

@@ -165,6 +165,7 @@ export const PRINCIPLES = [
       'Start with what they don\'t know — not what they already know.',
       'Be shorter. Always. Cut without losing substance.',
       'Vary sentence length. Creates rhythm.',
+      'Don\'t over-chop. Stacks of very short sentences read robotic and AI-flavored — mix in medium and long sentences so the prose breathes.',
       'Write as you\'d speak to a friend at dinner.',
       'Say what you like AND what you would like — never only what you don\'t.',
       'Add warmth and humor. A PS that makes them smile is powerful.',

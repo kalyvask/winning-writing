@@ -178,6 +178,38 @@ function detectBLUF(text) {
   return { score: 9, note: 'First sentence looks substantive — verify it states the actual conclusion' };
 }
 
+function detectChoppy(text) {
+  // Find runs of consecutive short sentences (≤ 6 words). Long runs read AI-flavored.
+  const sentences = text
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (sentences.length === 0) return { score: 10, note: 'No content yet' };
+
+  let longestRun = 0;
+  let currentRun = 0;
+  for (const s of sentences) {
+    const wc = s.split(/\s+/).filter(Boolean).length;
+    if (wc > 0 && wc <= 6) {
+      currentRun++;
+      if (currentRun > longestRun) longestRun = currentRun;
+    } else {
+      currentRun = 0;
+    }
+  }
+
+  if (longestRun >= 5) {
+    return { score: 2, note: `${longestRun} very-short sentences in a row — reads choppy / AI-flavored. Mix in medium and long.` };
+  }
+  if (longestRun === 4) {
+    return { score: 4, note: '4 short sentences in a row — borderline choppy. Add a longer sentence.' };
+  }
+  if (longestRun === 3) {
+    return { score: 7, note: '3 short sentences in a row — fine if intentional, but watch the next one.' };
+  }
+  return { score: 10, note: 'Sentence length looks varied' };
+}
+
 function detectStory(text) {
   // Heuristic: do we see a year, a place, or a sensory detail?
   const hasYear = /\b(19|20)\d{2}\b/.test(text);
@@ -250,6 +282,11 @@ function analyze() {
   const story = detectStory(text);
   $('story-score').textContent = `${story.score}/10`;
   $('story-note').textContent = story.note;
+
+  // Rhythm / choppy detector
+  const rhythm = detectChoppy(text);
+  $('rhythm-score').textContent = `${rhythm.score}/10`;
+  $('rhythm-note').textContent = rhythm.note;
 
   // Six-word counter
   const six = $('six-word-input').value.trim();

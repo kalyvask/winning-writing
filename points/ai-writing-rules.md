@@ -47,6 +47,7 @@ ChatGPT-flavored constructions that mark a draft as machine-written:
 - Tricolons everywhere ("X, Y, and Z" three times in three sentences)
 - Symmetric three-paragraph structure with no asymmetry
 - Hedge-then-commit: *"While there are many considerations, ultimately…"*
+- **Choppy short-sentence stacks.** Four or five very short sentences in a row. Like this. It looks punchy. It isn't. It's the new AI tell. Mix in medium and long sentences so the prose has rhythm — short bursts work *because* of contrast with what surrounds them.
 
 ## The Cowork workflow
 
