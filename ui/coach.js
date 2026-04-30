@@ -5,6 +5,7 @@ const KEY_STORE = 'winning-writing.coach.apikey';
 const MODEL_STORE = 'winning-writing.coach.model';
 const ABOUT_STORE = 'winning-writing.coach.about-me';
 const SEARCH_STORE = 'winning-writing.coach.search-enabled';
+const HUMANIZE_STORE = 'winning-writing.coach.humanize-enabled';
 
 // ---------- Init ----------
 
@@ -16,6 +17,8 @@ function loadStored() {
   if (storedAbout) $('about-me').value = storedAbout;
   const search = localStorage.getItem(SEARCH_STORE);
   if (search === 'false') $('enable-search').checked = false;
+  const humanize = localStorage.getItem(HUMANIZE_STORE);
+  if (humanize === 'true') $('enable-humanize').checked = true;
 }
 
 function persistKey() {
@@ -25,6 +28,7 @@ function persistKey() {
 function persistModel() { localStorage.setItem(MODEL_STORE, $('model').value); }
 function persistAbout() { localStorage.setItem(ABOUT_STORE, $('about-me').value); }
 function persistSearch() { localStorage.setItem(SEARCH_STORE, $('enable-search').checked ? 'true' : 'false'); }
+function persistHumanize() { localStorage.setItem(HUMANIZE_STORE, $('enable-humanize').checked ? 'true' : 'false'); }
 
 async function loadAboutFromFile() {
   try {
@@ -75,6 +79,10 @@ function buildUserMessage() {
     msg += `\n# Existing draft\nCritique line-by-line first, then produce the rewrite in the "Email" section.\n\n${draft}\n`;
   } else {
     msg += `\n# Mode\nNo draft provided — write the email from scratch using the pipeline above.\n`;
+  }
+
+  if ($('enable-humanize').checked) {
+    msg += `\n[humanize: on]\nApply the humanize pass to the final email per the system prompt — shorten 10-20%, contractions, and exactly one harmless micro-typo. Skip if the recipient is formal.\n`;
   }
 
   return msg;
@@ -294,7 +302,7 @@ async function run() {
   setStatus('Calling Claude…', 'ok');
 
   try {
-    persistKey(); persistModel(); persistAbout(); persistSearch();
+    persistKey(); persistModel(); persistAbout(); persistSearch(); persistHumanize();
     const t0 = performance.now();
     const { text, usage, searchCount } = await callClaude(userMessage);
     const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
@@ -324,6 +332,7 @@ function init() {
   $('model').addEventListener('change', persistModel);
   $('about-me').addEventListener('change', persistAbout);
   $('enable-search').addEventListener('change', persistSearch);
+  $('enable-humanize').addEventListener('change', persistHumanize);
   $('show-raw').addEventListener('click', () => {
     const r = $('raw');
     r.style.display = r.style.display === 'none' ? 'block' : 'none';

@@ -39,7 +39,9 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 |-------|---------------|
 | [concision-drill](concision-drill/SKILL.md) | Cutting to a target word count without losing substance |
 | [jargon-killer](jargon-killer/SKILL.md) | Scrubbing banned words and AI tells |
+| [em-dash-killer](em-dash-killer/SKILL.md) | Removing em-dashes (the #1 AI tell in 2026) |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
+| [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 
 ## How they fit together
 
