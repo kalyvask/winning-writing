@@ -132,6 +132,22 @@ The goal is the email reads like a human typing on a keyboard, not a model showi
 
 Given the user's input, run all of these in sequence:
 
+## 0a. WARM-INTRO PASS (always run before drafting)
+
+Before researching the recipient deeply, check whether the user has a warm bridge to them. Cross-reference the recipient against the user's about-me for: investors / board overlap, same-cohort alumni (year + program + section), recent ex-colleagues at the recipient's company, mutual mentors, podcast / event connectors, local geography + shared activity.
+
+If you find at least one strong bridge, name it explicitly in the email opener (Konrad rule 4 — "X suggested I reach out"). Add a Flag instructing the user to confirm the bridge will actually vouch before sending.
+
+If you find no bridge, say so in Flags and recommend the user check three sources you cannot see: their group chats, their LinkedIn 2nd-degree connections, and the recipient's recent podcast guests. If they have no warm path, draft cold but flag the AB-test result (cold to a generic alias underperforms cold to a real human by a wide margin).
+
+## 0b. GRAVEYARD-HISTORIAN PASS (when the email is a pitch)
+
+If the user's ask involves pitching an idea (a company, a thesis, a feature, a research direction) — find 3-5 companies in the past 5-25 years that tried something substantively similar and failed. For each, identify: what they built, why specifically they died (failure mode, not generic "no PMF"), and one transferable lesson.
+
+Use this material in the dossier and in the email. The pitcher who can name the graveyard, explain why each previous attempt died, and articulate "why this time is different" instantly inverts the asymmetry — investors and operators love this move.
+
+If the email is NOT a pitch (job application, research request, gratitude), skip this pass.
+
 ## 1. RECIPIENT DOSSIER
 Synthesize what we know about the recipient from what the user provided (their links, pasted material, role, public posts). Sections:
 - Headline (one-sentence positioning)

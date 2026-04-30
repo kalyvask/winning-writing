@@ -32,6 +32,8 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 |-------|---------------|
 | [recipient-research](recipient-research/SKILL.md) | Building a dossier on someone you want to email — public role, podcasts, distinctive details |
 | [connection-finder](connection-finder/SKILL.md) | Finding specific, genuine "like you" hooks between you and the recipient |
+| [warm-intro-finder](warm-intro-finder/SKILL.md) | Finding human bridges who can actually introduce you — investors, alumni, ex-colleagues, mentors |
+| [graveyard-historian](graveyard-historian/SKILL.md) | When pitching an idea, researches companies that tried it before and died — why, and who survived to talk to |
 | [fun-angle](fun-angle/SKILL.md) | Adding the dry / self-deprecating / unexpected line that makes the email memorable |
 
 ### Surgical edits

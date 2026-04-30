@@ -249,6 +249,30 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Warm intros',
+    source: 'Konrad rule 4 + the AB test',
+    items: [
+      'Always check for a warm bridge before sending cold. The same email got zero response sent to jobs@anthropic.com and a reply at 8:25am the next morning when sent direct via warm intro.',
+      'Bridge categories ranked by leverage: investors / board overlap > same-cohort alumni (year + section, not just school) > recent ex-colleagues at the recipient\'s company > shared mentors > podcast / event connectors > geographic + activity overlap.',
+      'A LinkedIn link from 2014 doesn\'t count. The bridge must have engaged with both parties in the last 12 months and have positive standing with the recipient.',
+      'When asking for a forward: send the connector a fully-drafted email they can forward — they add a one-line vouch on top, not a whole introduction.',
+      'Heidi\'s rule: if you need three forwards, send three individually-tailored emails — never one with "please forward to A, B, and C."',
+      'A name-drop without engagement is worse than no name-drop. The recipient will check, and the misalignment is visible.',
+    ],
+  },
+  {
+    category: 'The graveyard (pitches only)',
+    source: 'Graveyard-historian skill',
+    items: [
+      'Before pitching an idea, name the graveyard. 3-5 companies in the past 5-25 years that tried something substantively similar and failed.',
+      'For each, capture the specific failure mode — "no PMF" is generic, "they were too early; the underlying tech wasn\'t ready until 2024" is specific.',
+      'Cluster failure modes: too early, wrong wedge, distribution lost, got commoditized, regulation, founder ousted, solved the wrong problem.',
+      'Required thesis sentence: "Companies A, B, C died of [failure mode]. We avoid it by doing [Y]. The reason that wasn\'t possible until now is [Z]."',
+      'The survivors — founders, early investors, senior employees of the dead companies — are usually the most valuable advisors and warm-intro targets.',
+      'Investors love this move because it inverts the asymmetry — it shows you did the homework on the entire history of the space, not just the recipient.',
+    ],
+  },
+  {
     category: 'Tell them something new',
     source: 'Konrad rule 2 + Kramon rule 4',
     items: [
