@@ -1,10 +1,21 @@
 # Winning Writing
 
-A toolkit for writing things people actually read — based on Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352) and Rachel Konrad's cold-outreach guest lectures.
+> An LLM-powered writing coach. Tell it who you're emailing and who you are; Claude runs the full *Winning Writing* pipeline — research, connection, draft, rubric — using the rules from Stanford GSB's GSBGEN 352 (Glenn Kramon) and Rachel Konrad's cold-outreach lectures.
+
+## How it works in one sentence
+
+You feed in a recipient + an "about you" + an ask. **Claude reads all the skills and principles in this repo as its system prompt**, runs through them in order, and returns a complete cold-outreach package: dossier synthesis → connection angles → subject lines → drafted email → 12-dimension rubric score → flags to verify before sending.
+
+The rules are not in the model's training — they're loaded from `skills/` and `points/` at runtime. That's the whole point: Glenn Kramon's class is opinionated, the banned-word list is enforced, and the LLM follows *those* rules, not its own median instincts.
 
 ## About
 
-A draft-critique toolkit built from Glenn Kramon's *Winning Writing* at Stanford GSB and Rachel Konrad's cold-outreach guest lectures. Four pieces: distilled rules in `points/`, eleven focused Claude skills in `skills/`, two context-priming files in `context/`, and a single-page browser tool in `ui/` that scores any draft against the rubric and builds a critique prompt for Claude.
+Four pieces:
+
+- **`points/`** — distilled rules and frameworks. The "what."
+- **`skills/`** — 11 focused Claude skills (`SKILL.md` files). The "how."
+- **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice
+- **`ui/`** — two browser pages: an **offline draft critic** for fast feedback, and a **Claude-powered Coach** that runs the full pipeline against the live API
 
 Built because most cold emails, op-eds, and memos read the same — hedged, jargon-heavy, AI-flavored. The principles here are opinionated and the banned-word list is enforced. I drafted with Claude as a sparring partner, then rewrote every line by hand so it doesn't sound like one. If you spot a "delve," a "tapestry," or five short sentences in a row, open an issue — that's the bug this repo exists to prevent.
 
@@ -76,22 +87,62 @@ context/
 
 In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my context files."* From then on every session starts with Claude knowing your voice.
 
-## The UI
+## The UI — two pages
 
-Open [`ui/index.html`](ui/index.html) in any browser. No build, no server, no install.
+### Page 1 — `ui/index.html` — Draft Critic (offline)
 
-Features:
-- **Audience input first** — name the reader before you write (Kramon's rule 2). Feeds into every heuristic and the Claude prompt.
-- Paste a draft, pick a mode (cold-email / op-ed / pitch / gratitude / general)
-- Live word count and reading time
-- Banned-jargon and AI-tell highlighter with categorized hits
-- Mode-specific pre-send checklist
-- Heuristics: **BLUF, Story, Rhythm (anti-choppy), Audience** — scored 0–10 with a one-line note each
-- "Copy critique prompt" — builds a Claude-ready prompt with the audience, draft, mode, and rules, copied to clipboard
+Open in any browser. No build, no server, no API key. **Runs entirely client-side** — pastes never leave your machine.
+
+What it does:
+- **Audience input first** — name the reader before you write
+- Pick a mode (cold-email / op-ed / pitch / gratitude / general) → sets the target word count and the right pre-send checklist
+- Live word count + reading time
+- **Banned-jargon and AI-tell highlighter** with categorized hits
+- Heuristic scores: **BLUF, Story, Rhythm (anti-choppy), Audience** — 0–10 with one-line notes
+- "Copy critique prompt" — builds a Claude-ready prompt with audience + draft + mode + rules, copies to clipboard so you can paste into Claude.app or anywhere else
 - Six-word summary scratchpad
-- Key-principles panel — all 75 principles, grouped by category, editable in `ui/data.js`
+- Key-principles panel — all 75 principles, grouped, editable in `ui/data.js`
 
-Designed to deploy as-is to GitHub Pages.
+Use it for fast iterative feedback while you write.
+
+### Page 2 — `ui/coach.html` — LLM-powered Coach
+
+This is the one that runs Claude end-to-end.
+
+**You fill in:**
+1. Recipient — name, role, links, anything you've read about them
+2. About you — auto-loaded from `context/about-me.md` or pasted inline
+3. The ask — what you want, why now, what you can offer
+4. (Optional) Existing draft — Coach critiques line-by-line, then rewrites
+
+**Claude does:**
+1. **Synthesizes a dossier** from what you provided (`recipient-research` skill)
+2. **Finds connection angles** — cross-references the recipient against your about-me across 8 categories, ranked by leverage (`connection-finder` skill)
+3. **Suggests three subject-line candidates** — personal, timely, unusual (`fun-angle` + `cold-email-coach`)
+4. **Drafts the email** — under 200 words, all 10 Konrad rules applied
+5. **Scores it** — 12-dimension rubric, total /120
+6. **Flags risks** — unverified claims, jargon hits, things to do before sending
+
+The system prompt embeds the relevant skills directly — see [`ui/coach-prompt.js`](ui/coach-prompt.js). Claude calls happen browser-direct to `api.anthropic.com`. **Your API key sits in localStorage on your machine and is never sent anywhere else.**
+
+#### Setup
+
+1. Get an Anthropic API key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
+2. Open `ui/coach.html` in a browser (served via any HTTP server — `python -m http.server 8770` from `ui/` works)
+3. Paste your key into the API field. It persists across sessions.
+4. Pick a model — Sonnet 4.6 is the default (fast + good); Opus 4.7 for the highest quality; Haiku 4.5 for cheap.
+
+#### For local dev
+
+Drop a gitignored file at `ui/.local-key.js`:
+
+```js
+export const LOCAL_API_KEY = 'sk-ant-...';
+```
+
+Coach auto-loads it when the API key field is empty. The file is in `.gitignore` so it never enters the repo. The repo ships with **no API keys**.
+
+Designed to deploy as-is to GitHub Pages (the offline page).
 
 ## Sources
 

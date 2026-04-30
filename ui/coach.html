@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winning Writing — Coach</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav class="topnav">
+      <a href="index.html">Draft Critic (offline)</a>
+      <a href="coach.html" class="active">Coach (Claude-powered)</a>
+    </nav>
+    <h1>Winning Writing — Coach</h1>
+    <p>Tell Claude who you're writing to, who you are, and what you want. It runs the full pipeline — dossier, connection angles, subject lines, the email, scored rubric.</p>
+  </header>
+
+  <main class="coach-main">
+    <section class="coach-form">
+      <div class="card">
+        <h2>1. Recipient</h2>
+        <label>Name <span class="req">*</span>
+          <input type="text" id="r-name" placeholder="e.g. Bret Taylor">
+        </label>
+        <label>Role / company <span class="req">*</span>
+          <input type="text" id="r-role" placeholder="e.g. Co-founder & CEO, Sierra · Chair, OpenAI board">
+        </label>
+        <label>Links (LinkedIn, Substack, recent podcast — one per line)
+          <textarea id="r-links" rows="3" placeholder="https://www.linkedin.com/in/bret-taylor&#10;https://www.acquired.fm/episodes/bret-taylor"></textarea>
+        </label>
+        <label>Anything you've read or know about them (paste podcast quotes, tweets, recent posts)
+          <textarea id="r-context" rows="5" placeholder="From their recent Acquired podcast: '...'  &#10;LinkedIn post last week: '...'"></textarea>
+        </label>
+      </div>
+
+      <div class="card">
+        <h2>2. About you</h2>
+        <div class="row-buttons">
+          <button class="btn" id="load-about">Load from context/about-me.md</button>
+          <span class="hint">or paste your own</span>
+        </div>
+        <textarea id="about-me" rows="8" placeholder="Brief Claude on who you are. Role, what you've built, what you're working on now, anything distinctive."></textarea>
+      </div>
+
+      <div class="card">
+        <h2>3. The ask</h2>
+        <label>What do you want from them? <span class="req">*</span>
+          <textarea id="ask" rows="2" placeholder="e.g. 15 minutes to talk about agent UX in high-stakes verticals"></textarea>
+        </label>
+        <label>Why now?
+          <input type="text" id="why-now" placeholder="e.g. their Q1 earnings mentioned agent reliability as a 2026 priority">
+        </label>
+        <label>What can you offer in return?
+          <input type="text" id="offer" placeholder="e.g. raw transcripts from 100+ AI engineer interviews on this exact topic">
+        </label>
+      </div>
+
+      <div class="card">
+        <h2>4. Optional draft</h2>
+        <p class="hint">If you have a draft already, paste it. Coach will critique line-by-line then rewrite. Leave empty to draft from scratch.</p>
+        <textarea id="draft-input" rows="8" placeholder="(optional)"></textarea>
+      </div>
+
+      <div class="card api-card">
+        <h2>Claude API</h2>
+        <p class="hint">
+          Stored in your browser's localStorage only. Never sent anywhere except api.anthropic.com.
+          Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.
+        </p>
+        <label>API key
+          <input type="password" id="api-key" placeholder="sk-ant-...">
+        </label>
+        <label>Model
+          <select id="model">
+            <option value="claude-sonnet-4-6">Sonnet 4.6 (fast, recommended)</option>
+            <option value="claude-opus-4-7">Opus 4.7 (best quality, slower)</option>
+            <option value="claude-haiku-4-5-20251001">Haiku 4.5 (cheapest)</option>
+          </select>
+        </label>
+        <button class="btn btn-primary btn-large" id="run">Run the coach</button>
+        <div id="status" class="status"></div>
+      </div>
+    </section>
+
+    <section class="coach-output">
+      <div class="card">
+        <h2>Output</h2>
+        <p class="hint" id="output-hint">Fill in the form, then click "Run the coach." Output appears here.</p>
+        <div id="output"></div>
+        <div id="raw-toggle" style="display:none;">
+          <button class="btn" id="show-raw">Show raw response</button>
+          <pre id="raw" style="display:none;"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built on Stanford GSB <em>Winning Writing</em> (Glenn Kramon, GSBGEN 352.1) and Rachel Konrad's lectures.
+    <br>
+    Claude calls happen browser-direct to api.anthropic.com. Your key never leaves localStorage.
+  </footer>
+
+  <script type="module" src="coach.js"></script>
+</body>
+</html>
