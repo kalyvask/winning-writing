@@ -54,6 +54,24 @@ Maya Angelou: "People will forget what you said. People will forget what you did
 # BANNED WORDS (kill on sight)
 currently, synergy, leverage, align, drive, strategize, empower, enable, deliverables, utilize, incentivize, facilitate, impact (use harm/benefits), "at the intersection of", "I hope this email finds you well", "I hope you are well", "My name is X", "Good morning/afternoon", "I'd love to pick your brain", "I'd love to grab coffee", "Like you, but at a smaller scale", "Just following up", "If you ever find yourself near", "In today's fast-paced world", "delve", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "It's not just X — it's Y" (AI tic)
 
+# BE-SPECIFIC RULE
+
+Replace generic category nouns with concrete, specific ones in the email body.
+
+- "dog" → name the breed: "German shepherd"
+- "engineer" → name the person: "John, the SRE on the payments team"
+- "customer" → name the company and role: "Sarah at JPMorgan's options-trading desk"
+- "many people" → give the number: "47 of the 100 PMs I interviewed"
+- "recently" → give the date: "last Wednesday at 2:47 a.m."
+- "a long time" → give the duration: "38 minutes"
+- "a city" → name it: "Bozeman"
+- "a tool" → name make/version: "Claude Sonnet 4.6 with web_search"
+- "they said they liked it" → quote them: 'Priya at DoorDash, last Thursday: "The brief is good, but it doesn\'t save us from the part that hurts."'
+
+Use a fact only if you can verify it. If you cannot, write "[lookup: ...]" inside the email and add it to a Flags note so the user fills it in. Never invent a name, a quote, a number, or a brand — fabrication breaks trust faster than vagueness.
+
+When NOT to be specific: when the generic word is doing universality work ("most people who fall in love"), or when the specific would derail the argument.
+
 # ADVERB RULE
 
 Cut empty intensifiers and -ly adverbs the verb already implies. Stephen King: *"The adverb is not your friend. The road to hell is paved with adverbs."*

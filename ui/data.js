@@ -249,6 +249,20 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Be specific',
+    source: 'Kramon + Kristof + the Be-Specific skill',
+    items: [
+      'Replace generic category nouns with concrete ones. "Dog" → German shepherd. "Engineer" → John, the SRE on the payments team. "Customer" → Sarah at JPMorgan\'s options-trading desk.',
+      'Replace "many / few / most / a lot / significant" with the actual number. "Errors dropped" → "errors dropped from 4,200/day to 380/day."',
+      'Replace "recently / soon / a while ago" with dates. "Recently" → "March 14, 2026." "A long time" → "38 minutes."',
+      'Replace "a city / a country / the office" with named places. There is almost never a reason to omit a city.',
+      'Replace category tools with make/version. "An LLM" → "Claude Sonnet 4.6." "A robot" → "Meccano MeccaNoid G15."',
+      'Replace summarized feedback with the quoted line. "Customers liked it" → \'Priya at DoorDash: "the brief is good, but it doesn\'t save us from the part that hurts."\'',
+      'When you can\'t verify a fact, write [lookup: ...] in the draft so you remember to fill it in. Never fabricate a name, quote, or number — fabrication breaks trust faster than vagueness.',
+      'When NOT to be specific: universality is the point ("most people who fall in love"), or the specific would derail the argument.',
+    ],
+  },
+  {
     category: 'Adverbs',
     source: 'Stephen King + Kramon',
     items: [
