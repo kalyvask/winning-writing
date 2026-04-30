@@ -42,6 +42,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [em-dash-killer](em-dash-killer/SKILL.md) | Removing em-dashes (the #1 AI tell in 2026) |
 | [adverb-killer](adverb-killer/SKILL.md) | Cutting -ly adverbs and empty intensifiers (very, really, actually, basically) |
 | [be-specific](be-specific/SKILL.md) | Replacing generic category nouns with concrete ones — "dog" → German shepherd, "engineer" → John on the payments team |
+| [tell-them-something-new](tell-them-something-new/SKILL.md) | Cutting opener sentences that recap what the recipient already knows — replace with a secret about the future |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 

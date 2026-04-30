@@ -249,6 +249,18 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Tell them something new',
+    source: 'Konrad rule 2 + Kramon rule 4',
+    items: [
+      'The first sentence cannot recap what the recipient already knows about themselves, their company, their stated views, or recent news they were the subject of.',
+      'Forbidden openers: flattery about their accomplishments, their own thesis recited back, public bio recap, "congrats on the acquisition," generic industry truisms, "my name is X," "I hope this email finds you well."',
+      'Required: open with a secret about the future, a number they don\'t have, a genuine contradiction in their public position, a specific scene, or an offer they actually want.',
+      'The Konrad test: "Tell me a secret about the future." Slightly wrong is fine. Dazzling and unique is required.',
+      'The 15-second test: if the recipient stops reading after sentence 1, did they get something they couldn\'t have gotten anywhere else? If no, rewrite.',
+      'Often the right opener is buried in paragraph 3 of the writer\'s draft — they have it, they put it in the wrong place. Move it up.',
+    ],
+  },
+  {
     category: 'Be specific',
     source: 'Kramon + Kristof + the Be-Specific skill',
     items: [
