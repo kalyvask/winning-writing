@@ -273,6 +273,21 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Warmth + competence',
+    source: 'Kramon\'s hardest rule + Susan Fiske (Princeton)',
+    items: [
+      'Every reader judges new writing on two axes within seconds: warmth (do I want to work with this person?) and competence (do I trust this person to ship?). The goal is high on both.',
+      'The consultant trap: high competence, low warmth — sounds smart, nobody wants you on their team. Common in MBAs, ex-consultants, finance.',
+      'The intern trap: high warmth, low competence — sounds friendly, nobody trusts you to ship. Common in early-career writers and over-correctors.',
+      'Kramon\'s hardest rule: "Show competence AND warmth in a single sentence." Find or build the load-bearing sentence that proves both. It belongs in paragraph 1 or 2.',
+      'Warmth signals: specific shared experiences, honest self-assessment, dry humor, credit to others, door-open-for-no, a detail only a real person would include.',
+      'Competence signals: specific numbers tied to outcomes, named scenes with dates, a thesis the recipient hasn\'t heard, addressing the strongest counterargument, naming the graveyard.',
+      'Warmth killers: pure transactional language, obvious flattery, "leverage your network," third-person passive, robotic structure, "I appreciate your time."',
+      'Competence killers: buzzwords (synergy, leverage, drive), "passionate about complex problems," vague claims, adverb pile-up, hedged conclusions, organ music.',
+      'Adam Bryant\'s target: "desirable confidence." Center of the matrix. No self-deprecation that begs for sympathy. No boasting that seeks applause.',
+    ],
+  },
+  {
     category: 'Tell them something new',
     source: 'Konrad rule 2 + Kramon rule 4',
     items: [

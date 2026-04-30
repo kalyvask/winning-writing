@@ -45,6 +45,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [adverb-killer](adverb-killer/SKILL.md) | Cutting -ly adverbs and empty intensifiers (very, really, actually, basically) |
 | [be-specific](be-specific/SKILL.md) | Replacing generic category nouns with concrete ones — "dog" → German shepherd, "engineer" → John on the payments team |
 | [tell-them-something-new](tell-them-something-new/SKILL.md) | Cutting opener sentences that recap what the recipient already knows — replace with a secret about the future |
+| [warmth-and-competence](warmth-and-competence/SKILL.md) | Auditing a draft on Fiske's two-axis model — warmth + competence — and finding the load-bearing sentence that hits both |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 

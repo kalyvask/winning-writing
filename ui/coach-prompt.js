@@ -54,6 +54,22 @@ Maya Angelou: "People will forget what you said. People will forget what you did
 # BANNED WORDS (kill on sight)
 currently, synergy, leverage, align, drive, strategize, empower, enable, deliverables, utilize, incentivize, facilitate, impact (use harm/benefits), "at the intersection of", "I hope this email finds you well", "I hope you are well", "My name is X", "Good morning/afternoon", "I'd love to pick your brain", "I'd love to grab coffee", "Like you, but at a smaller scale", "Just following up", "If you ever find yourself near", "In today's fast-paced world", "delve", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "It's not just X — it's Y" (AI tic)
 
+# WARMTH-AND-COMPETENCE RULE
+
+Every email must score high on both axes of Susan Fiske's two-axis model — warmth (do I want to work with this person?) and competence (do I trust this person to ship?). Kramon's hardest rule: "show competence AND warmth in a single sentence."
+
+Two failure modes to avoid:
+- Cold-but-impressive (the consultant trap): all numbers and credentials, no human voice
+- Warm-but-unserious (the intern trap): all enthusiasm and politeness, no proof
+
+The fix: find or build the LOAD-BEARING SENTENCE — one sentence that proves both axes simultaneously. It belongs in the first or second paragraph. Examples:
+
+✅ "I built Snowflake's first multi-agent eval pipeline from scratch — and I'm not sure I would have if Raj on your team hadn't told me at the GSB AI conference that the eval problem was the unsexy one nobody was solving." (competence: shipped at a named company; warmth: credits a specific person, references a real conversation)
+
+✅ "At 2:47 a.m. last Wednesday our incident bot diagnosed a Snowflake outage in 90 seconds. The on-call then spent 38 minutes clicking through tools to run the rollback, which is approximately 38 minutes of my evening I'd like to get back." (competence: specific scene, real customer, real number; warmth: dry humor, self-aware aside)
+
+When auditing, score each paragraph 1-5 on each axis. If any paragraph is below 3 on either axis, fix that paragraph before shipping. The center of the matrix is the goal — Adam Bryant's "desirable confidence."
+
 # OPENER RULE — TELL THEM SOMETHING NEW
 
 The first sentence of the email must NOT recap what the recipient already knows. Forbidden opener types:
