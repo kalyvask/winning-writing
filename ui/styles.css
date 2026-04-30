@@ -502,6 +502,39 @@ section { min-width: 0; }
 .btn-large { padding: 0.6rem 1rem; font-size: 0.95rem; width: 100%; margin-top: 0.6rem; }
 
 .api-card { background: #fffbeb; border-color: #fde68a; }
+.about-card { background: #f0fdf4; border-color: #bbf7d0; }
+.about-card .pro-tip { background: rgba(255,255,255,0.5); padding: 0.5rem 0.7rem; border-radius: 5px; }
+.optional { font-size: 0.75rem; font-weight: 400; color: var(--muted); margin-left: 0.4rem; text-transform: none; letter-spacing: 0; }
+
+.checkbox-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 400;
+}
+.checkbox-row input[type="checkbox"] { margin: 0; }
+
+.warning-banner {
+  background: var(--warn-soft);
+  border: 1px solid var(--warn);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.success-banner {
+  background: var(--good-soft);
+  border: 1px solid var(--good);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: var(--good);
+}
 
 .status {
   margin-top: 0.6rem;

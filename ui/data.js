@@ -31,6 +31,8 @@ export const BANNED_WORDS = {
     { find: /\bat the intersection of\b/gi, replace: '(too vague — pick one)' },
   ],
   aiTells: [
+    { find: /—/g, label: 'em-dash (the #1 AI tell in 2026 — replace with comma, period, or colon)' },
+    { find: /(?<!^|\n)--(?!\n|$)/g, label: 'double-hyphen (em-dash substitute — same problem)' },
     { find: /\bit's not (just |only )?\w+[ —-]+(it's|but) /gi, label: '"it\'s not just X — it\'s Y" (AI tic)' },
     { find: /\bdelve into\b/gi, label: '"delve into" (AI tic)' },
     { find: /\bnavigate the complexit/gi, label: '"navigate the complexities" (AI tic)' },
@@ -242,6 +244,17 @@ export const PRINCIPLES = [
       'Build context files: about-me.md, voice-and-style.md, plus topic-specific files.',
       'Describe outcomes, not steps. "Done" looks like X — let Claude figure out how.',
       'Scrub AI tells: "it\'s not just X — it\'s Y," "delve," "tapestry," "navigate the complexities."',
+    ],
+  },
+  {
+    category: 'Em-dashes (special case)',
+    source: 'The 2026 update',
+    items: [
+      'In 2026 the em-dash is the #1 AI tell. Models love them. Humans use them sparingly.',
+      'For email, memo, Slack: replace every em-dash with a comma, period, or colon.',
+      'For long-form (op-ed, essay): one em-dash per page is fine. Three is a tell. Twelve is a confession.',
+      'Common rewrites: "X — Y" → "X. Y." or "X, Y" or "X (Y)" or "X: Y"',
+      'Double-hyphens (--) are AI substitutes for em-dashes. Same problem.',
     ],
   },
   {

@@ -48,6 +48,7 @@ ChatGPT-flavored constructions that mark a draft as machine-written:
 - Symmetric three-paragraph structure with no asymmetry
 - Hedge-then-commit: *"While there are many considerations, ultimately…"*
 - **Choppy short-sentence stacks.** Four or five very short sentences in a row. Like this. It looks punchy. It isn't. It's the new AI tell. Mix in medium and long sentences so the prose has rhythm — short bursts work *because* of contrast with what surrounds them.
+- **Em-dashes — the #1 AI tell in 2026.** Models love them. Humans use them sparingly. For email and memo: replace every em-dash with a comma, period, parenthesis, or colon. For long-form: one or two per page is fine; ten is a confession. Common rewrites: "X — Y" → "X. Y." or "X, Y" or "X (Y)" or "X: Y". Double-hyphens (--) are AI substitutes for em-dashes — same problem.
 
 ## The Cowork workflow
 

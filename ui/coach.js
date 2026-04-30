@@ -4,6 +4,7 @@ const $ = (id) => document.getElementById(id);
 const KEY_STORE = 'winning-writing.coach.apikey';
 const MODEL_STORE = 'winning-writing.coach.model';
 const ABOUT_STORE = 'winning-writing.coach.about-me';
+const SEARCH_STORE = 'winning-writing.coach.search-enabled';
 
 // ---------- Init ----------
 
@@ -13,18 +14,17 @@ function loadStored() {
   if (storedModel) $('model').value = storedModel;
   const storedAbout = localStorage.getItem(ABOUT_STORE);
   if (storedAbout) $('about-me').value = storedAbout;
+  const search = localStorage.getItem(SEARCH_STORE);
+  if (search === 'false') $('enable-search').checked = false;
 }
 
 function persistKey() {
   const k = $('api-key').value.trim();
   if (k) localStorage.setItem(KEY_STORE, k);
 }
-function persistModel() {
-  localStorage.setItem(MODEL_STORE, $('model').value);
-}
-function persistAbout() {
-  localStorage.setItem(ABOUT_STORE, $('about-me').value);
-}
+function persistModel() { localStorage.setItem(MODEL_STORE, $('model').value); }
+function persistAbout() { localStorage.setItem(ABOUT_STORE, $('about-me').value); }
+function persistSearch() { localStorage.setItem(SEARCH_STORE, $('enable-search').checked ? 'true' : 'false'); }
 
 async function loadAboutFromFile() {
   try {
@@ -42,42 +42,37 @@ async function loadAboutFromFile() {
   }
 }
 
+function clearAbout() {
+  $('about-me').value = '';
+  persistAbout();
+  setStatus('About-me cleared', 'ok');
+}
+
 // ---------- Build user message ----------
 
 function buildUserMessage() {
-  const r = {
-    name: $('r-name').value.trim(),
-    role: $('r-role').value.trim(),
-    links: $('r-links').value.trim(),
-    context: $('r-context').value.trim(),
-  };
-  const aboutMe = $('about-me').value.trim();
+  const recipient = $('recipient').value.trim();
   const ask = $('ask').value.trim();
-  const whyNow = $('why-now').value.trim();
-  const offer = $('offer').value.trim();
+  const aboutMe = $('about-me').value.trim();
   const draft = $('draft-input').value.trim();
 
-  if (!r.name || !r.role || !ask) {
-    throw new Error('Please fill in: recipient name, role, and your ask.');
+  if (!recipient) throw new Error('Tell Coach who you\'re emailing.');
+  if (!ask) throw new Error('Tell Coach what you want from them.');
+
+  let msg = `# Recipient\n${recipient}\n`;
+
+  if ($('enable-search').checked) {
+    msg += `\nUse the web_search tool to research them before drafting. Aim for 3–5 searches: their LinkedIn / company bio, recent podcasts, recent posts, recent news. Cite every claim with a URL.\n`;
+  } else {
+    msg += `\n(Web search is disabled — work only from what's in your training data and what's in this prompt. If you don't know something, leave it out.)\n`;
   }
-  if (!aboutMe) {
-    throw new Error('Please add a brief about-me (or click "Load from context/about-me.md").');
-  }
 
-  let msg = `# Recipient\n`;
-  msg += `**Name:** ${r.name}\n`;
-  msg += `**Role / company:** ${r.role}\n`;
-  if (r.links) msg += `**Public links:**\n${r.links}\n\n`;
-  if (r.context) msg += `**Context the user gathered:**\n${r.context}\n\n`;
-
-  msg += `\n# About me (the sender)\n${aboutMe}\n`;
-
-  msg += `\n# The ask\n${ask}\n`;
-  if (whyNow) msg += `\n**Why now:** ${whyNow}\n`;
-  if (offer) msg += `\n**Offer in return:** ${offer}\n`;
+  msg += `\n# About me (the sender)\n`;
+  msg += aboutMe ? aboutMe : '(The user did not provide an about-me. Note this as your first flag — recommend they add one before sending.)';
+  msg += `\n\n# What I want\n${ask}\n`;
 
   if (draft) {
-    msg += `\n# Existing draft\nThe user has a draft. Critique it line-by-line first, then produce the rewrite in the "Email" section.\n\n${draft}\n`;
+    msg += `\n# Existing draft\nCritique line-by-line first, then produce the rewrite in the "Email" section.\n\n${draft}\n`;
   } else {
     msg += `\n# Mode\nNo draft provided — write the email from scratch using the pipeline above.\n`;
   }
@@ -94,10 +89,20 @@ async function callClaude(userMessage) {
 
   const body = {
     model,
-    max_tokens: 4096,
+    max_tokens: 6000,
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: userMessage }],
   };
+
+  if ($('enable-search').checked) {
+    body.tools = [
+      {
+        type: 'web_search_20250305',
+        name: 'web_search',
+        max_uses: 5,
+      },
+    ];
+  }
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -112,14 +117,27 @@ async function callClaude(userMessage) {
 
   if (!res.ok) {
     const errBody = await res.text();
-    throw new Error(`Anthropic API ${res.status}: ${errBody.slice(0, 500)}`);
+    throw new Error(`Anthropic API ${res.status}: ${errBody.slice(0, 600)}`);
   }
   const data = await res.json();
   const text = (data.content || [])
     .filter((b) => b.type === 'text')
     .map((b) => b.text)
     .join('\n');
-  return { text, usage: data.usage };
+  const searchCount = (data.content || []).filter((b) => b.type === 'server_tool_use' && b.name === 'web_search').length;
+  return { text, usage: data.usage, searchCount };
+}
+
+// ---------- Em-dash post-check on the email section ----------
+
+function checkEmDashesInEmail(md) {
+  // Pull the Email section and look for em-dashes
+  const m = md.match(/##\s*Email[\s\S]*?(?=\n##\s|\n#\s|$)/i);
+  if (!m) return { found: 0 };
+  const section = m[0];
+  const dashes = (section.match(/—/g) || []).length;
+  const doubleHyphens = (section.match(/--/g) || []).length;
+  return { found: dashes + doubleHyphens, dashes, doubleHyphens };
 }
 
 // ---------- Render ----------
@@ -130,22 +148,14 @@ function setStatus(msg, kind = '') {
   el.className = `status ${kind}`;
 }
 
-function setHint(msg) {
-  $('output-hint').textContent = msg;
-}
+function setHint(msg) { $('output-hint').textContent = msg; }
 
 function renderMarkdown(md) {
-  // Minimal markdown renderer — headings, bold, italic, lists, tables, hr, code, paragraphs.
   const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const lines = md.split(/\r?\n/);
   let html = '';
-  let inUL = false;
-  let inOL = false;
-  let inTable = false;
-  let tableRows = [];
-  let inCode = false;
-  let codeBuf = [];
-  let para = [];
+  let inUL = false, inOL = false, inTable = false;
+  let tableRows = [], inCode = false, codeBuf = [], para = [];
 
   const flushPara = () => {
     if (para.length) {
@@ -176,6 +186,7 @@ function renderMarkdown(md) {
 
   function inlineFmt(s) {
     s = escape(s);
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -184,8 +195,6 @@ function renderMarkdown(md) {
 
   for (const raw of lines) {
     const line = raw;
-
-    // Code fences
     if (/^```/.test(line)) {
       if (inCode) {
         html += `<pre><code>${escape(codeBuf.join('\n'))}</code></pre>`;
@@ -198,7 +207,6 @@ function renderMarkdown(md) {
     }
     if (inCode) { codeBuf.push(line); continue; }
 
-    // Tables — pipe-delimited
     if (/^\|.+\|/.test(line)) {
       flushPara(); flushUL(); flushOL();
       const cells = line.split('|').slice(1, -1).map((c) => c.trim());
@@ -209,7 +217,6 @@ function renderMarkdown(md) {
       flushTable();
     }
 
-    // Headings
     const h = line.match(/^(#{1,6})\s+(.*)/);
     if (h) {
       flushPara(); flushUL(); flushOL();
@@ -217,13 +224,11 @@ function renderMarkdown(md) {
       html += `<h${level}>${inlineFmt(h[2])}</h${level}>\n`;
       continue;
     }
-    // HR
     if (/^---+$/.test(line.trim())) {
       flushPara(); flushUL(); flushOL();
       html += '<hr>\n';
       continue;
     }
-    // OL
     const ol = line.match(/^\s*\d+\.\s+(.*)/);
     if (ol) {
       flushPara(); flushUL();
@@ -231,7 +236,6 @@ function renderMarkdown(md) {
       html += `<li>${inlineFmt(ol[1])}</li>\n`;
       continue;
     }
-    // UL
     const ul = line.match(/^\s*[-*]\s+(.*)/);
     if (ul) {
       flushPara(); flushOL();
@@ -239,12 +243,10 @@ function renderMarkdown(md) {
       html += `<li>${inlineFmt(ul[1])}</li>\n`;
       continue;
     }
-    // Blank line
     if (line.trim() === '') {
       flushPara(); flushUL(); flushOL();
       continue;
     }
-    // Paragraph
     para.push(line);
   }
   flushPara(); flushUL(); flushOL(); flushTable();
@@ -252,8 +254,15 @@ function renderMarkdown(md) {
   return html;
 }
 
-function renderOutput(text) {
-  $('output').innerHTML = renderMarkdown(text);
+function renderOutput(text, meta) {
+  const dashCheck = checkEmDashesInEmail(text);
+  let warning = '';
+  if (dashCheck.found > 0) {
+    warning = `<div class="warning-banner"><strong>⚠️ Em-dash check:</strong> Found ${dashCheck.found} em-dash${dashCheck.found > 1 ? 'es' : ''} or double-hyphen${dashCheck.found > 1 ? 's' : ''} in the email body. The model slipped — replace them with commas, periods, or colons before sending. Em-dashes are the strongest AI tell in 2026.</div>`;
+  } else {
+    warning = `<div class="success-banner">✓ <strong>Em-dash check:</strong> Email body is clean of em-dashes.</div>`;
+  }
+  $('output').innerHTML = warning + renderMarkdown(text);
   $('raw').textContent = text;
   $('raw-toggle').style.display = '';
   $('output-hint').style.display = 'none';
@@ -279,25 +288,25 @@ async function run() {
   btn.disabled = true;
   const orig = btn.textContent;
   btn.textContent = 'Running…';
-  setHint('Calling Claude — typically 10–25 seconds…');
+  setHint($('enable-search').checked
+    ? 'Calling Claude with web_search enabled — typically 30–60 seconds…'
+    : 'Calling Claude — typically 10–25 seconds…');
   setStatus('Calling Claude…', 'ok');
 
   try {
-    persistKey();
-    persistModel();
-    persistAbout();
+    persistKey(); persistModel(); persistAbout(); persistSearch();
     const t0 = performance.now();
-    const { text, usage } = await callClaude(userMessage);
+    const { text, usage, searchCount } = await callClaude(userMessage);
     const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
     renderOutput(text);
     const u = usage || {};
     setStatus(
-      `Done in ${elapsed}s · ${u.input_tokens || '?'} in / ${u.output_tokens || '?'} out tokens`,
+      `Done in ${elapsed}s · ${u.input_tokens || '?'} in / ${u.output_tokens || '?'} out tokens · ${searchCount} web search${searchCount === 1 ? '' : 'es'}`,
       'ok'
     );
   } catch (err) {
     setStatus(err.message, 'err');
-    setHint('Failed. See status above. Common fixes: check API key, check internet, try a different model.');
+    setHint('Failed. See status above. Common fixes: check API key, check internet, try a different model, or disable web search.');
   } finally {
     btn.disabled = false;
     btn.textContent = orig;
@@ -310,9 +319,11 @@ function init() {
   loadStored();
   $('run').addEventListener('click', run);
   $('load-about').addEventListener('click', loadAboutFromFile);
+  $('clear-about').addEventListener('click', clearAbout);
   $('api-key').addEventListener('change', persistKey);
   $('model').addEventListener('change', persistModel);
   $('about-me').addEventListener('change', persistAbout);
+  $('enable-search').addEventListener('change', persistSearch);
   $('show-raw').addEventListener('click', () => {
     const r = $('raw');
     r.style.display = r.style.display === 'none' ? 'block' : 'none';
