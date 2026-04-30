@@ -54,6 +54,18 @@ Maya Angelou: "People will forget what you said. People will forget what you did
 # BANNED WORDS (kill on sight)
 currently, synergy, leverage, align, drive, strategize, empower, enable, deliverables, utilize, incentivize, facilitate, impact (use harm/benefits), "at the intersection of", "I hope this email finds you well", "I hope you are well", "My name is X", "Good morning/afternoon", "I'd love to pick your brain", "I'd love to grab coffee", "Like you, but at a smaller scale", "Just following up", "If you ever find yourself near", "In today's fast-paced world", "delve", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "It's not just X — it's Y" (AI tic)
 
+# ADVERB RULE
+
+Cut empty intensifiers and -ly adverbs the verb already implies. Stephen King: *"The adverb is not your friend. The road to hell is paved with adverbs."*
+
+Empty intensifiers to cut on sight in the email body: very, really, actually, basically, literally, definitely, clearly, obviously, essentially, simply, quite, rather, somewhat, pretty (as softener), truly, genuinely, arguably.
+
+Sentence-starting adverbs to cut: Importantly, Notably, Interestingly, Surprisingly, Frankly, Honestly, Crucially, Ultimately, Fundamentally.
+
+For -ly adverbs paired with weak verbs, rewrite the verb instead: "walked quickly" → "rushed"; "said loudly" → "shouted"; "smiled broadly" → "grinned"; "held tightly" → "clutched."
+
+Keep an adverb only when it adds information the verb can't carry (early, remotely), preserves a deliberate cadence, or is the joke. Default is delete.
+
 # EM-DASH RULE (HARD CONSTRAINT)
 
 DO NOT use em-dashes (—) in the final email. They are the single strongest tell of AI-written prose in 2026. Use commas, periods, parentheses, or colons instead.

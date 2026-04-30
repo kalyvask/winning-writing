@@ -34,6 +34,8 @@ export const BANNED_WORDS = {
     { find: /—/g, label: 'em-dash (the #1 AI tell in 2026 — replace with comma, period, or colon)' },
     { find: /(?<!^|\n)--(?!\n|$)/g, label: 'double-hyphen (em-dash substitute — same problem)' },
     { find: /\bit's not (just |only )?\w+[ —-]+(it's|but) /gi, label: '"it\'s not just X — it\'s Y" (AI tic)' },
+    { find: /\b(very|really|actually|basically|literally|definitely|clearly|obviously|essentially|simply|quite|truly|genuinely|arguably)\b/gi, label: 'empty intensifier (King: "the road to hell is paved with adverbs")' },
+    { find: /\b(importantly|notably|interestingly|surprisingly|frankly|honestly|crucially|ultimately|fundamentally),/gi, label: 'sentence-starting adverb — cut' },
     { find: /\bdelve into\b/gi, label: '"delve into" (AI tic)' },
     { find: /\bnavigate the complexit/gi, label: '"navigate the complexities" (AI tic)' },
     { find: /\btapestry of\b/gi, label: '"tapestry of" (AI tic)' },
@@ -244,6 +246,18 @@ export const PRINCIPLES = [
       'Build context files: about-me.md, voice-and-style.md, plus topic-specific files.',
       'Describe outcomes, not steps. "Done" looks like X — let Claude figure out how.',
       'Scrub AI tells: "it\'s not just X — it\'s Y," "delve," "tapestry," "navigate the complexities."',
+    ],
+  },
+  {
+    category: 'Adverbs',
+    source: 'Stephen King + Kramon',
+    items: [
+      'Stephen King: "The adverb is not your friend. The road to hell is paved with adverbs."',
+      'Kramon: adverbs ending in -ly are usually unnecessary; cut them.',
+      'Empty intensifiers add no information: very, really, actually, basically, literally, definitely, clearly, obviously, essentially, simply, quite, truly, genuinely, arguably. Cut on sight.',
+      'If the verb is right, the adverb isn\'t needed. "Walked quickly" → "rushed." "Said loudly" → "shouted." "Held tightly" → "clutched."',
+      'Sentence-starting adverbs are throat-clearing: Importantly, Notably, Interestingly, Frankly, Honestly, Crucially, Ultimately. Cut.',
+      'Keep an adverb only when it adds information (early, remotely), preserves deliberate cadence, or is the joke.',
     ],
   },
   {

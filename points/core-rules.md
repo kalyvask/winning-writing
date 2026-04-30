@@ -25,6 +25,7 @@ Before every piece, ask: **how will this make them feel?**
 13. **Tell stories, not resume bullets.** Stories are 12× more memorable than statistics alone. Combine both.
 14. **Be confident but humble.** Adam Bryant's "desirable confidence." Forward-leaning, not boastful.
 15. **Show competence and warmth in a single sentence.** The hardest skill. The highest leverage.
+16. **Cut empty adverbs.** Stephen King: *"the road to hell is paved with adverbs."* "Very," "really," "actually," "basically," "clearly," "obviously" add nothing. Sentence-starting "Importantly," "Notably," "Frankly" is throat-clearing. If a -ly adverb pairs with a weak verb, rewrite the verb.
 
 ## Posture: on your toes, not on your heels
 
