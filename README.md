@@ -13,7 +13,7 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 11 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 19 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice
 - **`ui/`** — two browser pages: an **offline draft critic** for fast feedback, and a **Claude-powered Coach** that runs the full pipeline against the live API
 
@@ -54,6 +54,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `cold-email-coach` | Drafting or critiquing a cold email, LinkedIn DM, intro request |
 | `op-ed-coach` | Drafting an op-ed, opinion piece, or LinkedIn long-form |
 | `pitch-coach` | VC pitch, internal pitch, six-word product summary, mission statement |
+| `pitch-memo` | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | `gratitude-note-coach` | Thank-you notes, recommendation letters, recognition messages |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
 
@@ -63,7 +64,10 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 |-------|------------------|
 | `recipient-research` | Builds a dossier on the person you're emailing — LinkedIn, podcasts, recent news, distinctive personal details |
 | `connection-finder` | Cross-references the dossier and your `about-me.md` for specific, genuine "like you" hooks |
+| `warm-intro-finder` | Finds human bridges who can actually introduce you — investors, alumni, ex-colleagues, mentors. Includes the Constine forwardable-blurb template. |
+| `graveyard-historian` | When pitching an idea, researches companies that tried it before and died — why, and who survived to talk to |
 | `fun-angle` | Finds the dry, self-deprecating, or unexpected line that makes the email memorable — subject lines, openers, sign-offs |
+| `tell-them-something-new` | Cuts opener sentences that recap what the recipient already knows — replace with a secret about the future |
 
 ### Surgical edits
 
@@ -71,7 +75,13 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 |-------|------------------|
 | `concision-drill` | Cutting a draft to a target word count without losing substance |
 | `jargon-killer` | Scrubbing banned words and AI tells |
+| `em-dash-killer` | Removing em-dashes — the #1 AI tell in 2026 |
+| `adverb-killer` | Cutting empty -ly adverbs and intensifiers (very, really, actually, basically, clearly, obviously) |
+| `be-specific` | Replacing generic category nouns with concrete ones — "dog" → German shepherd, "engineer" → John on the payments team |
+| `headline-as-claim` | Rewriting slide titles, section headings, and subject lines from category labels into bold arguable claims |
+| `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
+| `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
 
 Each skill has a `SKILL.md` with frontmatter, a checklist, and pointers back to the relevant `points/` file.
 
@@ -101,7 +111,7 @@ What it does:
 - Heuristic scores: **BLUF, Story, Rhythm (anti-choppy), Audience** — 0–10 with one-line notes
 - "Copy critique prompt" — builds a Claude-ready prompt with audience + draft + mode + rules, copies to clipboard so you can paste into Claude.app or anywhere else
 - Six-word summary scratchpad
-- Key-principles panel — all 75 principles, grouped, editable in `ui/data.js`
+- Key-principles panel — 18 principle groups (over 100 individual rules), editable in `ui/data.js`
 
 Use it for fast iterative feedback while you write.
 
@@ -149,9 +159,13 @@ Designed to deploy as-is to GitHub Pages (the offline page).
 - Glenn Kramon's *Winning Writing* (GSBGEN 352.1), Stanford GSB
 - Rachel Konrad's guest lectures on cold outreach
 - Heidi Roizen's mailing rules
-- Adam Bryant on writing about yourself
+- Adam Bryant on writing about yourself ("desirable confidence")
 - Nicholas Kristof's columns and op-ed advice
 - Katie Kingsbury (NYT Opinion) on what gets published
+- Danny Hertzberg (Base10, ex-Sequoia) on cold outreach
+- Josh Constine's *Fundraising & Pitch Deck Guide* (15-question memo, forwardable blurb, slide-titles-as-claims)
+- Susan Fiske (Princeton) on warmth + competence
+- Stephen King's *On Writing* on adverbs
 
 ## License
 
