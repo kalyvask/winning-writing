@@ -95,6 +95,59 @@ The skill needs at least one of:
 
 If none are provided, ask. Do not fabricate connections.
 
+## The Constine forwardable blurb (template)
+
+Once you have a Tier 1 connector willing to forward, send them a clean, short email they can pass through with a one-line vouch on top. Constine's format:
+
+```
+Subject: [Startup name] — [tagline], [traction or momentum highlight], raising [$X]
+
+Hey [Connector],
+
+Thanks for offering to connect us with [target name]. Sounds like they could be a great fit.
+
+As a quick overview, we're building [company name], [one-line description].
+[Short background — founder fit, ROI, mission, or big vision in 1–2 sentences].
+Deck here: [link].
+
+A few highlights from our recent progress:
+- [Build progress / what you've shipped / proof of efficacy]
+- [Big customer names, partnerships, market unlocks]
+- [Star hires, big-name investors or angels who've joined]
+
+We're [kicking off our raise of $X / having second-round meetings / finalizing the last allocations]. We're particularly interested in partners with [specific connections, operating experience, depth in this industry], so we'd be excited to talk to [target name].
+
+Thanks!
+— [Your name]
+```
+
+### Rules for the blurb
+
+- **Subject line is the most important part.** It carries the company name, the traction proof, and the raise amount. The connector's vouch goes in the body, but the subject is what gets the email opened in the target's inbox after the forward.
+- **Don't write a perfect pitch — write a tease.** The blurb's job is to get a reply from the target asking for a meeting. The full pitch happens in the meeting.
+- **3 bullets, never more.** Choose the one most-impressive thing in each of: build/ship, market traction, team/investors. Cut everything else.
+- **End with a specific ask** — what kind of investor you want — so the connector can frame their forward.
+- **Read it back.** If the connector forwards this in 30 seconds without rewriting anything, you nailed it. If they have to rework it, you cost them time.
+
+### Example (Constine's actual)
+
+> Subj: **Ontraq — AI co-pilot for notaries, 500 signups per week, raising $1.5M**
+>
+> Hey Josh, thanks for offering to connect us with a few investors you think would be a great fit.
+>
+> As a quick overview, we're building Ontraq, the AI copilot for notarization. After launching projects as a lead engineer at Apple and senior engineer at State Farm, I teamed up with my brother who spent the last 5 years running a notarization firm with our mom — who was spending $50K/year on remarkably obsolete software. [Deck link]
+>
+> In just a few months, Ontraq has:
+> - Built an AI copilot that automates 85% of intake and 30% of signing
+> - Partnered with 70 firms and 700 channel partners with 500 customers joining per week, many from the outdated incumbents
+> - Plotted an expansion roadmap from notarization into title and mortgage work
+>
+> We're raising $1.5M with the first check in from [Tier 1 fund]. We're particularly interested in partners with connections and expertise in GTM for legal and fintech. Let us know who you think would be helpful!
+
+### Follow-up rule
+
+Avoid coming across as desperate. If you need to nudge the connector, arm them with a specific update — *"In the past week the team has shipped X, hired Y, signed customer Z, started final-round meetings"* — not *"Just wanted to see if this sounds interesting?"*
+
 ## The forwarding rule
 
 When the user lands a warm intro, the right format is:

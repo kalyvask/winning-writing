@@ -24,6 +24,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [cold-email-coach](cold-email-coach/SKILL.md) | Drafting or critiquing a cold email, LinkedIn DM, intro request |
 | [op-ed-coach](op-ed-coach/SKILL.md) | Drafting an op-ed, opinion piece, or LinkedIn long-form |
 | [pitch-coach](pitch-coach/SKILL.md) | VC pitch, internal pitch, six-word product summary, mission statement |
+| [pitch-memo](pitch-memo/SKILL.md) | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | [gratitude-note-coach](gratitude-note-coach/SKILL.md) | Thank-you notes, recommendation letters, recognition |
 | [winning-writing-critic](winning-writing-critic/SKILL.md) | Grading any draft against the full rubric and rewriting |
 
@@ -46,6 +47,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [be-specific](be-specific/SKILL.md) | Replacing generic category nouns with concrete ones — "dog" → German shepherd, "engineer" → John on the payments team |
 | [tell-them-something-new](tell-them-something-new/SKILL.md) | Cutting opener sentences that recap what the recipient already knows — replace with a secret about the future |
 | [warmth-and-competence](warmth-and-competence/SKILL.md) | Auditing a draft on Fiske's two-axis model — warmth + competence — and finding the load-bearing sentence that hits both |
+| [headline-as-claim](headline-as-claim/SKILL.md) | Rewriting section titles, slide titles, and subject lines from category labels ("Product," "Market") into bold arguable claims |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 

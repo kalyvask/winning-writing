@@ -249,6 +249,30 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Pitch memo (Constine)',
+    source: 'Josh Constine\'s Fundraising & Pitch Deck Guide',
+    items: [
+      'For pre-seed and seed, a text-first memo can outperform a deck. No design wrangling. Pretty design hides weak thinking; a memo can\'t.',
+      'Write the memo BEFORE the deck. The memo is the narrative spine. The deck supports the spoken pitch, not the other way around.',
+      'Every investor asks the same 15 questions: name, tagline, problem, solution, big vision, team, market size, business model, GTM, traction, competition, why now, raise history, raise, what\'s next.',
+      'Pre-seed memo target: 800-1,500 words. Seed: 1,500-3,000. Beyond 3,000 means the founder is hiding behind volume.',
+      'Common failure modes: skipping the graveyard in Competition, vague Why-Now ("AI is transforming..."), TAM theater (no SAM), vanity metrics, no superhero origin story.',
+      'Constine litmus: read your memo cold a week later. If you can\'t defend a claim in 30 seconds, the claim is decoration.',
+    ],
+  },
+  {
+    category: 'Headlines as claims',
+    source: 'Constine slide-titles + Kingsbury (NYT Opinion)',
+    items: [
+      'Slide titles, section headings, subject lines, op-ed headlines: all must be claims, not category labels.',
+      'Bad: "Product," "Market," "Team," "Some thoughts on X," "An overview of Y."',
+      'Good: "Our AI cuts notarization time 85%." "$14B in recall costs from connector failures." "Olympians earn the IOC billions. Guess who the IOC almost never pays."',
+      'A claim title has three properties: specific (a number/name/place), arguable (someone could disagree), predictive (the reader knows what\'s in the section).',
+      'The scan test: a reader who reads only the titles should walk away with the argument. If they couldn\'t, the titles are labels.',
+      'Rewrite source: the claim is almost always already in paragraph 1 or 2 of the section. Promote it to the title.',
+    ],
+  },
+  {
     category: 'Warm intros',
     source: 'Konrad rule 4 + the AB test',
     items: [

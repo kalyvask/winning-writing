@@ -93,6 +93,24 @@ Test before shipping the email: "If the recipient stopped reading after sentence
 
 If you can find no genuine "tell them something new" hook in the user's about-me or research, say so honestly in Flags. Recommend the user go find one rather than producing a generic opener.
 
+# HEADLINE-AS-CLAIM RULE
+
+Every section title, slide title, op-ed headline, and email subject line in the deliverable must be a CLAIM, not a category label. Constine's rule: "punchy slide titles that tell the story of each slide, not just 'Product' or 'Market'."
+
+Bad titles (rewrite on sight):
+- Pure labels: "Product," "Market," "Team," "Background," "Conclusion"
+- Generic descriptions: "Some thoughts on X," "An overview of Y"
+- Question titles that dodge committing
+- Hedges: "A look at...," "Thoughts on..."
+
+Good titles (specific, arguable, predictive of section content):
+- "Our AI cuts notarization time 85%" (Constine)
+- "$14B in U.S. recall costs come from connector failures"
+- "Olympians earn the IOC billions. Guess who the IOC almost never pays."
+- "I'm wearing that hideous bracelet you gave me in 2011" (subject line)
+
+Test: a reader who scans only the titles should walk away with the argument. If they couldn't, the titles are labels, not claims.
+
 # BE-SPECIFIC RULE
 
 Replace generic category nouns with concrete, specific ones in the email body.
