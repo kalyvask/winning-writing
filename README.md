@@ -19,6 +19,26 @@ Four pieces:
 
 Built because most cold emails, op-eds, and memos read the same — hedged, jargon-heavy, AI-flavored. The principles here are opinionated and the banned-word list is enforced. I drafted with Claude as a sparring partner, then rewrote every line by hand so it doesn't sound like one. If you spot a "delve," a "tapestry," or five short sentences in a row, open an issue — that's the bug this repo exists to prevent.
 
+## Personalize this for your own use
+
+If you forked or cloned this repo, do these seven steps in order before running anything. The whole point of the toolkit is that Claude critiques *your* writing against *your* voice — until you fill in the context files, every output is generic.
+
+1. **Edit `context/about-me.md`.** Open the file and replace every bracketed placeholder with the real thing. Look for: `[Your name]`, `[role / title]`, `[the thing you're working on right now]`, `[N years]` of prior experience, `[the through-line that makes your career make sense]`, your **Primary focus** / **Secondary** / **Public output** bullets, the "How I think" paragraph, the five "What you (Claude) should know" bullets (speed, AI workflow, editorial preference, what you read, how you want pushback), and your contact line at the bottom. Be specific — named companies, real numbers, actual side projects. Generic in, generic out.
+
+2. **Edit `context/voice-and-style.md`.** Keep the structure (Posture, Sentence structure, Words I like, Banned words, AI tells, Format preferences, Length targets) — those are the rules. Replace the four **Sample paragraph** blocks (`Sample 1` analytical-with-a-number, `Sample 2` narrative-with-a-scene, `Sample 3` pitching-yourself, `Sample 4` closing-line-of-a-memo) with three or four paragraphs of your own writing you'd be happy to be cloned from. Leave the "What's working" notes — they teach Claude *why* a paragraph lands. Add or remove banned words to match your taste.
+
+3. **Drop drafts into a gitignored folder.** Create `drafts/` (or `outputs/`) at the repo root and put any work-in-progress there. Both folders are already in `.gitignore`, as are any files matching `*.draft.md` or `*.private.md`. Nothing in those paths will ever be committed.
+
+4. **Install the Claude skills.** Copy the `skills/` directory into `~/.claude/skills/` (or your Cowork plugins folder) so Claude auto-triggers the right skill when you draft. On macOS/Linux: `cp -r skills/* ~/.claude/skills/`. On Windows: copy `skills\*` into `%USERPROFILE%\.claude\skills\`. Each skill is a self-contained `SKILL.md` with frontmatter — Claude Code loads them on next session start.
+
+5. **Tell Claude to read your context on every task.** In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my `context/` files."* In Claude Code, add the same line to your project `CLAUDE.md`. From now on every session starts with Claude knowing your voice.
+
+6. **Set your Anthropic API key for the Coach UI.** The `ui/coach.html` page calls `api.anthropic.com` directly. Get a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys) and paste it into the API field on first load (it persists in browser localStorage on your machine only). For local dev, drop the key into a gitignored file at `ui/.local-key.js` as `export const LOCAL_API_KEY = 'sk-ant-...';` — Coach auto-loads it. The repo ships with no keys. The offline `ui/index.html` Draft Critic needs no key.
+
+7. **Confirm what stays local.** Once you've edited them, `context/about-me.md` and `context/voice-and-style.md` contain personal information — if your fork is public, decide whether to commit your filled-in versions or add them to `.gitignore` first. Already gitignored: `drafts/`, `outputs/`, `*.draft.md`, `*.private.md`, `ui/.local-key.js`, all `.env*` files. The `points/` and `skills/` files are course material — leave them alone unless you want to fork the rules themselves.
+
+Done. Now open `ui/index.html` for offline critique or `ui/coach.html` for the live Claude pipeline.
+
 ## What's in here
 
 ```
@@ -96,17 +116,6 @@ context/
 ```
 
 In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my context files."* From then on every session starts with Claude knowing your voice.
-
-## Configure for your own use
-
-Both files in `context/` ship as templates with placeholders like `[Your name]`. To make this toolkit yours:
-
-1. Edit `context/about-me.md` — replace every placeholder with the real thing. The more specific (named companies, real numbers, actual side projects), the higher the leverage.
-2. Edit `context/voice-and-style.md` — keep the structure, but swap each "Sample paragraph" block for a paragraph you've written that you'd be happy to be cloned from. The "What's working" notes teach Claude *why* a paragraph lands.
-3. Drop your own drafts anywhere — the UI's Draft Critic takes pasted text and never reads from disk. The Coach reads only `context/about-me.md` (or what you paste into the form).
-4. Want an `outputs/` or `drafts/` folder of your own work? Add it to `.gitignore` first if your fork is public.
-
-The `points/` and `skills/` files are course material and rules — leave them alone unless you want to fork the rules themselves.
 
 ## The UI — two pages
 
