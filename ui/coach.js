@@ -208,6 +208,14 @@ function parseVerdict(reviewerText) {
   return m ? m[1].toUpperCase() : null;
 }
 
+// Pull a `## Section Name` block out of the reviewer's markdown. Returns the
+// section body without the heading, or null if not found.
+function extractSection(text, sectionName) {
+  const re = new RegExp(`##\\s*${sectionName.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}[^\\n]*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, 'i');
+  const m = text.match(re);
+  return m ? m[1].trim() : null;
+}
+
 // ---------- Em-dash post-check on the email section ----------
 
 function checkEmDashesInEmail(md) {
@@ -341,13 +349,21 @@ function renderVerdictBanner(reviewerText, reviewerModel, drafterModel) {
     ? ` <em>Reviewer ran on the same model as the drafter — review may not be independent.</em>`
     : '';
   const modelLine = `<div style="font-family:var(--mono);font-size:var(--t-xs);opacity:0.7;margin-top:var(--s-1);">Drafter: <code>${drafterModel}</code> · Reviewer: <code>${reviewerModel}</code>${sameNote}</div>`;
+
+  // Surface counter-question above the fold for both PASS and FAIL — it's the
+  // most actionable piece even when the gate passes.
+  const cqRaw = extractSection(reviewerText, 'Most likely counter-question');
+  const cqBlock = cqRaw
+    ? `<div style="margin-top:var(--s-3); padding-top:var(--s-2); border-top:1px solid currentColor; opacity:0.85;"><strong>Most likely counter-question:</strong>${renderMarkdown(cqRaw)}</div>`
+    : '';
+
   const body = renderMarkdown(reviewerText);
 
   if (verdict === 'PASS') {
-    return `<div class="banner good"><strong>✓ Cross-model gate: PASS</strong> — an independent model accepted the email.${modelLine}<details style="margin-top:var(--s-2);"><summary style="cursor:pointer;">Reviewer details</summary>${body}</details></div>`;
+    return `<div class="banner good"><strong>✓ Cross-model gate: PASS</strong> — an independent model accepted the email.${modelLine}${cqBlock}<details style="margin-top:var(--s-2);"><summary style="cursor:pointer;">Reviewer details (named failure modes, borderline notes, confidence)</summary>${body}</details></div>`;
   }
   if (verdict === 'FAIL') {
-    return `<div class="banner bad"><strong>✗ Cross-model gate: FAIL</strong> — an independent model blocked the email. Address the blockers below before sending.${modelLine}${body}</div>`;
+    return `<div class="banner bad"><strong>✗ Cross-model gate: FAIL</strong> — an independent model blocked the email. Address the named failures below before sending.${modelLine}${body}</div>`;
   }
   return `<div class="banner warn"><strong>? Cross-model gate: verdict not parsed</strong> — reviewer output below, judge for yourself.${modelLine}${body}</div>`;
 }

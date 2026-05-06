@@ -50,7 +50,7 @@ ui/        Browser-based draft critique tool — no install required
 
 ## The points
 
-Eight reference docs, each focused on one slice of the course:
+Nine reference docs, each focused on one slice of the course:
 
 | File | Covers |
 |------|--------|
@@ -62,6 +62,7 @@ Eight reference docs, each focused on one slice of the course:
 | [examples-and-critiques.md](points/examples-and-critiques.md) | Model letters, op-ed headlines, before/after rewrites |
 | [ai-writing-rules.md](points/ai-writing-rules.md) | How to use AI without sounding like AI ("centaur" mode) |
 | [pre-send-checklist.md](points/pre-send-checklist.md) | The single checklist to run before hitting send |
+| [named-failure-modes.md](points/named-failure-modes.md) | 14 named cold-email failure modes (vague ask, credentials dump, generic personalization, AI-tell prose) — what to fix, not just where you scored low |
 
 ## The skills
 
@@ -77,7 +78,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `pitch-memo` | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | `gratitude-note-coach` | Thank-you notes, recommendation letters, recognition messages |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
-| `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Binary pass/fail on banned-word, unverified-claim, or "feels templated" |
+| `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Names the specific failure mode from a 14-mode catalog (strategy / personalization / posture) and predicts the recipient's most likely counter-question |
 
 ### Cold-outreach pipeline (run in order)
 

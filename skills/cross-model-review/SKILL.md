@@ -1,11 +1,11 @@
 ---
 name: cross-model-review
-description: Independent second-model gate for cold emails before send. Must run on a DIFFERENT model than the one that drafted (e.g., draft on Opus, review on Sonnet — or vice versa). Acts as a binary pass/fail gate, not a regrade or rewrite. Hard-fails on banned-word hits, unverified factual claims, or "feels templated" drafts. Triggers on "second pass," "cross-model review," "independent review," "review before send," or as the final step after `cold-email-coach` and `winning-writing-critic`.
+description: Independent second-model gate for cold emails before send. Must run on a DIFFERENT model than the one that drafted (e.g., draft on Opus, review on Sonnet — or vice versa). Acts as a binary pass/fail gate, not a regrade or rewrite. Names the specific failure mode from a 14-mode catalog (strategy / personalization / posture). Always surfaces the most likely counter-question the recipient will reply with. Triggers on "second pass," "cross-model review," "independent review," "review before send," or as the final step after `cold-email-coach` and `winning-writing-critic`.
 ---
 
 # Cross-model review
 
-Source: `points/banned-jargon.md`, `points/pre-send-checklist.md`, `points/cold-email-rules.md`, `points/ai-writing-rules.md`. Read those first.
+Source: `points/named-failure-modes.md`, `points/banned-jargon.md`, `points/pre-send-checklist.md`, `points/cold-email-rules.md`, `points/ai-writing-rules.md`. Read those first.
 
 ## Why this exists
 
@@ -20,7 +20,7 @@ You are NOT here to make the email better. You are here to decide whether it shi
 Two verdicts only:
 
 - `PASS` — ship it
-- `FAIL` — block, with specific blockers
+- `FAIL` — block, with the specific named failure modes listed
 
 Borderline → fail. Cost of a block is one rewrite cycle. Cost of a templated email is the recipient's read of the sender forever.
 
@@ -28,7 +28,7 @@ Borderline → fail. Cost of a block is one rewrite cycle. Cost of a templated e
 
 The orchestrator (`coach.html`, `cold-email-coach`, or the user) routes to a different model than the drafter. This skill assumes routing already happened.
 
-If you have reason to believe you are the same model that drafted (e.g., the user explicitly says so), output `CANNOT REVIEW — same model as drafter` and stop.
+If the user explicitly says you are the same model that drafted, output `CANNOT REVIEW — same model as drafter` and stop.
 
 ## Required inputs
 
@@ -39,48 +39,47 @@ If you have reason to believe you are the same model that drafted (e.g., the use
 
 If any are missing, output `CANNOT REVIEW — missing [input]` and stop. Do not guess.
 
-## The three hard fails
+## The catalog of named failures
 
-Any one of these = `FAIL`. No partial credit.
+When you fail an email, name the mode in plain English so the sender knows what to rewrite, not just where they scored low. See [points/named-failure-modes.md](../../points/named-failure-modes.md) for the full catalog. Summary:
 
-### 1. Banned-word hit
+### Strategy failures (5)
 
-Scan against [banned-jargon.md](../../points/banned-jargon.md). Quote every hit. One hit is a fail.
+1. **Vague ask** — not binary; "would love your thoughts," "any feedback"
+2. **No "why now"** — could have been sent a year ago
+3. **Reaching across hierarchy without a reason** — junior to senior, no bridge, no novel offer
+4. **Stranger asking for a job** — first contact asks for hire/intro instead of offering value
+5. **Resume dump** — multiple lanes instead of one specific story
 
-Especially watch:
+### Personalization failures (3)
 
-- *"It's not just X — it's Y"* (AI tell)
-- *"delve,"* *"tapestry,"* *"navigate the complexities,"* *"in today's fast-paced world"*
-- Em-dashes for emphasis: 0–2 fine, 3+ is a tell
-- Five short sentences in a row (rhythm tell)
-- *"I hope this finds you well,"* *"My name is X,"* *"Just following up"*
-- *"would love to,"* *"would be incredible,"* *"truly,"* *"genuinely"* — empty intensifiers
+6. **Unverifiable connection** — vague shared values, no named person, no quoted moment
+7. **Recap opener** — first sentence tells them what they already know about themselves
+8. **Generic personalization** — would work for any of their peers. Litmus: swap the name; does the email still work? If yes, fail.
 
-### 2. Unverified factual claim
+### Posture failures (6)
 
-Any claim about the recipient must trace to the dossier:
+9. **Credentials dump** — CV summary before any concrete work
+10. **Humble brag** — "at a much smaller scale," "like you, but smaller"
+11. **Throat-clearing** — "I hope this finds you well," "My name is X"
+12. **Fabricated specifics** — claims the inputs don't substantiate
+13. **AI-tell prose** — "It's not just X — it's Y," 3+ em-dashes, "delve," "tapestry," 5+ short sentences in a row
+14. **Empty intensifiers** — "would love to," "would be incredible," "truly," "genuinely"
 
-- *"You said on your podcast that…"* — quote in dossier?
-- *"Your portfolio company X is doing Y"* — X and Y both named?
-- *"We met at the Sequoia event in March"* — in dossier?
+Any one named mode = FAIL.
 
-Any claim about the sender must trace to `about-me.md`:
+## Counter-question readiness
 
-- Numbers, titles, employers, dates, credentials — all sourced
+Always run this, even on PASS. Predict the recipient's most likely one-sentence reflex reply. The four most common:
 
-If the inputs don't substantiate the claim, fail. Do not give the benefit of the doubt; that's the drafter's job, not yours.
+- "What specifically?" → the ask isn't concrete
+- "Why me?" → the connection isn't load-bearing
+- "Why now?" → the timing isn't anchored
+- "Send a deck / one-pager?" → they want more before responding
 
-### 3. "Feels templated"
+Pick the most likely one. Ask: is the sender ready for that follow-up? If not, that's a different kind of work to flag — the gate may still PASS but the email isn't shippable until the sender prepares.
 
-The hardest call. Symptoms:
-
-- The "like you" hook works for any of the recipient's peers, not just them
-- Personalization = recipient name + one fact swapped into a generic structure
-- The ask is small but the email could have been sent to 50 people unchanged
-- The opener tells the recipient something they obviously already know about themselves
-- Closing leans on intensifiers ("would love to," "would be incredible") instead of substance
-
-**Litmus test:** swap the recipient's name for another well-known person in their domain. Does the email still mostly work? If yes, it's templated. Fail.
+This is a forcing function, not a gate. It's about the next move, not the current draft.
 
 ## Output format
 
@@ -88,22 +87,25 @@ The hardest call. Symptoms:
 ## Verdict
 PASS | FAIL
 
-## Blockers (if FAIL)
-
-1. [Category: banned-word | unverified-claim | templated]
+## Failures (only if FAIL)
+1. **[Named mode]** (category: strategy | personalization | posture)
    Quote: "..."
    Why it fails: [one sentence]
 
 2. ...
 
-## Borderline notes (always)
+## Most likely counter-question
+> [one sentence — the reflex reply this email will get]
 
-- [Things that aren't hard fails but the sender should weigh]
+**Ready?** YES | NO. [If NO, one sentence on what to prepare before send.]
+
+## Borderline notes
+- [Up to 3 things not hard fails but worth weighing]
 
 ## Confidence
 HIGH | MEDIUM | LOW
 
-[If MEDIUM/LOW, one sentence on why — usually missing context]
+[If MEDIUM or LOW, one sentence on why — usually missing context]
 ```
 
 ## What you do NOT do
@@ -111,7 +113,7 @@ HIGH | MEDIUM | LOW
 - Do not rewrite. The drafter rewrites; you gate.
 - Do not regrade the 12-dimension rubric — `winning-writing-critic` did that.
 - Do not soften the verdict. "PASS with concerns" is not a thing.
-- Do not be polite about a fail. The sender's job is to ship; your job is friction.
+- Do not be polite about a fail.
 
 ## When in doubt
 
