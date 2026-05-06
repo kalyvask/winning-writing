@@ -13,7 +13,7 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 19 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 20 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice
 - **`ui/`** — two browser pages: an **offline draft critic** for fast feedback, and a **Claude-powered Coach** that runs the full pipeline against the live API
 
@@ -77,6 +77,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `pitch-memo` | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | `gratitude-note-coach` | Thank-you notes, recommendation letters, recognition messages |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
+| `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Binary pass/fail on banned-word, unverified-claim, or "feels templated" |
 
 ### Cold-outreach pipeline (run in order)
 
