@@ -64,9 +64,9 @@ Two failure modes to avoid:
 
 The fix: find or build the LOAD-BEARING SENTENCE — one sentence that proves both axes simultaneously. It belongs in the first or second paragraph. Examples:
 
-✅ "I built Snowflake's first multi-agent eval pipeline from scratch — and I'm not sure I would have if Raj on your team hadn't told me at the GSB AI conference that the eval problem was the unsexy one nobody was solving." (competence: shipped at a named company; warmth: credits a specific person, references a real conversation)
+✅ "I built our team's first eval pipeline for the agent stack from scratch, and I'm not sure I would have if [someone on the recipient's team] hadn't told me at last year's conference that evals were the unsexy problem nobody was solving." (competence: shipped specific work; warmth: credits a specific person, references a real conversation)
 
-✅ "At 2:47 a.m. last Wednesday our incident bot diagnosed a Snowflake outage in 90 seconds. The on-call then spent 38 minutes clicking through tools to run the rollback, which is approximately 38 minutes of my evening I'd like to get back." (competence: specific scene, real customer, real number; warmth: dry humor, self-aware aside)
+✅ "At 2:47 a.m. last Wednesday our incident bot diagnosed an outage in 90 seconds. The on-call then spent 38 minutes clicking through tools to run the rollback, which is approximately 38 minutes of my evening I'd like to get back." (competence: specific scene, real number; warmth: dry humor, self-aware aside)
 
 When auditing, score each paragraph 1-5 on each axis. If any paragraph is below 3 on either axis, fix that paragraph before shipping. The center of the matrix is the goal — Adam Bryant's "desirable confidence."
 
@@ -79,7 +79,7 @@ The first sentence of the email must NOT recap what the recipient already knows.
 - Public bio recap ("As CEO of $X company...")
 - Recent news they were the subject of ("Congrats on the acquisition!")
 - Generic industry truisms ("As we all know, AI is transforming...")
-- Self-introduction ("My name is Alex and I'm a...")
+- Self-introduction ("My name is X and I'm a...")
 - Throat-clearing ("I hope this email finds you well, I'm reaching out because...")
 
 Required: open with at least ONE of these:

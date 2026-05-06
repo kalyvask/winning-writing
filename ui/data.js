@@ -399,20 +399,20 @@ export const PRINCIPLES = [
 export const SAMPLE_DRAFTS = {
   'cold-email': `Subject: Hoping to connect
 
-Hi Sarah,
+Hi [Name],
 
-I hope this email finds you well! My name is Alex and I'm currently a Stanford GSB MBA student passionate about AI and driving innovation at the intersection of strategy, product, and execution.
+I hope this email finds you well! My name is [Sender] and I'm currently an MBA student passionate about AI and driving innovation at the intersection of strategy, product, and execution.
 
-I came across your profile on LinkedIn and was deeply impressed by your accomplishments at Anthropic. Like you, I believe AI will transform the future, but at a vastly smaller scale than you're operating at.
+I came across your profile on LinkedIn and was deeply impressed by your accomplishments at [Company]. Like you, I believe AI will transform the future, but at a vastly smaller scale than you're operating at.
 
-I would love to leverage your expertise and pick your brain about a career in AI product management. I'm available to grab coffee anytime that works for you — if you ever find yourself near Stanford, I'd love to chat for an hour about my background and how I might fit into your team.
+I would love to leverage your expertise and pick your brain about a career in AI product management. I'm available to grab coffee anytime that works for you — if you ever find yourself near campus, I'd love to chat for an hour about my background and how I might fit into your team.
 
-I've attached my full resume so you can see all of my experience. I have worked at McKinsey, then at a Series B startup, then at a hedge fund, and now I'm pivoting to AI. I'm a left brain and right brain person who is passionate about complex problems.
+I've attached my full resume so you can see all of my experience. I have worked at a consulting firm, then at a Series B startup, then at a hedge fund, and now I'm pivoting to AI. I'm a left brain and right brain person who is passionate about complex problems.
 
 Just wanted to check in and see if you'd be open to chatting!
 
 Best,
-Alex`,
+[Sender]`,
 
   'op-ed': `Some thoughts on AI in education
 
@@ -439,7 +439,7 @@ I just wanted to reach out and say thank you so much for everything you did for 
 I hope you are doing well and that your family is great.
 
 Best,
-Alex`,
+[Sender]`,
 
   'general': `Hi team,
 
@@ -450,5 +450,5 @@ Specifically, we are currently investigating several scenarios. We believe that 
 I will follow up shortly with more details. In the meantime, please feel free to reach out with any questions or concerns.
 
 Best,
-Alex`,
+[Sender]`,
 };

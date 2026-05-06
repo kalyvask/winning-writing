@@ -97,6 +97,17 @@ context/
 
 In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my context files."* From then on every session starts with Claude knowing your voice.
 
+## Configure for your own use
+
+Both files in `context/` ship as templates with placeholders like `[Your name]`. To make this toolkit yours:
+
+1. Edit `context/about-me.md` — replace every placeholder with the real thing. The more specific (named companies, real numbers, actual side projects), the higher the leverage.
+2. Edit `context/voice-and-style.md` — keep the structure, but swap each "Sample paragraph" block for a paragraph you've written that you'd be happy to be cloned from. The "What's working" notes teach Claude *why* a paragraph lands.
+3. Drop your own drafts anywhere — the UI's Draft Critic takes pasted text and never reads from disk. The Coach reads only `context/about-me.md` (or what you paste into the form).
+4. Want an `outputs/` or `drafts/` folder of your own work? Add it to `.gitignore` first if your fork is public.
+
+The `points/` and `skills/` files are course material and rules — leave them alone unless you want to fork the rules themselves.
+
 ## The UI — two pages
 
 ### Page 1 — `ui/index.html` — Draft Critic (offline)

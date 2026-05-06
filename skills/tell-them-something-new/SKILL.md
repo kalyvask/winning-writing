@@ -43,7 +43,7 @@ He was on the press release. The all-hands was Tuesday. *"Congratulations on X"*
 True for everyone, news to no one. Dead on arrival.
 
 ### 6. Self-introduction
-> ❌ *"My name is Alex and I'm a Stanford GSB MBA passionate about AI."*
+> ❌ *"My name is `[your name]` and I'm a `[your school / role]` passionate about AI."*
 
 His email client put your name and address at the top of the message. The introduction is structural, not sentence-level.
 
@@ -74,7 +74,7 @@ Carefully — not a gotcha. A genuine tension you've noticed. They want to know 
 ### D. A specific scene with a date and detail
 Konrad's rule 6, applied to the opener.
 
-> ✅ *"At 2:47 a.m. last Wednesday our incident bot diagnosed a Snowflake outage in 90 seconds. The on-call engineer then spent 38 minutes clicking through tools to run the rollback. JPMorgan filed a ticket asking why our product 'watched it happen.'"*
+> ✅ *"At 2:47 a.m. last Wednesday our incident bot diagnosed an outage in 90 seconds. The on-call engineer then spent 38 minutes clicking through tools to run the rollback. A Tier-1 customer filed a ticket asking why our product 'watched it happen.'"*
 
 ### E. An offer they want
 Konrad's rule 10, applied to the opener.

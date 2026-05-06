@@ -7,4 +7,11 @@ node_modules/
 *.log
 .env
 .env.local
+.env.*
 ui/.local-key.js
+
+# Personal writing — never commit your own drafts or outputs
+drafts/
+outputs/
+*.draft.md
+*.private.md

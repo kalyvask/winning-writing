@@ -1,41 +1,39 @@
 # About me
 
-Brief Claude on who I am, what I do, and what's on my plate this quarter. Not a resume — the goal is the kind of context you'd give a new colleague on day one.
+Brief Claude on who you are, what you do, and what's on your plate this quarter. Not a resume — the goal is the kind of context you'd give a new colleague on day one.
 
-> Edit everything below. The example fills in Alex's profile so you can see how specific to get.
+> Replace everything below with your own profile. The placeholders show you the shape and the level of specificity that earns the highest leverage.
 
 ---
 
 ## Who I am
 
-I'm Alex Kalyvas, an AI Product Manager finishing my MBA at Stanford GSB (class of 2026, AI focus). Greek, based in California for school but moved around — Athens, London, Berlin, Bay Area.
+I'm `[Your name]`, a `[role / title]` working on `[the thing you're working on right now]`. `[Where you grew up, where you're based, anything geographic that's actually load-bearing.]`
 
-Before GSB I spent ~7 years shipping technical products at Snowflake, Amazon, and IBM — translating raw AI/ML capability into measurable business outcomes. At Snowflake I designed Cloud Collaboration's first multi-agent orchestration framework. At Amazon I led an inventory-ordering ML team that generated $64M in net savings across 8 EU countries.
+Before this I spent `[N years]` doing `[the work that built your judgment — name companies, name what you shipped, name a result with a number]`. The thread through all of it: `[the through-line that makes your career make sense, in one sentence].`
 
-I also co-founded an angel-backed sustainability TravelTech startup (product 0→1, 50+ user-discovery interviews) and was a Karelia Merit Scholar at LSE.
+`[Optional: one or two short lines on a side venture, an unusual credential, or something that distinguishes you from the median person with a similar resume.]`
 
 ## What I'm working on right now
 
-- **Job search:** AI PM roles at Anthropic, OpenAI, Sierra, and similar AI-native companies. Targeting roles where applied AI judgment and customer-facing instinct compound.
-- **GSB classes (Spring 2026):** *Winning Writing* (Kramon), *AI and Power*, marketing/operations electives.
-- **Research:** *Enterprise AI Time-to-Value* (Independent Research 390) — primary research on what moves AI from pilot to production. Follow-up to my *Enterprise AI Observability* paper.
-- **Side projects:** [ai-oncall](https://github.com/kalyvask/ai-oncall) (LLM agent for production-incident RCA), [chief-of-staff](https://github.com/kalyvask/chief-of-staff) (personal CoS agent over a private LLM wiki), [deployment-monitor](https://github.com/kalyvask/deployment-monitor) (tracks AI deployment trends across HN/Reddit/RSS), this winning-writing toolkit.
-- **Writing:** I publish at [alexkalyvas.substack.com](https://alexkalyvas.substack.com) — AI agents, evals, applied product strategy.
+- **Primary focus:** `[The job, search, project, or research you're spending most of your time on this quarter.]`
+- **Secondary:** `[Classes, side projects, an essay you're writing, a book you're reading deeply enough to argue with.]`
+- **Public output:** `[Blog, Substack, GitHub, talks — wherever your thinking shows up in public.]`
 
 ## How I think
 
-I'm at the intersection of strategy and shipping — I want to make calls about *what* to build, not just describe what someone else built. I take primary research over secondary, talk to users directly, and treat measurement discipline as a moat. I'm allergic to vague abstraction; I work in specific examples and named numbers.
+`[Two to four sentences on your operating principles. Not "I'm a hard worker" — actual claims about what you optimize for, what you cut, what you consistently get wrong, what you're allergic to. Specific over abstract: "I take primary research over secondary" beats "I'm thoughtful."]`
 
-I'm a quantitative thinker by training (LSE MSc + supervised-ML dissertation, GMAT 750) but my best work is at the boundary between technical understanding and customer-facing instinct.
+`[Optional: one line on the technical or quantitative training that backs your judgment.]`
 
 ## What you (Claude) should know about how I work
 
-- **I move fast.** I'd rather ship and iterate than perfect-and-stall.
-- **I draft with AI then rewrite by hand.** Centaur model. AI gives me density; I give it voice.
-- **I prefer specific over comprehensive.** One vivid example beats five abstract ones.
-- **I read a lot of recent academic and industry research.** When you cite something, prefer recent (2024+) and primary.
-- **I do not want bullet-point sycophancy.** Push back when something's wrong. The version where you tell me three options and pick one is better than the version where you list nine.
+- **`[How fast you move and what you trade for it]`** — e.g. "I'd rather ship and iterate than perfect-and-stall."
+- **`[Your AI workflow]`** — e.g. "I draft with AI then rewrite by hand. Centaur model."
+- **`[Your editorial preference]`** — e.g. "Specific over comprehensive. One vivid example beats five abstract ones."
+- **`[What you read]`** — e.g. "Recent academic and industry research; prefer 2024+ and primary sources."
+- **`[How you want pushback]`** — e.g. "No bullet-point sycophancy. Push back when something's wrong. Three options ranked beats nine listed."
 
 ## Reachable at
 
-`kalyvask@stanford.edu` · [LinkedIn](https://linkedin.com/in/alexandros-kalivas) · [Substack](https://alexkalyvas.substack.com)
+`[email]` · `[LinkedIn]` · `[wherever you publish]`

@@ -69,7 +69,7 @@ A claim title has three properties:
 | Product | Our AI cuts notarization time by 85% |
 | Market | $14B in U.S. recall costs come from connector failures |
 | Why Now | The Transformer paper finally made eval pipelines feasible in 2024 |
-| Team | Three of us shipped the first multi-agent framework at Snowflake |
+| Team | Three of us shipped the first eval pipeline for the agent stack at `[prior company]` |
 | Competition | Three companies tried this 2018–2022. All died of the same thing: they trained on synthetic data. |
 | Traction | 500 signups per week, 70% from outdated incumbents |
 | Raise | $1.5M SAFE, lead in from Tier-1 fund |
@@ -138,7 +138,7 @@ If yes, ship. If no, the titles work individually but don't compose — re-order
 | Section | Before | After | Source of the claim |
 |---|---|---|---|
 | Slide 4 | "Market" | "$14B in recall costs from connector failures" | The body's TAM paragraph |
-| Slide 7 | "Team" | "Three of us shipped Snowflake's first eval pipeline" | The bio bullets |
+| Slide 7 | "Team" | "Three of us shipped `[prior company's]` first eval pipeline" | The bio bullets |
 
 ## Title-only readthrough
 The new titles in sequence:

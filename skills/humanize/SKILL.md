@@ -95,6 +95,6 @@ Read the humanized version aloud. Does it sound like the user texting a friend? 
 
 ## The litmus test
 
-A friend reading the email blind should think *"yeah, that's how Alex writes when he's in a hurry"* — not *"this email has a typo, was Alex drunk?"* If the second reaction is plausible, the typo is wrong; pick a different one or skip.
+A friend reading the email blind should think *"yeah, that's how they write when they're in a hurry"* — not *"this email has a typo, were they drunk?"* If the second reaction is plausible, the typo is wrong; pick a different one or skip.
 
 The goal isn't *errors*. The goal is the texture of a real person typing on a real keyboard while half-listening to a podcast.

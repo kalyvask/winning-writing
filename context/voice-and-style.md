@@ -2,7 +2,7 @@
 
 Teaches Claude how I write. The single highest-leverage AI context file — it's the difference between "generic AI output" and "output that sounds like me."
 
-> Edit freely. The examples below are tuned to Alex's voice; replace them with your own paragraphs once you've drafted a few pieces you're happy with.
+> Edit freely. The examples below are placeholder shapes — replace them with two or three paragraphs of your own writing that you'd be happy to be cloned, once you've drafted a few pieces you're proud of.
 
 ---
 
@@ -60,7 +60,7 @@ Teaches Claude how I write. The single highest-leverage AI context file — it's
 
 - "I hope this email finds you well"
 - "I hope you are well"
-- "My name is Alex" — it's in the header
+- "My name is `[your first name]`" — it's in the header
 - "Good morning" / "good afternoon" — timezone unknown
 - "I'd love to pick your brain"
 - "I'd love to grab coffee"
@@ -81,27 +81,29 @@ Teaches Claude how I write. The single highest-leverage AI context file — it's
 
 ## Sample paragraphs in my voice
 
+> Replace each block below with a paragraph you've written that you'd be happy to be cloned from. Keep the "what's working" notes — they teach Claude *why* a paragraph lands, not just *that* it does.
+
 ### Sample 1 — analytical, with a number
 
-> *"Only 14% of practitioners reach measurable impact in under a month, yet 50% expect sub-one-month TTV to be standard by 2027 — a 4× expectation gap. Implementation quality, not model quality, is the next moat. Forward-deployed engineering, trust transfer, and measurement discipline beat raw capability."*
+> *"`[A paragraph that leads with a specific number, names a gap or contradiction, and lands a one-sentence thesis. The form: number → tension → claim. Three or four sentences max.]`"*
 
-What's working: leads with the number. Names the gap (4×). The thesis is one sentence, not three. Each item in the list is concrete.
+What's working: leads with the number. Names the gap. The thesis is one sentence, not three. Each item is concrete.
 
 ### Sample 2 — narrative, with a scene
 
-> *"Last Wednesday is the case for this. The alert fired at 2:47 a.m. Our brief hit Slack 90 seconds later. John then spent 38 minutes clicking through tools to run the rollback himself. By then, JPMorgan had filed a ticket asking why our product 'watched it happen.'"*
+> *"`[A paragraph that opens cinematically — a date, a time, a named place, a single concrete action, ideally a quote. No editorializing. The scene lands the punch on its own.]`"*
 
-What's working: a date, a time, a name, a concrete action, a customer quote. No editorializing — the scene lands the punch.
+What's working: a date, a time, a name, a concrete action, a quote. No editorializing — the scene lands the punch.
 
-### Sample 3 — pitching myself, short
+### Sample 3 — pitching yourself, short
 
-> *"I spent 7 years at Snowflake, Amazon, and IBM turning AI capabilities into measurable business outcomes. At Amazon I led an inventory ML team that saved $64M across 8 countries. At Snowflake I shipped the first multi-agent orchestration framework for Cloud Collaboration. Now I'm at Stanford GSB betting on what comes next."*
+> *"`[Three or four sentences pitching yourself. Three concrete examples with three numbers, no abstractions. Close with a one-line thesis about where you're betting next.]`"*
 
-What's working: three concrete examples, three numbers, no abstractions. Closes with a thesis ("betting on what comes next") that signals direction without being grandiose.
+What's working: three concrete examples, three numbers, no abstractions. Closes with a thesis that signals direction without being grandiose.
 
 ### Sample 4 — closing line of a memo
 
-> *"To start, I'd like your OK to spend this week with Raj scoping staffing and the design-partner list. I'll come back Monday with three things: the pilot account list, a mockup of the Approve Fix flow, and the test plan. Then you decide on the build."*
+> *"`[A closing paragraph: small ask first, big ask second. Name three concrete deliverables you'll come back with by a date. End with "Then you decide on the build" or equivalent — confident without being presumptuous.]`"*
 
 What's working: small ask first, big ask second. "Then you decide" — confident without being presumptuous. Concrete deliverables ("three things").
 
@@ -125,7 +127,7 @@ What's working: small ask first, big ask second. "Then you decide" — confident
 
 ## When you (Claude) draft for me
 
-1. **Draft in my voice from the start** — don't draft generic and "make it sound like Alex" after.
+1. **Draft in my voice from the start** — don't draft generic and "make it sound like me" after.
 2. **Read the banned-words list above before sending anything.** If you find yourself reaching for "leverage," reach for a real verb instead.
 3. **Lead with the conclusion.** BLUF on every memo, email, and update.
 4. **Use specifics from the about-me file.** Numbers, dates, names, real projects.
