@@ -1,4 +1,5 @@
 import { SYSTEM_PROMPT } from './coach-prompt.js';
+import { CROSS_MODEL_SYSTEM_PROMPT } from './cross-model-prompt.js';
 
 const $ = (id) => document.getElementById(id);
 const KEY_STORE = 'winning-writing.coach.apikey';
@@ -6,6 +7,8 @@ const MODEL_STORE = 'winning-writing.coach.model';
 const ABOUT_STORE = 'winning-writing.coach.about-me';
 const SEARCH_STORE = 'winning-writing.coach.search-enabled';
 const HUMANIZE_STORE = 'winning-writing.coach.humanize-enabled';
+const REVIEW_STORE = 'winning-writing.coach.review-enabled';
+const REVIEW_MODEL_STORE = 'winning-writing.coach.review-model';
 
 // ---------- Init ----------
 
@@ -19,6 +22,10 @@ function loadStored() {
   if (search === 'false') $('enable-search').checked = false;
   const humanize = localStorage.getItem(HUMANIZE_STORE);
   if (humanize === 'true') $('enable-humanize').checked = true;
+  const review = localStorage.getItem(REVIEW_STORE);
+  if (review === 'false') $('enable-cross-review').checked = false;
+  const storedReviewer = localStorage.getItem(REVIEW_MODEL_STORE);
+  if (storedReviewer) $('reviewer-model').value = storedReviewer;
 }
 
 function persistKey() {
@@ -29,6 +36,8 @@ function persistModel() { localStorage.setItem(MODEL_STORE, $('model').value); }
 function persistAbout() { localStorage.setItem(ABOUT_STORE, $('about-me').value); }
 function persistSearch() { localStorage.setItem(SEARCH_STORE, $('enable-search').checked ? 'true' : 'false'); }
 function persistHumanize() { localStorage.setItem(HUMANIZE_STORE, $('enable-humanize').checked ? 'true' : 'false'); }
+function persistReview() { localStorage.setItem(REVIEW_STORE, $('enable-cross-review').checked ? 'true' : 'false'); }
+function persistReviewModel() { localStorage.setItem(REVIEW_MODEL_STORE, $('reviewer-model').value); }
 
 async function loadAboutFromFile() {
   try {
@@ -134,6 +143,69 @@ async function callClaude(userMessage) {
     .join('\n');
   const searchCount = (data.content || []).filter((b) => b.type === 'server_tool_use' && b.name === 'web_search').length;
   return { text, usage: data.usage, searchCount };
+}
+
+// ---------- Cross-model reviewer ----------
+
+function pickReviewerModel(drafterModel, reviewerSelection) {
+  if (reviewerSelection !== 'auto') return reviewerSelection;
+  // Auto: pick a different model than the drafter. Haiku is too small to be a reliable reviewer.
+  if (drafterModel === 'claude-opus-4-7') return 'claude-sonnet-4-6';
+  if (drafterModel === 'claude-sonnet-4-6') return 'claude-opus-4-7';
+  if (drafterModel.startsWith('claude-haiku')) return 'claude-sonnet-4-6';
+  return 'claude-sonnet-4-6';
+}
+
+async function callClaudeReviewer(originalUserMessage, drafterOutput, reviewerModel, apiKey) {
+  const reviewerUserMessage = `Below are the inputs given to the drafter, then the drafter's full output. Run the gate.
+
+# ORIGINAL INPUTS TO THE DRAFTER
+
+${originalUserMessage}
+
+---
+
+# DRAFTER'S FULL OUTPUT (dossier, connection angles, subject lines, email, rubric, flags)
+
+${drafterOutput}
+
+---
+
+Run the gate. Output the verdict only, in the exact format from the system prompt.`;
+
+  const body = {
+    model: reviewerModel,
+    max_tokens: 2000,
+    system: CROSS_MODEL_SYSTEM_PROMPT,
+    messages: [{ role: 'user', content: reviewerUserMessage }],
+  };
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errBody = await res.text();
+    throw new Error(`Reviewer API ${res.status}: ${errBody.slice(0, 300)}`);
+  }
+  const data = await res.json();
+  const text = (data.content || [])
+    .filter((b) => b.type === 'text')
+    .map((b) => b.text)
+    .join('\n');
+  return { text, usage: data.usage };
+}
+
+function parseVerdict(reviewerText) {
+  const m = reviewerText.match(/##\s*Verdict\s*\n+\s*(PASS|FAIL)/i);
+  return m ? m[1].toUpperCase() : null;
 }
 
 // ---------- Em-dash post-check on the email section ----------
@@ -262,16 +334,38 @@ function renderMarkdown(md) {
   return html;
 }
 
-function renderOutput(text, meta) {
+function renderVerdictBanner(reviewerText, reviewerModel, drafterModel) {
+  const verdict = parseVerdict(reviewerText);
+  const sameModel = reviewerModel === drafterModel;
+  const sameNote = sameModel
+    ? ` <em>Reviewer ran on the same model as the drafter — review may not be independent.</em>`
+    : '';
+  const modelLine = `<div style="font-family:var(--mono);font-size:var(--t-xs);opacity:0.7;margin-top:var(--s-1);">Drafter: <code>${drafterModel}</code> · Reviewer: <code>${reviewerModel}</code>${sameNote}</div>`;
+  const body = renderMarkdown(reviewerText);
+
+  if (verdict === 'PASS') {
+    return `<div class="banner good"><strong>✓ Cross-model gate: PASS</strong> — an independent model accepted the email.${modelLine}<details style="margin-top:var(--s-2);"><summary style="cursor:pointer;">Reviewer details</summary>${body}</details></div>`;
+  }
+  if (verdict === 'FAIL') {
+    return `<div class="banner bad"><strong>✗ Cross-model gate: FAIL</strong> — an independent model blocked the email. Address the blockers below before sending.${modelLine}${body}</div>`;
+  }
+  return `<div class="banner warn"><strong>? Cross-model gate: verdict not parsed</strong> — reviewer output below, judge for yourself.${modelLine}${body}</div>`;
+}
+
+function renderOutput(text, reviewerInfo) {
   const dashCheck = checkEmDashesInEmail(text);
   let warning = '';
   if (dashCheck.found > 0) {
-    warning = `<div class="warning-banner"><strong>⚠️ Em-dash check:</strong> Found ${dashCheck.found} em-dash${dashCheck.found > 1 ? 'es' : ''} or double-hyphen${dashCheck.found > 1 ? 's' : ''} in the email body. The model slipped — replace them with commas, periods, or colons before sending. Em-dashes are the strongest AI tell in 2026.</div>`;
+    warning = `<div class="banner warn"><strong>⚠️ Em-dash check:</strong> Found ${dashCheck.found} em-dash${dashCheck.found > 1 ? 'es' : ''} or double-hyphen${dashCheck.found > 1 ? 's' : ''} in the email body. The model slipped, replace them with commas, periods, or colons before sending. Em-dashes are the strongest AI tell in 2026.</div>`;
   } else {
-    warning = `<div class="success-banner">✓ <strong>Em-dash check:</strong> Email body is clean of em-dashes.</div>`;
+    warning = `<div class="banner good">✓ <strong>Em-dash check:</strong> Email body is clean of em-dashes.</div>`;
   }
-  $('output').innerHTML = warning + renderMarkdown(text);
-  $('raw').textContent = text;
+  let verdictBanner = '';
+  if (reviewerInfo) {
+    verdictBanner = renderVerdictBanner(reviewerInfo.text, reviewerInfo.model, reviewerInfo.drafterModel);
+  }
+  $('output').innerHTML = verdictBanner + warning + renderMarkdown(text);
+  $('raw').textContent = reviewerInfo ? `${text}\n\n---\n\n# REVIEWER (${reviewerInfo.model})\n\n${reviewerInfo.text}` : text;
   $('raw-toggle').style.display = '';
   $('output-hint').style.display = 'none';
 }
@@ -303,13 +397,36 @@ async function run() {
 
   try {
     persistKey(); persistModel(); persistAbout(); persistSearch(); persistHumanize();
+    persistReview(); persistReviewModel();
     const t0 = performance.now();
     const { text, usage, searchCount } = await callClaude(userMessage);
-    const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
-    renderOutput(text);
+    const drafterElapsed = ((performance.now() - t0) / 1000).toFixed(1);
+
+    let reviewerInfo = null;
+    let reviewerStatus = '';
+    if ($('enable-cross-review').checked) {
+      const drafterModel = $('model').value;
+      const reviewerModel = pickReviewerModel(drafterModel, $('reviewer-model').value);
+      setHint(`Drafter done in ${drafterElapsed}s. Running independent gate on ${reviewerModel}…`);
+      setStatus(`Drafter done. Running cross-model gate on ${reviewerModel}…`, 'ok');
+      const t1 = performance.now();
+      try {
+        const apiKey = $('api-key').value.trim();
+        const { text: reviewerText, usage: reviewerUsage } = await callClaudeReviewer(userMessage, text, reviewerModel, apiKey);
+        const reviewerElapsed = ((performance.now() - t1) / 1000).toFixed(1);
+        reviewerInfo = { text: reviewerText, model: reviewerModel, drafterModel };
+        const ru = reviewerUsage || {};
+        reviewerStatus = ` · gate ${reviewerElapsed}s on ${reviewerModel} (${ru.input_tokens || '?'} in / ${ru.output_tokens || '?'} out)`;
+      } catch (reviewerErr) {
+        reviewerStatus = ` · gate failed: ${reviewerErr.message.slice(0, 120)}`;
+      }
+    }
+
+    renderOutput(text, reviewerInfo);
     const u = usage || {};
+    const totalElapsed = ((performance.now() - t0) / 1000).toFixed(1);
     setStatus(
-      `Done in ${elapsed}s · ${u.input_tokens || '?'} in / ${u.output_tokens || '?'} out tokens · ${searchCount} web search${searchCount === 1 ? '' : 'es'}`,
+      `Done in ${totalElapsed}s · drafter ${drafterElapsed}s (${u.input_tokens || '?'} in / ${u.output_tokens || '?'} out · ${searchCount} web search${searchCount === 1 ? '' : 'es'})${reviewerStatus}`,
       'ok'
     );
   } catch (err) {
@@ -333,6 +450,8 @@ function init() {
   $('about-me').addEventListener('change', persistAbout);
   $('enable-search').addEventListener('change', persistSearch);
   $('enable-humanize').addEventListener('change', persistHumanize);
+  $('enable-cross-review').addEventListener('change', persistReview);
+  $('reviewer-model').addEventListener('change', persistReviewModel);
   $('show-raw').addEventListener('click', () => {
     const r = $('raw');
     r.style.display = r.style.display === 'none' ? 'block' : 'none';

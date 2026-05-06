@@ -333,6 +333,7 @@ input::placeholder, textarea::placeholder { color: var(--ink-faint); }
 }
 .banner.warn { background: var(--warn-soft); border: 1px solid var(--warn); color: oklch(35% 0.1 75); }
 .banner.good { background: var(--good-soft); border: 1px solid var(--good); color: oklch(35% 0.1 150); }
+.banner.bad  { background: var(--bad-soft);  border: 1px solid var(--bad);  color: oklch(35% 0.1 28); }
 
 /* ---------- Output ---------- */
 

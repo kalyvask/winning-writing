@@ -72,6 +72,20 @@
         <input type="checkbox" id="enable-humanize">
         <span>Humanize: shorten the email and add one human-typed micro-typo (cuts ~15%, adds contractions, leaves one harmless typo)</span>
       </label>
+      <label class="checkbox-row">
+        <input type="checkbox" id="enable-cross-review" checked>
+        <span><strong>Cross-model gate:</strong> a different model independently reviews the email before send. Binary pass/fail on banned-word, unverified-claim, or "feels templated." Recommended.</span>
+      </label>
+
+      <label class="field">
+        <span class="lbl">Reviewer model</span>
+        <select id="reviewer-model">
+          <option value="auto">Auto — pick a different model than the drafter</option>
+          <option value="claude-sonnet-4-6">Sonnet 4.6</option>
+          <option value="claude-opus-4-7">Opus 4.7</option>
+          <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+        </select>
+      </label>
 
       <button class="btn btn-primary btn-large" id="run">Run the coach</button>
       <div id="status" class="status"></div>
