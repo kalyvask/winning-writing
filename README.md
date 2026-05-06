@@ -13,8 +13,8 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 20 focused Claude skills (`SKILL.md` files). The "how."
-- **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice
+- **`skills/`** — 22 focused Claude skills (`SKILL.md` files). The "how."
+- **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice. Update them incrementally via `voice-commit` (manual merge) or `voice-consolidator` (batch pull from Claude Code's auto-memory) instead of editing by hand.
 - **`ui/`** — two browser pages: an **offline draft critic** for fast feedback, and a **Claude-powered Coach** that runs the full pipeline against the live API
 
 Built because most cold emails, op-eds, and memos read the same — hedged, jargon-heavy, AI-flavored. The principles here are opinionated and the banned-word list is enforced. I drafted with Claude as a sparring partner, then rewrote every line by hand so it doesn't sound like one. If you spot a "delve," a "tapestry," or five short sentences in a row, open an issue — that's the bug this repo exists to prevent.
@@ -104,6 +104,17 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
 | `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
+
+### Maintaining your voice over time
+
+The two skills below grow your `context/` files incrementally, so the toolkit gets smarter about you with each session instead of staying frozen at whatever you wrote on day one. Both always propose a diff first — they never auto-write.
+
+| Skill | When it triggers |
+|-------|------------------|
+| `voice-commit` | Manual one-off merge — when you say "save this to my voice file," "remember this style," "this isn't how I write." Routes style notes to `voice-and-style.md` and identity/career notes to `about-me.md` |
+| `voice-consolidator` | Batch pull from Claude Code's auto-memory — when you say "consolidate my voice" or "what has Claude learned about my style?" Reads `~/.claude/projects/<project>/memory/` and proposes merges with citation |
+
+The pattern is borrowed from chief-of-staff's `/commit` slash command (structured user-triggered logging) and llm-wiki's `UPDATE_PROMPT` (preserve old, merge new, flag contradictions). Auto-learning from every draft is intentionally not supported — it would reinforce AI-tells the model rationalized away. Manual merge with diff approval is the right shape.
 
 Each skill has a `SKILL.md` with frontmatter, a checklist, and pointers back to the relevant `points/` file.
 
