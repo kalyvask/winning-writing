@@ -7,7 +7,7 @@ description: Makes a draft read like a real human typed it — adds asymmetry, l
 
 Source: `points/ai-writing-rules.md` and the centaur-writer thesis. The point of this skill is the inverse of every other skill in this repo — most of them sharpen, this one *de-sharpens* deliberately.
 
-**Operator note (2026-05-06):** This skill was running too hot. Too many typos and missing words landed in finals. The bias has been moved firmly toward "skip" rather than "inject." If in doubt, do nothing.
+**Operator note (2026-05-07):** Dialed back from the original aggressive setting (too many typos and missing words landed in finals), then re-tuned for a middle ground: a few safe roughening moves are still welcome even in short pieces. The bias is "fewer types of typos, but still some texture" — not "skip everything."
 
 ## The premise
 
@@ -27,29 +27,41 @@ Take the draft and:
 2. Convert most "I am / it is / they are / cannot" to contractions, but mix in one full form somewhere for inconsistency
 3. Drop the *subject pronoun* in one casual opener if the draft has one (never drop articles)
 4. Vary one sentence's punctuation in a slightly imperfect way (a period instead of a comma; a sentence fragment)
-5. **Optional, only for pieces over 250 words and only in low-stakes mode:** introduce ONE approved typo. For shorter pieces or any high-stakes piece: skip the typo entirely.
+5. Optionally combine two short adjacent paragraphs into one (or keep an aside on the same line instead of breaking) — humans don't always hit return where AI does
+6. Apply at most ONE safe typo (see below). Pieces under ~150 words: max 1 typo. Pieces over 300 words: still max 2 typos total. Never accumulate.
 
 ### Mode 2 — Roughen only (preserve length)
 Same as above, no length cut.
 
-## Approved typo types (one per piece, max — and only for pieces over 250 words in low-stakes mode)
+## Safe roughening moves (use freely, even in short pieces)
 
-If you introduce a typo, use only one of these two safe types:
+These are not typos — they are rhythm choices that read as a real person rather than a model. Apply 1–2 per piece without worry:
+
+- **Subject-pronoun drop** in a casual opener ("Just landed in SF" instead of "I just landed in SF")
+- **Paragraph compression** — combine two short adjacent paragraphs that AI defaulted to splitting (humans don't always hit return at every clause break)
+- **Mixed contractions** — use "I'm" most places but leave one "I am" somewhere for inconsistency
+- **One sentence-fragment** where a full sentence would also work
+- **Replace one comma with a period** (or vice versa) where both would scan
+
+## Approved typo types (use sparingly — see counts above)
+
+Only these types qualify as safe typos. Pick ONE for short pieces, at most TWO across longer pieces.
 
 - **Doubled small word:** "to to" or "the the" or "and and" (auto-correct miss, classic — readers parse past it)
 - **Missing space inside a contraction or compound:** "i'll" with lowercase i (a phone-thumbs slip)
+- **Missing terminal period** — drop the period on the *very last* sentence of the piece only. Never mid-paragraph. This reads as "sent in a hurry," not as broken parsing.
 
-That's it. The two above are the only approved types.
+That's it. The three above are the only approved typo types.
 
 **NEVER use:**
 - Homophone slips ("your"/"you're," "their"/"there"). High-evaluation readers flag these as illiteracy.
-- Dropped period mid-paragraph. Reads as broken parsing, not humanity.
+- Dropped period **mid-paragraph or mid-piece**. Only the very last period of the whole piece can drop; anywhere else reads as broken parsing.
 - Single-character drop ("thats" for "that's"). Reads as carelessness.
 - Misspelled common words, mangled names, mangled numbers, garbled URLs.
-- Broken capitalization at sentence start.
+- Broken capitalization at sentence start (mid-piece — lowercase opener of an email is a separate stylistic choice and is fine if the user does it consistently).
 - **Dropped articles, negations, subjects, verbs, or any content-bearing word.** Missing words are not informalisms — they are damage. The reader cannot recover the meaning.
 
-The wrong typo is worse than no typo. **When uncertain, skip.**
+The wrong typo is worse than no typo. **When uncertain, skip the typo (but still apply the safe rhythm moves above).**
 
 ## Approved contraction rules
 
@@ -81,10 +93,11 @@ The skill does not run on:
 - **Op-eds and any pitch to a publication.** Editors reject typos.
 - **Gratitude notes.** They should already be in the user's voice.
 - **Six-word summaries** or any deliberately compressed format.
-- **Anything with a fact-checkable public surface** (Substack drafts that name specific people, GitHub READMEs, anything pushed to a public repo).
-- **Any piece under 200 words.** Too short for residue to read as human; reads as carelessness instead.
+- **GitHub READMEs and other fact-checkable public surfaces** that name specific people, products, or numbers.
 
 For all of the above, the skill should output the original draft unchanged and explicitly note: *"Skipped humanize — high-stakes context."*
+
+Substack drafts, Slack messages, peer-to-peer cold emails to startup CEOs, and similar lower-stakes writing are fair game — apply the safe rhythm moves and (optionally) one typo per the counts above. The under-200-words skip rule from the previous version is removed: short pieces can still have one safe typo + rhythm moves.
 
 ## Output format
 
@@ -107,7 +120,8 @@ For all of the above, the skill should output the original draft unchanged and e
 - [ ] Re-read the humanized version word by word
 - [ ] No required words missing (subjects, verbs, articles, negations)
 - [ ] No homophone slips
-- [ ] At most ONE micro-typo across the whole piece
+- [ ] No mid-paragraph dropped periods (only the very last sentence may drop its period)
+- [ ] At most one typo per ~150 words; max two across the whole piece
 - [ ] Reads as "in a hurry," not "drunk" or "sloppy"
 ```
 
