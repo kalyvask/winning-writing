@@ -1,6 +1,6 @@
 # Winning Writing
 
-> A set of Claude Code skills that turn the rules from Stanford GSB's GSBGEN 352 (Glenn Kramon) and Rachel Konrad's cold-outreach lectures into agents you can invoke from your terminal — no UI required.
+> A set of Claude Code skills + an agentic browser pipeline. The rules from Stanford GSB's GSBGEN 352 (Glenn Kramon) and Rachel Konrad's cold-outreach lectures, exposed as 25 composable agents you can invoke from your terminal, your desktop, or a three-field web form.
 
 ## The shortest path
 
@@ -23,9 +23,19 @@ Skills live at `~/.claude/skills/`. Claude auto-triggers them based on what you'
 
 Point Cowork at the repo folder. The skills get picked up automatically. Set Settings → Cowork → Edit Global Instructions to *"Before every task, read everything in my `context/` files."* Same pipeline, no command line.
 
-### 3. The browser UI (optional convenience)
+### 3. The browser UI (now an agentic pipeline of its own)
 
-If you want a pre-built form instead of typing prompts — open `ui/coach.html` in any browser. Same skills, baked into a system prompt. **Nothing the UI does requires it to exist** — every skill it calls is also installable directly into Claude Code. The UI is the ten-minute on-ramp; Claude Code is where the toolkit actually lives.
+`ui/coach.html` ships with a mode selector. Pick how much orchestration you want:
+
+| Mode | Calls | Time | Est. cost | What it does |
+|---|---|---|---|---|
+| **Single-shot + polish** *(default)* | 2–5 | 40–90s | $0.12–0.18 | Opus 4.7 drafts in one call; a Haiku planner reads the email and decides which surgical passes to run (em-dash, adverb, jargon, humanize, warmth-competence); only the relevant passes execute. The planner is the agent — it routes around skills that aren't needed. |
+| **Full agentic** | 7–10 | 60–150s | $0.30–0.80 | Per-step pipeline: researcher (Sonnet + `web_search`) → connection-finder (Sonnet) → drafter (Opus 4.7) → surgical edits (Haiku, parallel) → warmth + competence audit (Sonnet) → rubric scorer (Sonnet). Every step is a separate call with its own prompt and model. Streaming trace shows latency + tokens per step and an "Inspect output" details block for each. |
+| **Single-shot** | 1 | 30–80s | $0.10 | Original behavior. One Opus call with the full megaprompt. Fast and cheap but the routing is invisible. |
+
+The single-shot mode is one call with embedded instructions — it's not really agentic, it just looks like one big prompt to the model. The two new modes route between agents explicitly: single-shot+polish has a planner deciding what to apply, full-agentic has a chain of specialized agents composing into a final output. Both stream to the UI in real time so you can audit each step.
+
+**Claude Code is still the most powerful path** — it auto-routes between all 25 skills based on what you're doing, has tool access for file edits, and skips the browser entirely. The Coach UI exists for people who want a form, plus now an agentic pipeline they can inspect step by step.
 
 ## How it works in one sentence
 
@@ -154,9 +164,9 @@ context/
 
 In Claude Code, add to your project `CLAUDE.md`: *"Before every task, read everything in my `context/` files."* In Cowork, set the same string in Settings → Cowork → Edit Global Instructions. From then on every session starts with Claude knowing your voice.
 
-## The UI (optional)
+## The UI (optional, now agentic)
 
-Two browser pages. Useful if you don't live in Claude Code. **Not required for any flow above** — every skill the UI invokes is also installable directly into Claude Code or Cowork. The UI is a form-shaped on-ramp, not the destination.
+Two browser pages. Useful if you don't live in Claude Code. **Not required for any flow above** — every skill the UI invokes is also installable directly into Claude Code or Cowork. The Coach page (`ui/coach.html`) now runs a real agentic pipeline with per-step model choice and a streaming trace; see *Three ways to use this* above for the mode breakdown.
 
 ### Page 1 — `ui/index.html` — Draft Critic (offline)
 
@@ -174,7 +184,7 @@ What it does:
 
 Use it for fast iterative feedback while you write.
 
-### Page 2 — `ui/coach.html` — LLM-powered Coach
+### Page 2 — `ui/coach.html` — LLM-powered Coach with three modes
 
 This is the one that runs Claude end-to-end from the browser. (Identical capability is available natively in Claude Code — see *Three ways to use this* above.)
 
@@ -183,16 +193,17 @@ This is the one that runs Claude end-to-end from the browser. (Identical capabil
 2. About you — auto-loaded from `context/about-me.md` or pasted inline
 3. The ask — what you want, why now, what you can offer
 4. (Optional) Existing draft — Coach critiques line-by-line, then rewrites
+5. **Mode** — single-shot + polish (default), full agentic, or single-shot
 
-**Claude does:**
-1. **Synthesizes a dossier** from what you provided (`recipient-research` skill)
-2. **Finds connection angles** — cross-references the recipient against your about-me across 8 categories, ranked by leverage (`connection-finder` skill)
-3. **Suggests three subject-line candidates** — personal, timely, unusual (`fun-angle` + `cold-email-coach`)
-4. **Drafts the email** — under 200 words, all 10 Konrad rules applied
-5. **Scores it** — 12-dimension rubric, total /120
-6. **Flags risks** — unverified claims, jargon hits, things to do before sending
+**What runs depends on the mode:**
 
-The system prompt embeds the relevant skills directly — see [`ui/coach-prompt.js`](ui/coach-prompt.js). Claude calls happen browser-direct to `api.anthropic.com`. **Your API key sits in localStorage on your machine and is never sent anywhere else.**
+In **single-shot + polish**, Opus 4.7 drafts the full output (dossier → connections → subject lines → email → rubric) in one call. Then a Haiku planner reads the email and decides which surgical passes to apply (`em-dash-killer`, `adverb-killer`, `jargon-killer`, `humanize`, `warmth-and-competence`). Only the relevant ones run. Skipped passes show as "skipped" in the trace — that's the planner doing its job.
+
+In **full agentic**, the pipeline is decomposed into eight specialized steps, each with its own system prompt and its own model. The researcher uses Sonnet + `web_search` to build a dossier with citations. The connection-finder cross-references it against your about-me. The drafter (Opus 4.7) composes the email from those upstream outputs. Surgical passes run in parallel (Haiku each). Warmth-and-competence audit and rubric scorer run on Sonnet. Each step renders as a card in the pipeline trace the moment it starts, turns green when done with latency + token counts, and offers an "Inspect output" details block.
+
+In **single-shot**, one Opus call with the existing 290-line megaprompt — preserved for cost and speed.
+
+The pipeline implementation lives in [`ui/agents.js`](ui/agents.js); per-step prompts are co-located with the runners. Claude calls happen browser-direct to `api.anthropic.com`. **Your API key sits in localStorage on your machine and is never sent anywhere else.**
 
 #### Setup
 
