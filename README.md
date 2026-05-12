@@ -1,10 +1,35 @@
 # Winning Writing
 
-> An LLM-powered writing coach. Tell it who you're emailing and who you are; Claude runs the full *Winning Writing* pipeline — research, connection, draft, rubric — using the rules from Stanford GSB's GSBGEN 352 (Glenn Kramon) and Rachel Konrad's cold-outreach lectures.
+> A set of Claude Code skills that turn the rules from Stanford GSB's GSBGEN 352 (Glenn Kramon) and Rachel Konrad's cold-outreach lectures into agents you can invoke from your terminal — no UI required.
+
+## The shortest path
+
+```bash
+git clone https://github.com/kalyvask/winning-writing
+cp -r winning-writing/skills/* ~/.claude/skills/
+```
+
+Open Claude Code (or Cowork), drop a draft into the chat, and say *"critique this cold email"* — Claude auto-triggers `cold-email-coach`, runs the rubric, calls in `recipient-research`, `connection-finder`, `tell-them-something-new`, `em-dash-killer`, `humanize`, and whichever else applies. The skills compose. No UI to open, nothing to paste between windows.
+
+## Three ways to use this
+
+The same skills power all three. Pick whichever fits where you already work.
+
+### 1. Claude Code (recommended — fastest, most powerful)
+
+Skills live at `~/.claude/skills/`. Claude auto-triggers them based on what you're doing. You can chain them by name (*"now run `humanize` on the result"*), inspect each `SKILL.md` to see exactly what it does, and edit any one of them to your taste. Web search, file editing, and multi-step orchestration all happen in-process — there's nothing the UI does that Claude Code doesn't do better.
+
+### 2. Cowork (desktop, no terminal)
+
+Point Cowork at the repo folder. The skills get picked up automatically. Set Settings → Cowork → Edit Global Instructions to *"Before every task, read everything in my `context/` files."* Same pipeline, no command line.
+
+### 3. The browser UI (optional convenience)
+
+If you want a pre-built form instead of typing prompts — open `ui/coach.html` in any browser. Same skills, baked into a system prompt. **Nothing the UI does requires it to exist** — every skill it calls is also installable directly into Claude Code. The UI is the ten-minute on-ramp; Claude Code is where the toolkit actually lives.
 
 ## How it works in one sentence
 
-You feed in a recipient + an "about you" + an ask. **Claude reads all the skills and principles in this repo as its system prompt**, runs through them in order, and returns a complete cold-outreach package: dossier synthesis → connection angles → subject lines → drafted email → 12-dimension rubric score → flags to verify before sending.
+Claude reads the skills and principles in this repo as its operating system, runs through them in order on whatever draft or pitch you bring, and returns a complete cold-outreach package: dossier synthesis → connection angles → subject lines → drafted email → 12-dimension rubric score → flags to verify before sending.
 
 The rules are not in the model's training — they're loaded from `skills/` and `points/` at runtime. That's the whole point: Glenn Kramon's class is opinionated, the banned-word list is enforced, and the LLM follows *those* rules, not its own median instincts.
 
@@ -13,31 +38,29 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 22 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 25 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice. Update them incrementally via `voice-commit` (manual merge) or `voice-consolidator` (batch pull from Claude Code's auto-memory) instead of editing by hand.
-- **`ui/`** — two browser pages: an **offline draft critic** for fast feedback, and a **Claude-powered Coach** that runs the full pipeline against the live API
+- **`ui/`** — optional browser pages: an offline draft critic, and a Claude-powered Coach. Not needed if you're already in Claude Code.
 
 Built because most cold emails, op-eds, and memos read the same — hedged, jargon-heavy, AI-flavored. The principles here are opinionated and the banned-word list is enforced. I drafted with Claude as a sparring partner, then rewrote every line by hand so it doesn't sound like one. If you spot a "delve," a "tapestry," or five short sentences in a row, open an issue — that's the bug this repo exists to prevent.
 
 ## Personalize this for your own use
 
-If you forked or cloned this repo, do these seven steps in order before running anything. The whole point of the toolkit is that Claude critiques *your* writing against *your* voice — until you fill in the context files, every output is generic.
+If you forked or cloned this repo, do these six steps in order before running anything. The whole point of the toolkit is that Claude critiques *your* writing against *your* voice — until you fill in the context files, every output is generic.
 
-1. **Edit `context/about-me.md`.** Open the file and replace every bracketed placeholder with the real thing. Look for: `[Your name]`, `[role / title]`, `[the thing you're working on right now]`, `[N years]` of prior experience, `[the through-line that makes your career make sense]`, your **Primary focus** / **Secondary** / **Public output** bullets, the "How I think" paragraph, the five "What you (Claude) should know" bullets (speed, AI workflow, editorial preference, what you read, how you want pushback), and your contact line at the bottom. Be specific — named companies, real numbers, actual side projects. Generic in, generic out.
+1. **Install the skills.** `cp -r skills/* ~/.claude/skills/` on macOS/Linux; copy `skills\*` into `%USERPROFILE%\.claude\skills\` on Windows. Each skill is a self-contained `SKILL.md` — Claude Code loads them on next session start. (Skip this step if you're using Cowork — point Cowork at the repo folder and it picks them up.)
 
-2. **Edit `context/voice-and-style.md`.** Keep the structure (Posture, Sentence structure, Words I like, Banned words, AI tells, Format preferences, Length targets) — those are the rules. Replace the four **Sample paragraph** blocks (`Sample 1` analytical-with-a-number, `Sample 2` narrative-with-a-scene, `Sample 3` pitching-yourself, `Sample 4` closing-line-of-a-memo) with three or four paragraphs of your own writing you'd be happy to be cloned from. Leave the "What's working" notes — they teach Claude *why* a paragraph lands. Add or remove banned words to match your taste.
+2. **Edit `context/about-me.md`.** Open the file and replace every bracketed placeholder with the real thing. Look for: `[Your name]`, `[role / title]`, `[the thing you're working on right now]`, `[N years]` of prior experience, `[the through-line that makes your career make sense]`, your **Primary focus** / **Secondary** / **Public output** bullets, the "How I think" paragraph, the five "What you (Claude) should know" bullets, and your contact line. Be specific — named companies, real numbers, actual side projects. Generic in, generic out.
 
-3. **Drop drafts into a gitignored folder.** Create `drafts/` (or `outputs/`) at the repo root and put any work-in-progress there. Both folders are already in `.gitignore`, as are any files matching `*.draft.md` or `*.private.md`. Nothing in those paths will ever be committed.
+3. **Edit `context/voice-and-style.md`.** Keep the structure (Posture, Sentence structure, Words I like, Banned words, AI tells, Format preferences, Length targets) — those are the rules. Replace the four **Sample paragraph** blocks with three or four paragraphs of your own writing you'd be happy to be cloned from. Leave the "What's working" notes — they teach Claude *why* a paragraph lands. Add or remove banned words to match your taste.
 
-4. **Install the Claude skills.** Copy the `skills/` directory into `~/.claude/skills/` (or your Cowork plugins folder) so Claude auto-triggers the right skill when you draft. On macOS/Linux: `cp -r skills/* ~/.claude/skills/`. On Windows: copy `skills\*` into `%USERPROFILE%\.claude\skills\`. Each skill is a self-contained `SKILL.md` with frontmatter — Claude Code loads them on next session start.
+4. **Tell Claude to read your context on every task.** In Claude Code, add this to your project `CLAUDE.md`: *"Before every task, read everything in my `context/` files."* In Cowork, set the same line in Settings → Cowork → Edit Global Instructions. From now on every session starts with Claude knowing your voice.
 
-5. **Tell Claude to read your context on every task.** In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my `context/` files."* In Claude Code, add the same line to your project `CLAUDE.md`. From now on every session starts with Claude knowing your voice.
+5. **Drop drafts into a gitignored folder.** Create `drafts/` (or `outputs/`) at the repo root and put any work-in-progress there. Both folders are already in `.gitignore`, as are any files matching `*.draft.md` or `*.private.md`. Nothing in those paths will ever be committed.
 
-6. **Set your Anthropic API key for the Coach UI.** The `ui/coach.html` page calls `api.anthropic.com` directly. Get a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys) and paste it into the API field on first load (it persists in browser localStorage on your machine only). For local dev, drop the key into a gitignored file at `ui/.local-key.js` as `export const LOCAL_API_KEY = 'sk-ant-...';` — Coach auto-loads it. The repo ships with no keys. The offline `ui/index.html` Draft Critic needs no key.
+6. **(Optional) Set your Anthropic API key for the Coach UI.** Skip this step entirely if you're using Claude Code or Cowork — the UI exists for people who want a form, not a terminal. If you do want the UI: the `ui/coach.html` page calls `api.anthropic.com` directly. Get a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys), paste it into the API field on first load (persists in localStorage on your machine only), or drop it into a gitignored `ui/.local-key.js` file. The repo ships with no keys.
 
-7. **Confirm what stays local.** Once you've edited them, `context/about-me.md` and `context/voice-and-style.md` contain personal information — if your fork is public, decide whether to commit your filled-in versions or add them to `.gitignore` first. Already gitignored: `drafts/`, `outputs/`, `*.draft.md`, `*.private.md`, `ui/.local-key.js`, all `.env*` files. The `points/` and `skills/` files are course material — leave them alone unless you want to fork the rules themselves.
-
-Done. Now open `ui/index.html` for offline critique or `ui/coach.html` for the live Claude pipeline.
+Done. Open Claude Code and try *"draft me a cold email to [person] asking for [thing]"* — Claude will run the full pipeline.
 
 ## What's in here
 
@@ -45,7 +68,7 @@ Done. Now open `ui/index.html` for offline critique or `ui/coach.html` for the l
 context/   Two priming files (about-me.md, voice-and-style.md) — point Claude at these once
 points/    Distilled rules and frameworks (the "what")
 skills/    Claude skills you can invoke from Claude Code or Cowork (the "how")
-ui/        Browser-based draft critique tool — no install required
+ui/        Optional browser entry point — not required for any flow
 ```
 
 ## The points
@@ -66,7 +89,7 @@ Nine reference docs, each focused on one slice of the course:
 
 ## The skills
 
-Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) and Claude will auto-trigger the right skill for the task.
+Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) and Claude auto-triggers the right skill for the task. **All flows below run from Claude Code or Cowork — the UI is one entry point, not a requirement.**
 
 ### Drafting and critique
 
@@ -78,7 +101,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `pitch-memo` | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | `gratitude-note-coach` | Thank-you notes, recommendation letters, recognition messages |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
-| `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Names the specific failure mode from a 14-mode catalog (strategy / personalization / posture) and predicts the recipient's most likely counter-question |
+| `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Names the specific failure mode from a 14-mode catalog and predicts the recipient's most likely counter-question |
 
 ### Cold-outreach pipeline (run in order)
 
@@ -100,8 +123,9 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `em-dash-killer` | Removing em-dashes — the #1 AI tell in 2026 |
 | `adverb-killer` | Cutting empty -ly adverbs and intensifiers (very, really, actually, basically, clearly, obviously) |
 | `be-specific` | Replacing generic category nouns with concrete ones — "dog" → German shepherd, "engineer" → John on the payments team |
+| `show-dont-tell` | Turning abstract narrative summaries into vivid scenes — "I was angry" → body signal, room, dialogue, moment. The "could a director recreate this?" test. |
 | `headline-as-claim` | Rewriting slide titles, section headings, and subject lines from category labels into bold arguable claims |
-| `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
+| `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, the occasional safe typo. Skips automatically on high-stakes pieces. |
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
 | `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
 
@@ -128,9 +152,11 @@ context/
 └── voice-and-style.md   how you write — tone, banned phrases, sample paragraphs
 ```
 
-In Cowork, set Settings → Cowork → Edit Global Instructions to: *"Before every task, read everything in my context files."* From then on every session starts with Claude knowing your voice.
+In Claude Code, add to your project `CLAUDE.md`: *"Before every task, read everything in my `context/` files."* In Cowork, set the same string in Settings → Cowork → Edit Global Instructions. From then on every session starts with Claude knowing your voice.
 
-## The UI — two pages
+## The UI (optional)
+
+Two browser pages. Useful if you don't live in Claude Code. **Not required for any flow above** — every skill the UI invokes is also installable directly into Claude Code or Cowork. The UI is a form-shaped on-ramp, not the destination.
 
 ### Page 1 — `ui/index.html` — Draft Critic (offline)
 
@@ -150,7 +176,7 @@ Use it for fast iterative feedback while you write.
 
 ### Page 2 — `ui/coach.html` — LLM-powered Coach
 
-This is the one that runs Claude end-to-end.
+This is the one that runs Claude end-to-end from the browser. (Identical capability is available natively in Claude Code — see *Three ways to use this* above.)
 
 **You fill in:**
 1. Recipient — name, role, links, anything you've read about them
@@ -198,6 +224,7 @@ Designed to deploy as-is to GitHub Pages (the offline page).
 - Danny Hertzberg (Base10, ex-Sequoia) on cold outreach
 - Josh Constine's *Fundraising & Pitch Deck Guide* (15-question memo, forwardable blurb, slide-titles-as-claims)
 - Susan Fiske (Princeton) on warmth + competence
+- Lauren Weinstein on cinematic narrative ("could a director recreate this scene?")
 - Stephen King's *On Writing* on adverbs
 
 ## License
