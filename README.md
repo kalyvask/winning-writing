@@ -1,6 +1,6 @@
 # Winning Writing
 
-> 28 Claude skills for cold outreach, op-eds, pitches, press inquiries, and bios. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352), Rachel Konrad's cold-outreach lectures, and Andrew Ross Sorkin's reporter playbook. Run them from Claude Code, from Cowork, or from a three-mode browser Coach that streams every step.
+> 30 Claude skills for cold outreach, op-eds, pitches, press inquiries, and bios. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352), Rachel Konrad's cold-outreach lectures, and Andrew Ross Sorkin's reporter playbook. Run them from Claude Code, from Cowork, or from a three-mode browser Coach that streams every step.
 
 ## The shortest path
 
@@ -48,7 +48,7 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 28 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 30 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice. Update them incrementally via `voice-commit` (manual merge) or `voice-consolidator` (batch pull from Claude Code's auto-memory) instead of editing by hand.
 - **`ui/`** — optional browser pages: an offline draft critic, and a Claude-powered Coach. Not needed if you're already in Claude Code.
 
@@ -141,6 +141,8 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
 | `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
 | `pick-a-lane` | Diagnosing drafts that tell three half-stories instead of one full one. Cuts whole stories, not just words. |
+| `irrelevant-detail-killer` | Cuts cinematic details that are vivid but don't serve the main point. The third-pass refinement after pick-a-lane and show-don't-tell. |
+| `kill-redundancy` | Cuts phrases where one half implies the other ("going forward," "as I mentioned," "reduce so they are smaller"). Distinct from jargon-killer, adverb-killer, and concision-drill. |
 
 ### Maintaining your voice over time
 

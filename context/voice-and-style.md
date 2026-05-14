@@ -55,6 +55,9 @@ Teaches Claude how I write. The single highest-leverage AI context file — it's
 - `building and scaling`
 - `driving innovation`
 - `I'm left brain and right brain`
+- `my mission is to [verb]` — use `I [verb]` instead. Active verb beats stative mission claim. *"I improve life for ordinary people,"* not *"my mission is to make life better for ordinary people."*
+- `going forward` / `moving forward` — almost always redundant when the verb is already future-tense.
+- `Stanford Graduate School of Business` — pretentious to non-Stanford audiences. Say *"Stanford Business School"* or just *"Stanford."*
 
 ### Banned email phrases
 
@@ -135,3 +138,5 @@ What's working: small ask first, big ask second. "Then you decide" — confident
 5. **Push back if something's wrong.** I want the honest version, not the polite one.
 6. **When in doubt, cut.** I'd rather see a tight 300 words than a thorough 700.
 7. **For verb-substitution and grammar exercises, default to the smallest possible edit.** Preserve modals ("should," "can"), softeners ("want to," "hope to"), and the original subject. The architectural rewrite is a separate offer, not the default. The Konrad aggressive-reframe register is correct for cold emails and op-eds; it is wrong for in-class drills where the assignment is to swap one verb. Lead with the surgical version; offer the architectural one second if asked.
+8. **For cost / number disclosures under uncertainty, use "at least $N" not "around $N."** *"At least $100 million"* floors the figure and protects against worse news landing later. *"Around $100M"* signals you don't know and gives the reader nothing solid to anchor on.
+9. **For confirmation of a story / report / leak, lead with "Yes."** *"Yes, the report is accurate"* or *"Yes, we can confirm"* — Sorkin's rule. Builds trust instantly. Then add the necessary context. Beats hedging or pivoting.

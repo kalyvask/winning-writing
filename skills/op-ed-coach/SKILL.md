@@ -7,6 +7,18 @@ description: Drafts and critiques op-eds, opinion pieces, and LinkedIn long-form
 
 Source: `points/frameworks.md` (op-ed structure section), `points/kramon-master.md` section VII, `points/examples-and-critiques.md`.
 
+## The three-element rule (Kramon's tightest framing)
+
+Every op-ed has three elements, in this order:
+
+1. **Story.** A specific scene with one character. Date, place, sensory detail. Open here.
+2. **Statistics.** A few — not many. Two or three numbers that prove the story isn't isolated.
+3. **Solution.** What to do about it. Don't be a Debbie Downer.
+
+If a draft is missing any of the three, fix the missing element before any other pass. The most common gap: drafts heavy on story and statistics, weak or absent on solution.
+
+The five questions below produce the three elements; the three elements are what reaches the reader. Use both: questions to plan, elements to structure.
+
 ## The five questions to answer before writing
 
 If the user can't answer all five in one sentence each, **do not start the draft**. Push back and ask.

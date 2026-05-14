@@ -99,6 +99,32 @@ Open with what you wanted at age 12, then show what you did about it. Works when
 ### Pattern F — Sensory open
 Open with a specific, slightly absurd image from your earliest memory of the field you ended up in. Works when the field has visceral specifics (medicine, food, sport, mechanical work) and your relationship to it is older than the resume can show.
 
+## The "mission" verb rule
+
+The most over-used construction in bios is *"My mission is to X"* — *"my mission is to make life better for ordinary people,"* *"my mission is to democratize access to capital,"* *"my mission is to build the future of [industry]."*
+
+Rachel Konrad and Heidi Roizen hate this phrasing. Adam Bryant cuts it. Glenn Kramon calls *"mission-driven"* a cliche because *every* organization claims to be mission-driven, which means none of them are credible when they say it.
+
+The fix is one move: replace the stative *"my mission is to X"* with the active *"I X."*
+
+| ❌ Stative claim | ✅ Active verb |
+|---|---|
+| My mission is to make life better for ordinary people. | I improve life for ordinary people. |
+| My mission is to democratize access to capital. | I open access to capital for people the system locks out. |
+| My mission is to build the future of healthcare. | I'm building the future of healthcare. |
+| I care about creating fairer markets. | I create fairer markets. |
+| I want to help founders succeed. | I help founders ship. |
+
+The pattern: *"my mission is to [verb]"* → *"I [verb]."* *"I care about [noun]ing X"* → *"I [verb] X."* *"I want to help X"* → *"I help X."*
+
+What changes when you make the swap:
+
+- **Competence signal goes up.** Active verbs read as someone who *does the thing*. Stative claims read as someone who *thinks about doing the thing.*
+- **Word count goes down.** *"My mission is to make life better"* is 7 words. *"I improve life"* is 3.
+- **Reader inference shifts.** *"My mission is X"* asks the reader to take your word that you're working on X. *"I X"* asks the reader to look at evidence — which usually follows in the next sentence (and should).
+
+Cut every *"mission"* in the bio unless it's literally a religious or military mission. If the bio loses force when you do, the original sentence was decorative.
+
 ## What kills a yourself-story
 
 - **Buzzword soup.** *"I'm passionate about complex problems and at the intersection of strategy, product, and execution."* Wall-of-shame stuff. Cut.

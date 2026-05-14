@@ -82,6 +82,33 @@ Dedicated workspaces with their own context: *"Networking outreach,"* *"Case wri
 ### 6. Connect tools (advanced)
 Cowork plugs into Google Drive, Gmail, Calendar, and more. This is where it goes from *"Claude can edit my files"* to *"Claude can pull context from my calendar, draft a prep doc, and save it to the right folder."*
 
+## Prompts that work (student-tested in the Kramon class)
+
+Four prompts that real students reported working well, from the May 14 2026 session. Each one is a copy-pasteable centaur recipe.
+
+### 1. The "eliminate irrelevant detail" prompt
+*"Here is the brain-dump version of my story, ~600 words. Tell me all the places where I'm giving irrelevant detail. Then turn it into something around 200 words. Preserve the voice — keep my actual phrasings and rhythms where they work."*
+
+Why it works: forces the model into editor mode rather than author mode. Identifies what the writer already knows is excessive but can't see while close to the draft.
+
+### 2. The "research how others handled this" prompt
+*"Before I draft my response, research how CEOs have responded publicly to similar [crisis / breach / accusation / question]. Find 3-5 real examples. For each, name what they said, what worked, and what backfired. Then tell me what to avoid."*
+
+Why it works: turns the model into a comparable-case scout. The model is good at this because it has read the cases. The writer is bad at this because the cases are scattered. Combine the two.
+
+### 3. The "draw on my voice from these samples" prompt
+*"Here are 2-3 paragraphs I've written that I'm happy with. Pull out the specific tone — sentence structures I use, phrasings I repeat, words I'd never use. Then rewrite the draft below in that voice, not your default voice."*
+
+Why it works: most generic AI output is generic because the model defaults to its median. Anchoring on real samples shifts the default. Works best when the samples are *recent and representative* — not your old college essays.
+
+### 4. The "transcribe, don't summarize" prompt
+*"Here is the audio file from my interview / meeting. Transcribe it verbatim with speaker labels and timestamps. Do not summarize. I will search the transcript myself."*
+
+Why it works: AI's summarization is fine for getting the gist; AI's verbatim transcription is excellent and searchable. For investigative reporting, founder interviews, or any case where the exact wording matters, transcribe and search rather than summarize.
+
+### The shape of all four
+Each prompt has the same structure: **specific input + specific task + specific constraint.** Vague prompts (*"help me improve this"*) get vague outputs. Concrete prompts get concrete outputs.
+
 ## When NOT to use AI
 
 - **Gratitude notes.** Must be authentic. Handwritten beats typed.

@@ -53,6 +53,8 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
 | [pick-a-lane](pick-a-lane/SKILL.md) | Diagnosing drafts that tell three half-stories instead of one full one — different from concision-drill, this cuts whole stories, not just words |
+| [irrelevant-detail-killer](irrelevant-detail-killer/SKILL.md) | Cuts cinematic details that are vivid but don't serve the main point — different from concision-drill (cuts words) and pick-a-lane (cuts stories); this cuts within a story |
+| [kill-redundancy](kill-redundancy/SKILL.md) | Cuts phrases where one half implies the other — "going forward," "as I mentioned," "reduce so they are smaller" |
 
 ## How they fit together
 

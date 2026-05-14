@@ -285,6 +285,31 @@ export const PRINCIPLES = [
     ],
   },
   {
+    category: 'Eliminate irrelevant detail',
+    source: 'Kramon class — May 14 2026 session',
+    items: [
+      'In narrative writing, cut cinematic details that don\'t serve the main point. Different from cutting words (concision-drill) and different from cutting stories (pick-a-lane). This cuts within a story.',
+      'The two questions for every detail: (1) Does it serve the main point? (2) If I cut it, what is lost — texture, or argument?',
+      'Categories that usually don\'t earn their place: atmospheric color of an unrelated environment, weather/season when not load-bearing, secondary characters who don\'t reappear, architecture beyond what the scene needs, backstory of bit players, cultural texture lists (foods, music, holidays).',
+      'What to keep: one sensory detail that proves the writer was there; details that pay off later (Chekhov\'s gun); the detail that lands the emotional weight; a number/name/date that anchors the scene.',
+      'Test: if the reader skipped the paragraph entirely, what would they miss? If the answer is "texture," the paragraph was already cuttable. If the answer is "the argument advanced here," it earns its place.',
+      'Most paragraphs lose 30-50% of their word count in this pass without losing their point.',
+    ],
+  },
+  {
+    category: 'Kill redundancy',
+    source: 'Kramon class — May 14 2026 session',
+    items: [
+      'Cut phrases where one half implies the other. Different from cutting jargon, adverbs, or filler — this catches legible English that adds nothing because the verb or context already implies it.',
+      'Direction tags after future-tense verbs: "going forward," "moving forward," "in the future" all redundant with "will."',
+      'Self-referential meta-commentary: "I am currently writing this email to you" (the reader is reading it); "as I mentioned" (just say it again, no need to flag); "in this piece I will argue that X" (just argue it).',
+      'Verb-implied results: "Reduce the size of teams so they are smaller" (the verb already says smaller); "Increase headcount so we have more people."',
+      'Tautological qualifiers: "free gift," "new innovation," "past history," "future plans," "end result," "personal opinion," "9am in the morning."',
+      'Doubled qualification: "definitely commit," "absolutely critical," "completely unique," "totally finished" — if the verb or noun is absolute, the intensifier is redundant.',
+      'Run order on a wordy draft: jargon-killer → adverb-killer → kill-redundancy → concision-drill.',
+    ],
+  },
+  {
     category: 'Pick a lane',
     source: 'Konrad rule 7 + Bryant + a class-taught before/after pattern',
     items: [
