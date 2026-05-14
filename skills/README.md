@@ -1,6 +1,6 @@
 # Skills
 
-Eight Claude skills for *Winning Writing*. Each is a focused tool — invoked when you're working on that specific kind of writing.
+Claude skills for *Winning Writing*. Each is a focused tool — invoked when you're working on that specific kind of writing.
 
 ## Install
 
@@ -16,7 +16,7 @@ cp -r skills/* ~/.claude/skills/
 
 Each skill has frontmatter that tells Claude when to auto-invoke it.
 
-## The eleven skills
+## The skills
 
 ### Drafting and critique
 | Skill | Triggers when |
@@ -26,6 +26,8 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [pitch-coach](pitch-coach/SKILL.md) | VC pitch, internal pitch, six-word product summary, mission statement |
 | [pitch-memo](pitch-memo/SKILL.md) | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | [gratitude-note-coach](gratitude-note-coach/SKILL.md) | Thank-you notes, recommendation letters, recognition |
+| [dealing-with-reporters](dealing-with-reporters/SKILL.md) | Drafting answers to reporter questions, on-the-record statements, crisis comms — Sorkin's 11 rules + AP attribution, with the Sorkin/Tylenol-Kramon school tension named explicitly |
+| [yourself-story](yourself-story/SKILL.md) | Bios, LinkedIn About sections, intro slides, "tell me about yourself" — Bryant + Weinstein + the six Kramon model bios |
 | [winning-writing-critic](winning-writing-critic/SKILL.md) | Grading any draft against the full rubric and rewriting |
 
 ### Cold-outreach pipeline (run in order before drafting)
@@ -50,6 +52,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [headline-as-claim](headline-as-claim/SKILL.md) | Rewriting section titles, slide titles, and subject lines from category labels ("Product," "Market") into bold arguable claims |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
+| [pick-a-lane](pick-a-lane/SKILL.md) | Diagnosing drafts that tell three half-stories instead of one full one — different from concision-drill, this cuts whole stories not just words. The Scrimshaw card-counter before/after is the canonical example |
 
 ## How they fit together
 

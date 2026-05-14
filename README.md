@@ -1,6 +1,6 @@
 # Winning Writing
 
-> 25 Claude skills for cold outreach, op-eds, and pitches. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352) and Rachel Konrad's cold-outreach lectures. Run them from Claude Code, from Cowork, or from a three-mode browser Coach that streams every step.
+> 28 Claude skills for cold outreach, op-eds, pitches, press inquiries, and bios. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352), Rachel Konrad's cold-outreach lectures, and Andrew Ross Sorkin's reporter playbook. Run them from Claude Code, from Cowork, or from a three-mode browser Coach that streams every step.
 
 ## The shortest path
 
@@ -48,7 +48,7 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Four pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 25 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 28 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice. Update them incrementally via `voice-commit` (manual merge) or `voice-consolidator` (batch pull from Claude Code's auto-memory) instead of editing by hand.
 - **`ui/`** — optional browser pages: an offline draft critic, and a Claude-powered Coach. Not needed if you're already in Claude Code.
 
@@ -110,6 +110,8 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `pitch-coach` | VC pitch, internal pitch, six-word product summary, mission statement |
 | `pitch-memo` | Text-first investor memo for pre-seed and seed founders — Constine's 15 questions |
 | `gratitude-note-coach` | Thank-you notes, recommendation letters, recognition messages |
+| `dealing-with-reporters` | Crisis comms + press inquiries — Sorkin's 11 rules + AP attribution. Names the Sorkin (litigation-first) vs. Tylenol/Kramon (trust-first) school tension explicitly. |
+| `yourself-story` | Bios, LinkedIn About, intro slides, "tell me about yourself" — Bryant + Weinstein + the six Kramon model bios |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
 | `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Names the specific failure mode from a 14-mode catalog and predicts the recipient's most likely counter-question |
 
@@ -138,6 +140,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, the occasional safe typo. Skips automatically on high-stakes pieces. |
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
 | `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
+| `pick-a-lane` | Diagnosing drafts that tell three half-stories instead of one full one. Cuts whole stories, not just words. The Scrimshaw card-counter before/after is the canonical example. |
 
 ### Maintaining your voice over time
 
@@ -229,14 +232,17 @@ Designed to deploy as-is to GitHub Pages (the offline page).
 - Glenn Kramon's *Winning Writing* (GSBGEN 352.1), Stanford GSB
 - Rachel Konrad's guest lectures on cold outreach
 - Heidi Roizen's mailing rules
-- Adam Bryant on writing about yourself ("desirable confidence")
+- Adam Bryant on writing about yourself ("desirable confidence") and the *Corner Office* interviews with 500+ CEOs
 - Nicholas Kristof's columns and op-ed advice
 - Katie Kingsbury (NYT Opinion) on what gets published
 - Danny Hertzberg (Base10, ex-Sequoia) on cold outreach
 - Josh Constine's *Fundraising & Pitch Deck Guide* (15-question memo, forwardable blurb, slide-titles-as-claims)
+- Andrew Ross Sorkin (NYT *DealBook*) on dealing with reporters and crisis comms
+- Associated Press attribution definitions (on the record / background / deep background)
 - Susan Fiske (Princeton) on warmth + competence
-- Lauren Weinstein on cinematic narrative ("could a director recreate this scene?")
+- Lauren Weinstein on the two-axis frame and cinematic narrative ("could a director recreate this scene?")
 - Stephen King's *On Writing* on adverbs
+- Gabrielle Scrimshaw and the other Kramon class model bios (Legendy, McPhillips, Houston, Hanno, Gupta)
 
 ## License
 
