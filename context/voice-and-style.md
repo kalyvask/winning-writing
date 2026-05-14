@@ -114,6 +114,7 @@ What's working: small ask first, big ask second. "Then you decide" — confident
 - **Code blocks for anything I'm pasting** — even short snippets. They're scannable.
 - **Block quotes for examples or quoted dialogue.**
 - **Bold sparingly.** One or two phrases per section, max — bolding everything bolds nothing.
+- **British spelling for stand-alone written work** unless the publication is American. *"Apologise," "organise," "colour," "favour."* For US publications (NYT, *The Information*, *WSJ Opinion*) flip to US spelling. When in doubt, ask which audience.
 
 ## Length targets
 
@@ -133,3 +134,4 @@ What's working: small ask first, big ask second. "Then you decide" — confident
 4. **Use specifics from the about-me file.** Numbers, dates, names, real projects.
 5. **Push back if something's wrong.** I want the honest version, not the polite one.
 6. **When in doubt, cut.** I'd rather see a tight 300 words than a thorough 700.
+7. **For verb-substitution and grammar exercises, default to the smallest possible edit.** Preserve modals ("should," "can"), softeners ("want to," "hope to"), and the original subject. The architectural rewrite is a separate offer, not the default. The Konrad aggressive-reframe register is correct for cold emails and op-eds; it is wrong for in-class drills where the assignment is to swap one verb. Lead with the surgical version; offer the architectural one second if asked.
