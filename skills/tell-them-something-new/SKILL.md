@@ -79,7 +79,7 @@ Konrad's rule 6, applied to the opener.
 ### E. An offer they want
 Konrad's rule 10, applied to the opener.
 
-> ✅ *"I'd like to invite you to keynote the GSB AI Conference next spring. 600 MBAs, three other AI CEOs already confirmed."*
+> ✅ *"I'd like to invite you to keynote the GSB AI Conference on October 17. 600 MBAs, three other AI CEOs already confirmed."*
 
 A genuine offer can lead. A fake offer ("I have a great idea I'd love to share") cannot.
 

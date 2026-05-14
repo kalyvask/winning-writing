@@ -117,13 +117,13 @@ Replace generic category nouns with concrete, specific ones in the email body.
 
 - "dog" → name the breed: "German shepherd"
 - "engineer" → name the person: "John, the SRE on the payments team"
-- "customer" → name the company and role (e.g., a senior trader at a top-tier investment bank's options desk)
+- "customer" → name the company and role: "Sarah at JPMorgan's options-trading desk"
 - "many people" → give the number: "47 of the 100 PMs I interviewed"
 - "recently" → give the date: "last Wednesday at 2:47 a.m."
 - "a long time" → give the duration: "38 minutes"
 - "a city" → name it: "Bozeman"
 - "a tool" → name make/version: "Claude Sonnet 4.6 with web_search"
-- "they said they liked it" → quote them with attribution: e.g. 'a product lead at a named customer, last Thursday: "The brief is good, but it doesn\'t save us from the part that hurts."'
+- "they said they liked it" → quote them: 'Priya at DoorDash, last Thursday: "The brief is good, but it doesn\'t save us from the part that hurts."'
 
 Use a fact only if you can verify it. If you cannot, write "[lookup: ...]" inside the email and add it to a Flags note so the user fills it in. Never invent a name, a quote, a number, or a brand — fabrication breaks trust faster than vagueness.
 
