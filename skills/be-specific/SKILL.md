@@ -33,7 +33,7 @@ For every category noun in your draft, ask: *can I name a specific instance?*
 | recent study | the 2024 Stanford HAI paper on agent reliability |
 | many people | 47 of the 100 PMs I interviewed |
 | a long time | 38 minutes |
-| somewhere | the Excelsior Mill in 1989 |
+| somewhere | the named venue in a named year |
 | early | 2:47 a.m. last Wednesday |
 | executives | the head of executive recruiting at Anthropic |
 | consultant | a McKinsey BA who left to start a SaaS company |

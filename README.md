@@ -140,7 +140,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `humanize` | Roughening up a too-clean draft — contractions, dropped subjects, the occasional safe typo. Skips automatically on high-stakes pieces. |
 | `bluf-rewriter` | Re-organizing so the bottom line is up front |
 | `warmth-and-competence` | Auditing on Fiske's two-axis model and finding the one sentence that proves both axes |
-| `pick-a-lane` | Diagnosing drafts that tell three half-stories instead of one full one. Cuts whole stories, not just words. The Scrimshaw card-counter before/after is the canonical example. |
+| `pick-a-lane` | Diagnosing drafts that tell three half-stories instead of one full one. Cuts whole stories, not just words. |
 
 ### Maintaining your voice over time
 
@@ -242,7 +242,7 @@ Designed to deploy as-is to GitHub Pages (the offline page).
 - Susan Fiske (Princeton) on warmth + competence
 - Lauren Weinstein on the two-axis frame and cinematic narrative ("could a director recreate this scene?")
 - Stephen King's *On Writing* on adverbs
-- Gabrielle Scrimshaw and the other Kramon class model bios (Legendy, McPhillips, Houston, Hanno, Gupta)
+- Model bios and class examples discussed in Glenn Kramon's *Winning Writing* (abstracted, not reproduced — the patterns are in `skills/`, the artifacts stayed in the class)
 
 ## License
 

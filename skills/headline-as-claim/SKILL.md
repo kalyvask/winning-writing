@@ -87,10 +87,10 @@ A claim title has three properties:
 
 | ❌ Generic | ✅ Personal claim |
 |---|---|
-| Hoping to connect | Bush pilot turned GSB student |
+| Hoping to connect | [unusual prior identity] turned [current credential] |
 | Quick question about Sierra | The trust-calibration gap you named — I have 100 interviews on why it keeps breaking |
-| Coffee chat? | I'm wearing that hideous bracelet you gave me in 2011 |
-| Re: your podcast appearance | From a fellow GSB |
+| Coffee chat? | A specific shared object or moment between sender and recipient, referenced concretely |
+| Re: your podcast appearance | From a fellow [small, named, shared institution or group] |
 
 ### Memo sections (internal)
 

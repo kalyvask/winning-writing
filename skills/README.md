@@ -52,7 +52,7 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [headline-as-claim](headline-as-claim/SKILL.md) | Rewriting section titles, slide titles, and subject lines from category labels ("Product," "Market") into bold arguable claims |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
 | [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
-| [pick-a-lane](pick-a-lane/SKILL.md) | Diagnosing drafts that tell three half-stories instead of one full one — different from concision-drill, this cuts whole stories not just words. The Scrimshaw card-counter before/after is the canonical example |
+| [pick-a-lane](pick-a-lane/SKILL.md) | Diagnosing drafts that tell three half-stories instead of one full one — different from concision-drill, this cuts whole stories, not just words |
 
 ## How they fit together
 

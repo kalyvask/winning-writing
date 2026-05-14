@@ -5,7 +5,7 @@ description: Diagnoses drafts that tell three half-stories instead of one full s
 
 # Pick a lane
 
-Source: Konrad's rule 7 from *Winning Writing*, Adam Bryant's *Corner Office* column (NYT) on what CEOs look for in candidates, and the Gabrielle Scrimshaw card-counter rewrite taught in Kramon's class.
+Source: Konrad's rule 7 from *Winning Writing*, Adam Bryant's *Corner Office* column (NYT) on what CEOs look for in candidates, and a before/after rewrite pattern taught in Kramon's class.
 
 ## The premise
 
@@ -13,7 +13,7 @@ Most personal writing fails not because the writer lacks material but because th
 
 Pick a lane. Tell one story in full. Trust that the reader who wants the rest can find your LinkedIn.
 
-> *"Pick a lane, and stay in it. Don't stray all over the highway by regurgitating your resume. Stay on that story and tell it right."* — Adam Bryant
+> *"Pick a lane, and stay in it. Don't stray all over the highway by regurgitating your resume. Stay on that story and tell it right."* — Adam Bryant (via Glenn Kramon's class)
 
 This is distinct from `concision-drill`. Concision cuts adverbs and throat-clearing. Pick-a-lane cuts whole biographical episodes. They run different surgeries.
 
@@ -40,35 +40,26 @@ Five stories, each two sentences. None of them is told. The reader doesn't know 
 
 One story. Told fully. With a scene, a tension, a turn, and a take.
 
-The classic teaching example is the Gabrielle Scrimshaw card-counter essay, taught in Kramon's class as a before/after.
+A canonical before/after used in Kramon's class teaches the rule. The *before* version is the writer trying to introduce themselves with everything at once — Harvard admission, blackjack team, private equity job, skincare startup, all crammed into four paragraphs with no scene anywhere. The *after* version takes one of those threads (the blackjack-team years) and opens cinematically: a casino floor, two women at the table, the pit bosses misreading them, the math being run silently underneath the laughter. The other facts (Harvard, the boarding-school cold-email at 16, the path after blackjack) stay in the essay — but as supporting context that comes *after* the scene, not as competing headlines.
 
-### Before (4 paragraphs, multiple stories, no scene)
+The lesson: the *after* version isn't shorter than the *before*. It's narrower. One lane, fully told, with the other facts demoted to evidence.
 
-> *"When I was 10 years old I learned about a place called Harvard. I decided I wanted to study there, even though I didn't speak a word of English and no one in my family had ever attended college. A few years later I emailed every one of over 200 boarding schools in America, asking for a scholarship... After three years I was accepted at Harvard, where I started a card-counting team that exploited gender biases in gambling and wreaked havoc on Vegas casinos for three years... After graduation I joined the private equity team at Bain Capital... While at Bain I became fascinated by consumer behavior and brands, which I further explored during my MBA program at Stanford by co-founding a skincare company..."*
+### Why the rewrite works
 
-What's wrong: five stories, none with a scene. The reader can't see anything. Each is a fact-list. Average attention duration per story: half a sentence.
-
-### After (one story, fully told)
-
-> *"We won in Vegas. Our game: exploiting biases.*
->
-> *We were two scantily clad twentysomethings, drinking and laughing at the gambling tables. The casino operators liked us for more than our looks. They figured we were suckers.*
->
-> *In fact, we were 'card counters.' We kept a running tally of all high and low valued cards we saw, so we could overcome the house edge.*
->
-> *As a Harvard student I had founded a blackjack team and we developed a card-counting system twice better than any other known system.*
->
-> *In the casinos we depended on a combination of three skills: math, multitasking, and acting. Within a couple seconds, I'd update my count, signal it to my partner, read her signaled count, do math on combined counts, recall our strategy table, and make the decision on the hand in front of me. At the same time, I had to act 'normal,' which meant pretending to ignore the cards, laughing, pretending to be drunk, and chatting with the dealers, pit bosses, and fellow players.*
->
-> *After three years the casinos finally caught on to us — and today, there is no game surveillance professional in Vegas who believes women cannot be card counters."*
-
-What's right:
-- **A scene.** Two women at a table, drinks, laughing, pit bosses thinking they're suckers.
-- **A turn.** They're not suckers. They're a research project.
-- **A take.** Casinos used to assume women weren't card counters; not anymore.
-- **The Harvard line and the boarding-school line are still in the essay** — but they come *after* the Vegas story, as evidence of pattern, not as competing headlines.
+- **A scene.** Date, place, sensory detail, two specific characters.
+- **A turn.** The reader's first read (suckers) gets overturned (research project).
+- **A take.** A categorical claim — casinos used to assume X; not anymore — that the scene earns.
+- **The other facts are still there.** They've been demoted to context, not cut.
 
 The same person. The same facts. One lane. Twice the impact.
+
+### Build your own version
+
+To copy the move:
+1. Find your single most cinematic story (your "Vegas table") — the one with a date, a place, a specific moment, a turn.
+2. Open the bio inside that scene, in past tense, with one sentence of action and one of dialogue or sensory detail.
+3. After the scene lands, arc back to the longer biographical context (where you came from, what you did before, where you are now) — but as supporting evidence for the scene's take, not as a separate narrative.
+4. Close with what the scene taught you that still operates today.
 
 ## How to pick the lane
 
@@ -78,7 +69,7 @@ Three questions, in order:
 Which one has a date, a place, a moment, a quote, an image, a turn? That's your candidate. If multiple stories have scenes, pick the one with the most surprising turn.
 
 ### 2. Which story is most "you"?
-Which one shows a quality of mind the reader can't get from your resume? Card counting + Harvard + first-gen immigrant is more "Scrimshaw" than Bain Capital + Stanford MBA, because the first set has friction and the second is the path.
+Which one shows a quality of mind the reader can't get from your resume? An unusual side project + a first-generation backstory has more friction than an Ivy-to-finance-to-MBA path, and friction is where character shows.
 
 ### 3. Which story serves the ask?
 If the reader is a VC, the founding story serves. If the reader is a hiring manager for a research role, the dissertation serves. If the reader is anyone, the story that contains the most universal human stakes serves.
@@ -89,11 +80,11 @@ If you score a story 5/5 on cinematic + 5/5 on "you" + 5/5 on serves-the-ask, th
 
 ### Pass 1 — Map the stories
 Read the draft. Mark every distinct story or accomplishment with a letter:
-- A: card counting
-- B: founding APAC
-- C: Bain Capital
-- D: Stanford skincare startup
-- E: nonprofit board member
+- A: a specific project or unusual experience
+- B: a founding / leadership role
+- C: a notable employer
+- D: a side venture
+- E: an extracurricular or volunteer role
 
 Count: how many As, Bs, Cs do you have? Most over-stuffed bios have 4–6.
 
@@ -111,7 +102,7 @@ Rewrite the opening so the chosen story is the first 2–3 paragraphs. Open in s
 ### Pass 4 — Demote everything else
 The other stories become one of three things:
 - **Evidence-bullets at the bottom** (one sentence each, supporting a thesis)
-- **A throwaway line at the end** ("I've also done X, Y, Z, but the card-counting years are the ones that taught me how to think.")
+- **A throwaway line at the end** ("I've also done X, Y, Z, but the years on this one project are the ones that taught me how to think.")
 - **Cut entirely** — your LinkedIn handles them.
 
 Most over-stuffed bios end up demoting ~80% of the original word count.

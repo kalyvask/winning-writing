@@ -21,12 +21,10 @@ Don't open with flattery — they know what they've done. **"Tell me a secret ab
 ### 3. Subject line that cannot be ignored
 Personal, timely, unusual. **Not** "Thank you," "Hoping to connect," or "Quick question."
 
-Examples that worked:
-- *"I'm wearing that hideous bracelet you gave me in 2011."*
-- *"The long walk from a small, brown village to Stanford."*
-- *"Ex Olympic trials swimmer."*
-- *"Coffee chat with Stanford MBA who manages a boxing World Champion."*
-- *"From a fellow GSB."*
+The pattern in subject lines that worked in class:
+- A specific shared object or moment with the recipient (a gift, a year, a place you both know)
+- Your most distinctive credential, especially if incongruous with the role you're applying to (the athlete moving into law, the immigrant moving into tech)
+- A small, named relationship to a shared place or institution — but only if the place is small enough to mean something specific
 
 ### 4. Find a mutual contact and name them
 "X suggested I reach out." The bar is higher than a LinkedIn connection — must be someone you've actually engaged with.
@@ -36,16 +34,14 @@ Examples that worked:
 ### 5. "Like you" — compare yourself, specifically
 Genuine and specific.
 
-✅ *"Like you, I grew up eating Korean food lovingly prepared by a single mom."*
+✅ A specific shared sensory detail from your shared origin or experience — the food you grew up eating, the neighborhood you walked, the year you immigrated, the specific job you both did before the one you're emailing about.
 ❌ *"Like you, I believe AI will transform the future."* (meaningless)
 ❌ *"Like you, but at a vastly smaller scale."* (self-diminishing — they already know that)
 
 ### 6. Tell a story that makes them feel something
 A **scene**, not a summary. Multisensory. A date, a place, a line of dialogue, an image.
 
-- Amadeus swimming from Hog Heaven toward Necker Island
-- The punk rocker on stage with Fugazi at the Excelsior Mill in 1989, wearing his dad's ill-fitting combat boots with egg in his hair
-- Alex Zeng's letter to a Walmart manager: *"You have 12 years at Walmart. I have three weeks at Dexterity, a month-old startup with fewer than 10 employees. And that is why I'm reaching out."*
+The pattern that works in class examples: a specific year, a named place, one concrete action, optionally one line of dialogue or one sensory detail. The classic move is *inverted hierarchy* — lead with humility about your short tenure or small scale, then make that the reason the recipient should care. *"You have N years at this. I have three weeks. And that is why I'm reaching out."* The contrast disarms; the curiosity carries the email.
 
 ### 7. Pick a lane
 Do not cover everything on your resume. **One** example that shows how you can help **this specific person**. Link LinkedIn in the signature for the rest.

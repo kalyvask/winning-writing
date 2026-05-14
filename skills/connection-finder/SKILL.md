@@ -15,7 +15,7 @@ Rachel Konrad's rule 5 is the most-failed rule in the playbook. Most "like you" 
 - **Self-diminishing** — *"Like you, but at a vastly smaller scale."* (They already know that. Cut.)
 - **Boastful** — *"Like you, I'm super smart and super successful."* (Backfires. Cut.)
 
-What works: **specific, genuine, slightly unexpected.** *"Like you, I grew up eating Korean food lovingly prepared by a single mom."* That sentence cannot be sent to anyone else. That's the whole point.
+What works: **specific, genuine, slightly unexpected.** A "like you" line should reference a sensory detail from your shared origin that *cannot be sent to anyone else* — a specific cuisine you both grew up with, a specific city you both lived in for a specific year, a specific job you both did before the one you're emailing about. That's the whole point.
 
 ## What you need
 

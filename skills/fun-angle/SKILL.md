@@ -31,19 +31,21 @@ This is begging. Cut.
 
 ### 2. Specific, slightly absurd detail
 
-✅ *"I'm wearing that hideous bracelet you gave me in 2011."*
-✅ *"…wearing his dad's ill-fitting combat boots with egg in his hair."*
-✅ *"…swimming from Hog Heaven toward Necker Island."*
+✅ A specific shared object from your history with the recipient (a gift, a year, a place you both know), referenced concretely enough that the reader has to remember the moment.
+✅ A specific sensory detail from your own past — what you wore, what was wrong with what you wore, what you held, what someone said — concrete enough to be unfakeable.
+✅ A specific physical scene with a place name, a time, and one company-of-one detail (alone, with a friend, training, watching).
 
 What works: the detail is so specific it must be true. Specificity is funny on its own.
 
 ### 3. The unexpected juxtaposition
 
-✅ *"Bush pilot turned GSB student."*
-✅ *"Stanford MBA who manages a boxing World Champion."*
-✅ *"Ex Olympic trials swimmer."*
+The shape: an old identity + a current identity, in a five-to-eight word phrase, where the two don't usually co-occur in the same person.
 
-What works: two things you don't expect to coexist. The reader's brain pauses for a second. That second is your foot in the door.
+- *"[Unusual prior career] turned [current credential]."* The reader pauses on the gap between the two. That pause is your foot in the door.
+- *"[Current credential] who [unexpected current activity]."* Best when the activity is one a normal person would never combine with the credential.
+- *"Ex [elite endeavor that takes years]."* The "ex" carries the story without explanation.
+
+What works: two things you don't expect to coexist. Specificity does the rest.
 
 ### 4. Dry observational humor
 
@@ -76,17 +78,16 @@ What works: a moment of honesty about the ask itself. Earns trust.
 ### Subject line
 Highest-leverage place. The subject is what gets the email opened.
 
-Examples that worked:
-- *"I'm wearing that hideous bracelet you gave me in 2011."*
-- *"Coffee chat with Stanford MBA who manages a boxing World Champion."*
-- *"From a fellow GSB."*
-- *"Ex Olympic trials swimmer."*
+Three subject-line shapes that work (see *unexpected juxtaposition* above for the underlying form):
+- Reference a specific shared object or moment between you and the recipient
+- Pair your unusual prior identity with the current credential
+- Name a small specific shared place or institution
 
 ### First sentence
-A self-aware aside. *"I'll be honest: I…"* / *"I open Google Docs and stare at it like it owes me money."*
+A self-aware aside that names the writer's own friction with the medium. *"I'll be honest: I…"* / *"I open Google Docs and stare at it like it owes me money."* The aside makes the rest of the email read as written, not generated.
 
 ### One line in the middle
-A specific absurd detail. *"…wearing his dad's ill-fitting combat boots with egg in his hair."*
+A specific physical detail from your past with sensory texture — what you wore, what was wrong with it, what someone said. One per email, dropped without fanfare.
 
 ### The sign-off
 The line that proves you're a human, not a template.

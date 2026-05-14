@@ -52,12 +52,13 @@ Specific things to flag:
 - *"Just following up"* — rewrite as a new email with new info
 - `jobs@`, `pitches@`, `careers@` recipients — find the human
 
-## Killer subject-line examples
+## Killer subject-line shapes
 
-- *"I'm wearing that hideous bracelet you gave me in 2011."*
-- *"The long walk from a small, brown village to Stanford."*
-- *"Ex Olympic trials swimmer."*
-- *"Coffee chat with Stanford MBA who manages a boxing World Champion."*
+Three patterns that get the email opened:
+
+- **A specific shared object or moment** from your history with the recipient — a gift, a year, a place you both know. Concrete enough that the reader has to remember the moment.
+- **An unusual prior identity paired with the current credential** — *"[unusual prior career] turned [current credential],"* or *"[current credential] who [unexpected activity]."* The reader's brain pauses on the gap.
+- **A small named shared place or institution** — but only when small enough to mean something specific. Reference the section, the year, the program, not the school.
 
 What they share: personal, specific, unusual.
 

@@ -107,7 +107,7 @@ Good titles (specific, arguable, predictive of section content):
 - "Our AI cuts notarization time 85%" (Constine)
 - "$14B in U.S. recall costs come from connector failures"
 - "Olympians earn the IOC billions. Guess who the IOC almost never pays."
-- "I'm wearing that hideous bracelet you gave me in 2011" (subject line)
+- a subject line referencing a specific shared object or moment between the writer and the recipient
 
 Test: a reader who scans only the titles should walk away with the argument. If they couldn't, the titles are labels, not claims.
 
@@ -207,7 +207,7 @@ Cross-reference the dossier and the user's "about me" for genuine "like you" hoo
 For each: the line as it'd appear in the email + one-sentence why.
 
 ## 3. SUBJECT LINES
-Three candidates. Personal, timely, unusual. Each one should be a line nobody else could send. Examples of the form: "I'm wearing that hideous bracelet you gave me in 2011" / "Bush pilot turned GSB student" / "From a fellow GSB."
+Three candidates. Personal, timely, unusual. Each one should be a line nobody else could send. Shapes to try: a specific shared object or moment with the recipient; an unusual prior identity paired with the current credential; a small named shared place or institution.
 
 ## 4. THE EMAIL
 Under 200 words. Apply all 10 rules. Structure:

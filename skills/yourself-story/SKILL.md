@@ -5,7 +5,7 @@ description: Drafts and critiques bios, LinkedIn About sections, intro slides, "
 
 # Yourself story
 
-Source: Adam Bryant's *Corner Office* column (NYT) interviews with 500+ CEOs on what they look for in candidates, plus Lauren Weinstein's GSB research on the two-axis model of social judgment, plus the six model bios taught in Glenn Kramon's *Winning Writing* class (Conrad Legendy, Gabrielle Scrimshaw, Jen McPhillips, Ryan Houston, Adam Hanno, Rish Gupta).
+Source: Adam Bryant's *Corner Office* column (NYT) interviews with 500+ CEOs on what they look for in candidates, plus Lauren Weinstein's GSB research on the two-axis model of social judgment, plus a set of model bios taught in Glenn Kramon's *Winning Writing* class.
 
 ## The goal
 
@@ -30,31 +30,31 @@ A first impression made in roughly one second sticks. The bio is the first impre
 Same rule, every skill. A bio for a VC is not a bio for a hiring manager. Customize. The phrase *"I'm building a tactile-sensor company"* is the right opener for the right reader; the wrong opener for the wrong one.
 
 ### 2. Be vivid
-Picture your favorite movie scene. Describe it in words. That's the texture you want in a bio. Bring it to life. Make it memorable. The Scrimshaw card-counter opening (*"We won in Vegas. Our game: exploiting biases."*) is a movie scene.
+Picture your favorite movie scene. Describe it in words. That's the texture you want in a bio. Bring it to life. Make it memorable. A bio that opens with sensory detail (a place, a date, an action, an image) lands; one that opens with summary doesn't.
 
 ### 3. Quotes enliven
-A line of dialogue from your mother, your mentor, your boss the day you got fired — the quote is a free dose of warmth. Kramon's example for himself: *"My biggest concern for the next day was beating Chris, my biggest frenemy, in foursquare during recess."* Specific, quoted, alive.
+A line of dialogue from your mother, your mentor, your boss the day you got fired — the quote is a free dose of warmth. One specific quoted line, properly placed, is worth a paragraph of description. Use sparingly: one quote per piece is enough.
 
 ### 4. Humor is non-negotiable (Kramon's class rule)
-Dry humor. Not slapstick. A line that makes the reader smile is the difference between memorable and forgettable. *"My word is my bond. I came to appreciate the beauty of imperfect solutions, because we never had all the resources we wanted, and you can't call 'time out!' in war to get everything neat and pretty. Sometimes you just gotta get shit done."* (Conrad Legendy) — that last sentence is a smile, and it lands the credibility of the paragraph above it.
+Dry humor. Not slapstick. A line that makes the reader smile is the difference between memorable and forgettable. The best version of this is a single observational aside dropped after a serious claim — the seriousness earns the credibility, the aside earns the warmth.
 
 ### 5. CEOs prefer "we" over "I"
 Bryant's empirical finding across 500 interviews: when CEOs ask about accomplishments, they like to hear *we* more than *I*. It signals team player. It signals you appreciate the contributions of others. Even when you did the bulk of the work, *we* is the right pronoun for the bio.
 
 ### 6. Happy endings beat unresolved trouble
-Better to show yourself overcoming something than still mired in it. The Jen McPhillips ending: *"I was voted homecoming queen — something that still embarrasses me, but encapsulates how far I came."* The trouble (loner kid, no friends, social anxiety) is real; the ending (homecoming queen, growth, leadership through empathy) is earned. Don't end on the trouble alone.
+Better to show yourself overcoming something than still mired in it. The trouble — loner childhood, family struggle, professional failure — can be real and named. But the ending has to land somewhere the reader can root for. Don't close on the wound; close on the scar that became useful.
 
 ### 7. Tell the messiest situation and what you learned (Roizen)
 Heidi Roizen's tip: skip the polished accomplishments and tell the time you lost the deal, fired the wrong person, or shipped the broken product. The messy story shows judgment in a way the success story can't. *And what you learned* is the load-bearing clause — without it, the messy story is just a confession.
 
 ### 8. Pick a lane (Konrad / Bryant)
-See `pick-a-lane` skill. One story, told fully, beats five stories told shallowly. The Scrimshaw rewrite is the canonical example.
+See `pick-a-lane` skill. One story, told fully, beats five stories told shallowly.
 
 ### 9. Warmth + competence in one sentence
 See `warmth-and-competence` skill. The load-bearing sentence — the one that proves both axes — belongs in paragraph 1 or 2.
 
 ### 10. End with what you're still curious about
-The strongest bios close with a question or a frontier, not a victory lap. Ryan Houston: *"I'm diving into computer science courses at Stanford instead of leisurely finishing my MBA."* Rish Gupta: *"I know all my energy can go to waste, if I am not in the right ocean riding the biggest waves."* Both signal you're still hungry. Both leave the reader curious.
+The strongest bios close with a question or a frontier, not a victory lap. The closing line should signal you're still hungry, still learning, still pointed at something larger than your resume. Reader's reaction: *"I want to know how that turns out."* Not: *"impressive."*
 
 ## Bryant's 14 prompt questions (use these to find your story)
 
@@ -77,34 +77,34 @@ If you don't know what to write about, answer these on paper first. The story yo
 
 Bryant's claim: half the candidates who answer these find their story. The other half realize they need to live more before they have one.
 
-## Six structural patterns (from the Kramon model bios)
+## Six structural patterns (from class-taught model bios)
 
-Different bios use different shapes. Pick the one that fits your material.
+Different bios use different shapes. Pick the one that fits your material. Below: the shape, what kind of writer it's for, and how to spot when it's working.
 
 ### Pattern A — Open in scene, then arc
-Scrimshaw: open at the casino table, then arc back to Poland at 10, then forward to Bain and Stanford. The scene anchors; the chronology supports.
+Open inside a specific moment with sensory detail (a place, a year, two characters, an action). After the scene lands, arc back to chronology and supporting biography. The scene anchors; the dates support. Best when you have one story so cinematic it has to be the lede.
 
 ### Pattern B — Provocative thesis, then evidence
-Conrad Legendy: *"You may think I'm throwing everything away by going into the cannabis industry after graduating from Stanford Business School. Hell, you might be right."* — opens by naming the reader's likely objection. Then disarms with the Red Cross story.
+Open by naming the reader's likely objection to your choices — a sentence that begins something like *"You may think I'm wasting [my training / my talent / this path]"* — then earn the right to disagree with the rest of the bio. Best when your career choice is unconventional and you want to address it head-on instead of pretending it isn't.
 
 ### Pattern C — Alliterative opening (high-risk)
-Gabrielle Scrimshaw (the second example): *"Ambitious. Aboriginal. Adventurer. Fond of alliteration and passionate about ideas that make the world a bit better."* — works only if you can sustain the wit through three more clauses. Most attempts at this pattern die in the second clause.
+A staccato adjective list ("[Quality]. [Quality]. [Quality].") followed by an aside that wittily punctures it. Works only if the wit holds for two more clauses. Most attempts die in the second clause. If you're not sure your version is funny, it isn't.
 
 ### Pattern D — Childhood frame
-Jen McPhillips: *"As a kid I was a loner."* — uses the early-self frame to show a journey. Works when the journey itself is the story.
+Open at age 8 or 10, in a specific room or scene, with a quality the reader will recognize developing. Use the early-self frame to show a journey. Works when the journey itself is the story — when *how you got here* is more interesting than *where you ended up*.
 
 ### Pattern E — Aspiration declared early
-Ryan Houston: *"I dreamed of going to Stanford since I was 12."* — opens with what you wanted, then shows what you did about it.
+Open with what you wanted at age 12, then show what you did about it. Works when your story is one of stubborn execution rather than discovery — the reader gets to watch you bend reality to a target you set years ago.
 
 ### Pattern F — Sensory open
-Adam Hanno: *"My earliest memories involve sitting on my parents' bed watching surgical videos of radical prostatectomies."* — opens with a specific, slightly absurd image that proves the through-line (medicine) was always there.
+Open with a specific, slightly absurd image from your earliest memory of the field you ended up in. Works when the field has visceral specifics (medicine, food, sport, mechanical work) and your relationship to it is older than the resume can show.
 
 ## What kills a yourself-story
 
 - **Buzzword soup.** *"I'm passionate about complex problems and at the intersection of strategy, product, and execution."* Wall-of-shame stuff. Cut.
 - **Resume regurgitation.** See `pick-a-lane`. Five jobs in one paragraph means none gets told.
 - **Generic claims.** *"Hardworking, collaborative, results-oriented."* Means nothing. Replace with a specific scene that demonstrates the quality.
-- **Self-deprecation that begs for sympathy.** *"I'm just a humble student trying to learn."* The reader cringes. Self-deprecation works only when paired with quiet confidence (Legendy: *"Hell, you might be right."*).
+- **Self-deprecation that begs for sympathy.** *"I'm just a humble student trying to learn."* The reader cringes. Self-deprecation works only when paired with quiet confidence — the *"you might be right, but here's why I did it anyway"* register, not the *"please don't expect much from me"* register.
 - **Boasting without evidence.** *"I'm one of the top product managers of my generation."* Even if true, the reader will not believe you. Show it; don't claim it.
 - **Resolution-free endings.** Ending on the trouble. See rule 6.
 
