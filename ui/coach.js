@@ -1,6 +1,6 @@
 import { SYSTEM_PROMPT } from './coach-prompt.js';
 import { CROSS_MODEL_SYSTEM_PROMPT } from './cross-model-prompt.js';
-import { runSingleShotWithPolish, runFullAgentic } from './agents.js';
+import { runSingleShotWithPolish, runFullAgentic, runInlineCritic } from './agents.js';
 
 const $ = (id) => document.getElementById(id);
 const KEY_STORE = 'winning-writing.coach.apikey';
@@ -458,6 +458,11 @@ function renderVerdictBanner(reviewerText, reviewerModel, drafterModel) {
   return `<div class="banner warn"><strong>? Cross-model gate: verdict not parsed</strong> — reviewer output below, judge for yourself.${modelLine}${body}</div>`;
 }
 
+function extractEmailBody(blob) {
+  const m = blob.match(/##\s*Email\s*\n([\s\S]*?)(?=\n##\s|$)/i);
+  return m ? m[1].trim() : '';
+}
+
 function renderOutput(text, reviewerInfo) {
   const dashCheck = checkEmDashesInEmail(text);
   let warning = '';
@@ -474,6 +479,10 @@ function renderOutput(text, reviewerInfo) {
   $('raw').textContent = reviewerInfo ? `${text}\n\n---\n\n# REVIEWER (${reviewerInfo.model})\n\n${reviewerInfo.text}` : text;
   $('raw-toggle').style.display = '';
   $('output-hint').style.display = 'none';
+  // Stash the drafted email body so the inline critic button can pick it up.
+  const emailBody = extractEmailBody(text);
+  inline.lastDraftedEmail = emailBody;
+  $('critique-output-row').style.display = emailBody ? '' : 'none';
 }
 
 // ---------- Run ----------
@@ -604,6 +613,333 @@ async function run() {
   }
 }
 
+// ---------- Inline coach ----------
+
+const inline = {
+  source: null,          // 'input' | 'output'
+  originalDraft: '',
+  workingDraft: '',
+  annotations: [],       // [{id, quote, rule_id, severity, category, suggested, why, status, start, end}]
+  summary: '',
+  intent: 'cold-email',
+  lastDraftedEmail: '',
+};
+
+let stickyCardId = null;
+
+function resolveAnnotationOffsets() {
+  const cursors = new Map();
+  for (const a of inline.annotations) {
+    if (a.status !== 'open') { a.start = -1; a.end = -1; continue; }
+    const from = cursors.get(a.quote) || 0;
+    const idx = inline.workingDraft.indexOf(a.quote, from);
+    if (idx === -1) {
+      a.start = -1; a.end = -1;
+    } else {
+      a.start = idx;
+      a.end = idx + a.quote.length;
+      cursors.set(a.quote, a.end);
+    }
+  }
+}
+
+function renderAnnotatedDraft() {
+  const viewer = $('inline-coach-viewer');
+  if (!inline.workingDraft) {
+    viewer.innerHTML = '<p class="empty">No draft yet.</p>';
+    return;
+  }
+  resolveAnnotationOffsets();
+  const sevRank = { high: 3, medium: 2, low: 1 };
+  const open = inline.annotations
+    .filter((a) => a.status === 'open' && a.start >= 0)
+    .sort((a, b) => a.start - b.start);
+  const filtered = [];
+  let lastEnd = -1;
+  for (const a of open) {
+    if (a.start >= lastEnd) {
+      filtered.push(a);
+      lastEnd = a.end;
+    } else {
+      const prev = filtered[filtered.length - 1];
+      if (sevRank[a.severity] > sevRank[prev.severity]) {
+        filtered[filtered.length - 1] = a;
+        lastEnd = a.end;
+      }
+    }
+  }
+  let html = '';
+  let cursor = 0;
+  for (const a of filtered) {
+    html += escapeHtmlForTrace(inline.workingDraft.slice(cursor, a.start));
+    html += `<mark class="ann ann-${a.severity}" data-ann-id="${a.id}" tabindex="0">${escapeHtmlForTrace(inline.workingDraft.slice(a.start, a.end))}</mark>`;
+    cursor = a.end;
+  }
+  html += escapeHtmlForTrace(inline.workingDraft.slice(cursor));
+  viewer.innerHTML = html.replace(/\n/g, '<br>');
+  viewer.querySelectorAll('.ann').forEach((el) => {
+    el.addEventListener('mouseenter', onAnnHover);
+    el.addEventListener('mouseleave', onAnnLeave);
+    el.addEventListener('click', onAnnClick);
+  });
+  // Highlight unresolved annotations so the user knows the quote drifted.
+  const unresolved = inline.annotations.filter((a) => a.status === 'open' && a.start < 0).length;
+  if (unresolved > 0) {
+    viewer.insertAdjacentHTML(
+      'afterbegin',
+      `<div class="ann-unresolved-note">${unresolved} flag${unresolved === 1 ? "" : "s"} could not be matched against the current draft (quote drift). See sidebar.</div>`
+    );
+  }
+}
+
+function onAnnHover(e) {
+  if (stickyCardId) return;
+  positionAnnCard(e.currentTarget);
+}
+function onAnnLeave() {
+  if (stickyCardId) return;
+  removeAnnCard();
+}
+function onAnnClick(e) {
+  const el = e.currentTarget;
+  if (stickyCardId === el.dataset.annId) {
+    stickyCardId = null;
+    removeAnnCard();
+  } else {
+    stickyCardId = el.dataset.annId;
+    positionAnnCard(el);
+  }
+}
+
+function removeAnnCard() {
+  const c = document.getElementById('ann-card');
+  if (c) c.remove();
+}
+
+function positionAnnCard(el) {
+  const a = inline.annotations.find((x) => x.id === el.dataset.annId);
+  if (!a) return;
+  removeAnnCard();
+  const card = document.createElement('div');
+  card.id = 'ann-card';
+  card.className = `ann-card ann-card-${a.severity}`;
+  const suggestedHtml = a.suggested
+    ? `<div class="ann-card-suggest"><span class="ann-card-label">Suggested:</span> ${escapeHtmlForTrace(a.suggested)}</div>`
+    : '';
+  card.innerHTML = `
+    <div class="ann-card-head">
+      <span class="ann-card-cat ann-card-${a.severity}">${escapeHtmlForTrace(a.category)}</span>
+      <span class="ann-card-sev ann-card-sev-${a.severity}">${a.severity}</span>
+    </div>
+    <div class="ann-card-why">${escapeHtmlForTrace(a.why)}</div>
+    ${suggestedHtml}
+    <div class="ann-card-actions">
+      <button class="btn btn-small" data-act="accept">Accept</button>
+      <button class="btn btn-small" data-act="reject">Reject</button>
+      <button class="btn btn-small" data-act="snooze">Snooze</button>
+    </div>
+  `;
+  document.body.appendChild(card);
+  const rect = el.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+  let left = rect.left + window.scrollX;
+  let top = rect.bottom + window.scrollY + 6;
+  if (left + cardRect.width > window.innerWidth - 12) left = Math.max(12, window.innerWidth - cardRect.width - 12);
+  card.style.left = `${left}px`;
+  card.style.top = `${top}px`;
+  card.querySelectorAll('button[data-act]').forEach((b) => {
+    b.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      handleAnnAction(a.id, b.dataset.act);
+    });
+  });
+}
+
+function handleAnnAction(annId, act) {
+  const a = inline.annotations.find((x) => x.id === annId);
+  if (!a) return;
+  if (act === 'accept') {
+    resolveAnnotationOffsets();
+    const current = inline.annotations.find((x) => x.id === annId);
+    if (current.start >= 0 && a.suggested) {
+      const isDelete = /^\(?\s*delete\s*\)?$/i.test(a.suggested.trim());
+      const repl = isDelete ? '' : a.suggested;
+      let before = inline.workingDraft.slice(0, current.start);
+      let after = inline.workingDraft.slice(current.end);
+      if (isDelete) {
+        before = before.replace(/\s+$/, '');
+        after = after.replace(/^\s+/, '');
+        if (before && after && !/[\s\n]$/.test(before) && !/^[\s\n]/.test(after)) {
+          before = before + ' ';
+        }
+      }
+      inline.workingDraft = before + repl + after;
+    }
+    a.status = 'accepted';
+  } else if (act === 'reject') {
+    a.status = 'rejected';
+  } else if (act === 'snooze') {
+    a.status = 'snoozed';
+  }
+  stickyCardId = null;
+  removeAnnCard();
+  renderInlineCoach();
+}
+
+function renderInlineCoach() {
+  $('inline-coach-section').style.display = '';
+  $('inline-coach-summary').innerHTML = inline.summary
+    ? `<strong>Read:</strong> ${escapeHtmlForTrace(inline.summary)}`
+    : '';
+  const counts = countAnnotations();
+  $('inline-coach-stats').innerHTML = `
+    <strong>${counts.open}</strong> open
+    · <span class="stat-high">${counts.openHigh} high</span>
+    · <span class="stat-med">${counts.openMed} medium</span>
+    · <span class="stat-low">${counts.openLow} low</span>
+    · ${counts.accepted} accepted
+    · ${counts.rejected} rejected${counts.snoozed ? ` · ${counts.snoozed} snoozed` : ''}
+  `;
+  renderAnnotatedDraft();
+  renderInlineSidebar();
+}
+
+function countAnnotations() {
+  const out = { open: 0, openHigh: 0, openMed: 0, openLow: 0, accepted: 0, rejected: 0, snoozed: 0 };
+  for (const a of inline.annotations) {
+    if (a.status === 'open') {
+      out.open++;
+      if (a.severity === 'high') out.openHigh++;
+      else if (a.severity === 'medium') out.openMed++;
+      else out.openLow++;
+    } else if (a.status === 'accepted') out.accepted++;
+    else if (a.status === 'rejected') out.rejected++;
+    else if (a.status === 'snoozed') out.snoozed++;
+  }
+  return out;
+}
+
+function renderInlineSidebar() {
+  const aside = $('inline-coach-sidebar');
+  const sevRank = { high: 3, medium: 2, low: 1 };
+  const open = inline.annotations
+    .filter((a) => a.status === 'open')
+    .sort((a, b) => sevRank[b.severity] - sevRank[a.severity]);
+  if (open.length === 0) {
+    aside.innerHTML = `<p class="empty">${inline.annotations.length ? 'No open flags remaining.' : 'Clean draft — no flags.'}</p>`;
+    return;
+  }
+  let html = '<h3>Open flags</h3><ul class="ann-list">';
+  for (const a of open) {
+    const trunc = a.quote.length > 80 ? a.quote.slice(0, 80) + '…' : a.quote;
+    const suggest = a.suggested ? `<div class="ann-list-suggest">→ ${escapeHtmlForTrace(a.suggested)}</div>` : '';
+    const unresolved = a.start < 0 ? '<span class="ann-list-unresolved">unmatched</span>' : '';
+    html += `
+      <li class="ann-list-item ann-list-${a.severity}" data-ann-id="${a.id}">
+        <div class="ann-list-head">
+          <span class="ann-list-cat">${escapeHtmlForTrace(a.category)}</span>
+          <span class="ann-list-sev ann-list-sev-${a.severity}">${a.severity}</span>
+          ${unresolved}
+        </div>
+        <div class="ann-list-quote">"${escapeHtmlForTrace(trunc)}"</div>
+        <div class="ann-list-why">${escapeHtmlForTrace(a.why)}</div>
+        ${suggest}
+        <div class="ann-list-actions">
+          <button class="btn btn-small" data-act="accept" data-ann-id="${a.id}">Accept</button>
+          <button class="btn btn-small" data-act="reject" data-ann-id="${a.id}">Reject</button>
+          <button class="btn btn-small" data-act="snooze" data-ann-id="${a.id}">Snooze</button>
+        </div>
+      </li>`;
+  }
+  html += '</ul>';
+  aside.innerHTML = html;
+  aside.querySelectorAll('button[data-ann-id]').forEach((b) => {
+    b.addEventListener('click', () => handleAnnAction(b.dataset.annId, b.dataset.act));
+  });
+}
+
+async function runInlineCritiqueOnDraft(source) {
+  persistKey();
+  const apiKey = $('api-key').value.trim();
+  if (!apiKey) { setStatus('Paste your Anthropic API key first.', 'err'); return; }
+  const draft = source === 'input'
+    ? $('draft-input').value.trim()
+    : (inline.lastDraftedEmail || '').trim();
+  if (!draft) {
+    setStatus(source === 'input' ? 'Paste a draft in the textarea first.' : 'No drafted email to critique yet.', 'err');
+    return;
+  }
+  const btnId = source === 'input' ? 'critique-draft-inline' : 'critique-output-inline';
+  const btn = $(btnId);
+  const origLabel = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Critiquing…'; }
+  setStatus(`Running inline critic on ${source === 'input' ? 'pasted draft' : 'drafted email'}…`, 'ok');
+  try {
+    const result = await runInlineCritic({
+      apiKey,
+      model: 'claude-sonnet-4-6',
+      draft,
+      intent: 'cold-email',
+      onEvent: handlePipelineEvent,
+    });
+    inline.source = source;
+    inline.originalDraft = draft;
+    inline.workingDraft = draft;
+    inline.summary = result.summary || '';
+    inline.intent = result.intent || 'cold-email';
+    inline.annotations = (result.annotations || []).map((a) => ({ ...a, status: 'open', start: -1, end: -1 }));
+    renderInlineCoach();
+    $('inline-coach-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const n = inline.annotations.length;
+    setStatus(`Inline critique done. ${n} flag${n === 1 ? '' : 's'}.`, 'ok');
+  } catch (err) {
+    setStatus(`Inline critique failed: ${err.message}`, 'err');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = origLabel; }
+  }
+}
+
+function acceptAllInline() {
+  resolveAnnotationOffsets();
+  const opens = inline.annotations
+    .filter((a) => a.status === 'open' && a.start >= 0)
+    .sort((a, b) => b.start - a.start);
+  for (const a of opens) {
+    handleAnnAction(a.id, 'accept');
+  }
+}
+
+function resetInline() {
+  inline.workingDraft = inline.originalDraft;
+  inline.annotations.forEach((a) => { a.status = 'open'; });
+  renderInlineCoach();
+}
+
+function copyWorkingDraft() {
+  if (!inline.workingDraft) return;
+  navigator.clipboard.writeText(inline.workingDraft).then(
+    () => setStatus('Copied working draft to clipboard.', 'ok'),
+    () => setStatus('Clipboard copy failed.', 'err')
+  );
+}
+
+function applyWorkingDraftToInput() {
+  if (!inline.workingDraft) return;
+  $('draft-input').value = inline.workingDraft;
+  setStatus('Working draft copied into the draft-input field. Re-run the coach for a full pipeline pass on it.', 'ok');
+}
+
+// Close sticky card when clicking outside
+document.addEventListener('click', (e) => {
+  if (!stickyCardId) return;
+  const card = document.getElementById('ann-card');
+  if (!card) return;
+  if (card.contains(e.target)) return;
+  if (e.target.closest('.ann')) return;
+  stickyCardId = null;
+  removeAnnCard();
+});
+
 // ---------- Wire up ----------
 
 function init() {
@@ -624,6 +960,13 @@ function init() {
     r.style.display = r.style.display === 'none' ? 'block' : 'none';
     $('show-raw').textContent = r.style.display === 'none' ? 'Show raw response' : 'Hide raw response';
   });
+
+  $('critique-draft-inline').addEventListener('click', () => runInlineCritiqueOnDraft('input'));
+  $('critique-output-inline').addEventListener('click', () => runInlineCritiqueOnDraft('output'));
+  $('inline-coach-accept-all').addEventListener('click', acceptAllInline);
+  $('inline-coach-reset').addEventListener('click', resetInline);
+  $('inline-coach-copy').addEventListener('click', copyWorkingDraft);
+  $('inline-coach-apply').addEventListener('click', applyWorkingDraftToInput);
 
   // Optional dev convenience: load a local-only key file (gitignored)
   import('./.local-key.js').catch(() => {}).then((m) => {

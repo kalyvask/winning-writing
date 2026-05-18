@@ -252,6 +252,123 @@ Output a markdown table:
 
 Below the table, add a "## Flags" section with anything the user should verify before sending (unverified claims, jargon hits, missing names/dates, length over target).`;
 
+const INLINE_CRITIC_PROMPT = `You are a writing critic returning span-level annotations on a draft. Find specific words, phrases, and sentences that break the rules of Winning Writing (Stanford GSB, Glenn Kramon + Rachel Konrad).
+
+Rules taxonomy. Use these rule_ids exactly:
+- "em-dash" — any em-dash (—) or double-hyphen (--); severity high
+- "banned-word" — synergy, leverage, drive (corporate sense), strategize, empower, enable, deliverables, utilize, align/alignment, impactful, irregardless; severity high
+- "ai-tell" — "it's not just X, it's Y", "delve into", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "in today's X world"; severity high
+- "jargon-phrase" — "at the intersection of", "I hope this email finds you well", "I'd love to pick your brain", "I'd love to grab coffee", "passionate about complex problems", "driving innovation", "building and scaling"; severity high
+- "vague-ask" — asks without a date, time, format, or specific question; severity high (cold-email intent only)
+- "generic-opener" — "I hope you are well", "My name is X", "I'm reaching out because", "just wanted to check in", flattery about accomplishments; severity high (cold-email intent only)
+- "throat-clearing" — preamble before the actual point; severity medium
+- "intensifier" — very, really, actually, basically, clearly, obviously, literally, definitely, simply, totally, absolutely; severity medium
+- "sentence-adverb" — sentence-starting adverbs (Importantly, Notably, Interestingly, Frankly, Honestly, Ultimately, Fundamentally,); severity medium
+- "tell-not-show" — abstract emotional summaries ("I was excited", "we struggled", "it was amazing") with no scene; severity medium
+- "missing-specific" — generic category nouns ("a tool", "an engineer", "a company") where a specific would land harder; severity medium
+- "weak-subject" — generic subject lines ("Hoping to connect", "Quick question", "Touching base"); severity medium (cold-email only)
+- "bland-signoff" — "Best", "Sincerely", "Regards" with no personality; severity low
+- "hedge" — "I think maybe", "perhaps", "I wonder if", "it could be argued"; severity low
+- "passive-voice" — passive constructions where active would be punchier; severity low
+- "length-over" — the whole draft is over its target word count; severity medium (annotate the closing sentence as the quote)
+
+Output STRICT JSON. No markdown fences. No commentary outside the JSON object. Schema:
+
+{
+  "summary": "one to three sentences on overall quality and the top one or two issues",
+  "intent": "cold-email" | "op-ed" | "pitch" | "general",
+  "word_count": <integer>,
+  "annotations": [
+    {
+      "quote": "<exact substring from the draft, character-for-character>",
+      "rule_id": "<one of the rule_ids above>",
+      "severity": "high" | "medium" | "low",
+      "category": "<short human-readable label, e.g. 'Em-dash' or 'Vague ask'>",
+      "suggested": "<rewrite, or \\"(delete)\\" to cut it>",
+      "why": "<one sentence: the problem and the fix>"
+    }
+  ]
+}
+
+Quote rules:
+- "quote" MUST be an exact substring of the draft, including punctuation and case. If a word appears multiple times and you want a specific instance, include 2-3 surrounding words for uniqueness.
+- Cap at 12 annotations. Prioritize high severity first, then medium, then low. Within each, prioritize what a reader would miss on a re-read.
+- If the draft is clean, return an empty annotations array and say so in summary.
+- Never invent issues that aren't in the text. Never flag minor stylistic preferences.
+- Escape backslashes and double-quotes inside JSON string values.
+
+Return ONLY the JSON object.`;
+
+export async function runInlineCritic({
+  apiKey,
+  model = 'claude-sonnet-4-6',
+  draft,
+  intent = 'cold-email',
+  onEvent = () => {},
+}) {
+  if (!draft || !draft.trim()) {
+    return { summary: 'No draft to critique.', annotations: [], intent, word_count: 0, raw: '', usage: {} };
+  }
+  onEvent({ type: 'step-start', name: 'inline-critic', model, note: 'Generating span-level annotations' });
+  const t = performance.now();
+  try {
+    const userMessage = `# Intent\n${intent}\n\n# Draft\n\n${draft}\n\n---\n\nReturn the JSON now.`;
+    const result = await callStep({
+      apiKey,
+      model,
+      system: INLINE_CRITIC_PROMPT,
+      user: userMessage,
+      maxTokens: 3000,
+    });
+    const parsed = parseInlineCritic(result.text);
+    onEvent({
+      type: 'step-done',
+      name: 'inline-critic',
+      model,
+      elapsed: ((performance.now() - t) / 1000).toFixed(1),
+      usage: result.usage,
+      output: `${parsed.annotations.length} annotation${parsed.annotations.length === 1 ? '' : 's'}\n\n${parsed.summary || ''}`,
+    });
+    return { ...parsed, raw: result.text, usage: result.usage };
+  } catch (err) {
+    onEvent({ type: 'step-error', name: 'inline-critic', error: err.message });
+    throw err;
+  }
+}
+
+function parseInlineCritic(text) {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  const candidate = fenced ? fenced[1] : text;
+  const objMatch = candidate.match(/\{[\s\S]*\}/);
+  if (!objMatch) {
+    return { summary: 'Critic did not return parseable JSON.', annotations: [], intent: null, word_count: 0 };
+  }
+  try {
+    const obj = JSON.parse(objMatch[0]);
+    const annotations = Array.isArray(obj.annotations)
+      ? obj.annotations
+          .filter((a) => a && typeof a.quote === 'string' && a.quote.length > 0 && typeof a.rule_id === 'string')
+          .map((a, i) => ({
+            id: `ann-${i}`,
+            quote: a.quote,
+            rule_id: a.rule_id,
+            severity: ['high', 'medium', 'low'].includes(a.severity) ? a.severity : 'medium',
+            category: typeof a.category === 'string' && a.category ? a.category : a.rule_id,
+            suggested: typeof a.suggested === 'string' ? a.suggested : '',
+            why: typeof a.why === 'string' ? a.why : '',
+          }))
+      : [];
+    return {
+      summary: typeof obj.summary === 'string' ? obj.summary : '',
+      intent: obj.intent || null,
+      word_count: typeof obj.word_count === 'number' ? obj.word_count : 0,
+      annotations,
+    };
+  } catch {
+    return { summary: 'Critic JSON parse failed.', annotations: [], intent: null, word_count: 0 };
+  }
+}
+
 // ---------- JSON parsing helper ----------
 
 function parsePolishPlan(text) {

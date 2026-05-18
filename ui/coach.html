@@ -44,6 +44,32 @@
       <h2>Optional: existing draft</h2>
       <p class="desc">If you have one, paste it. Coach critiques line-by-line, then rewrites. Leave empty to draft from scratch.</p>
       <textarea id="draft-input" rows="5" placeholder="(optional)"></textarea>
+      <div class="row-buttons" style="margin-top: var(--s-3);">
+        <button class="btn" id="critique-draft-inline">Critique this draft inline</button>
+        <span class="hint" style="color: var(--ink-muted); font-size: var(--t-xs); align-self: center; margin-left: var(--s-2);">One Sonnet call (~$0.02, ~8s). Returns highlighted spans with Accept / Reject.</span>
+      </div>
+    </section>
+
+    <section class="section" id="inline-coach-section" style="margin-top: var(--s-6); display: none;">
+      <h2>Inline coach</h2>
+      <p class="desc">Hover any highlight for the rule and suggested fix. Click <strong>Accept</strong> to apply the suggestion to your working draft, <strong>Reject</strong> to keep the original, or <strong>Snooze</strong> to hide it for this session. The original draft is preserved until you click <em>Apply to draft input</em>.</p>
+
+      <div id="inline-coach-summary" class="inline-coach-summary"></div>
+
+      <div class="inline-coach-toolbar">
+        <span id="inline-coach-stats" class="inline-coach-stats"></span>
+        <div class="row-buttons" style="margin-bottom: 0;">
+          <button class="btn" id="inline-coach-accept-all">Accept all</button>
+          <button class="btn" id="inline-coach-reset">Reset</button>
+          <button class="btn" id="inline-coach-copy">Copy working draft</button>
+          <button class="btn" id="inline-coach-apply">Apply to draft input</button>
+        </div>
+      </div>
+
+      <div class="inline-coach-grid">
+        <div id="inline-coach-viewer" class="inline-coach-viewer"></div>
+        <aside id="inline-coach-sidebar" class="inline-coach-sidebar"></aside>
+      </div>
     </section>
 
     <div class="card">
@@ -111,7 +137,11 @@
 
     <section class="section" style="margin-top:var(--s-6);">
       <h2>Output</h2>
-      <p class="desc" id="output-hint">Fill in the three fields above, then click <strong>Run the coach</strong>. Claude's full pipeline output appears here — dossier, connection angles, subject lines, the email, scored rubric.</p>
+      <p class="desc" id="output-hint">Fill in the three fields above, then click <strong>Run the coach</strong>. Claude's full pipeline output appears here, dossier, connection angles, subject lines, the email, scored rubric.</p>
+      <div id="critique-output-row" class="row-buttons" style="display:none; margin-bottom: var(--s-3);">
+        <button class="btn" id="critique-output-inline">Critique the drafted email inline</button>
+        <span class="hint" style="color: var(--ink-muted); font-size: var(--t-xs); align-self: center; margin-left: var(--s-2);">Runs the same Sonnet critic on the email Claude just produced.</span>
+      </div>
       <div class="output" id="output"></div>
       <div id="raw-toggle" style="display:none; margin-top:var(--s-3);">
         <button class="btn" id="show-raw">Show raw response</button>
