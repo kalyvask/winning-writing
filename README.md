@@ -280,12 +280,15 @@ extension/
 
 Full install + usage walkthrough in [`extension/README.md`](extension/README.md).
 
+### Settings shipped
+
+- **Rule source** — `Bundled snapshot` or `Live from GitHub`. Live mode pulls from `raw.githubusercontent.com/<owner>/<repo>/<branch>/points/...` and `skills/.../SKILL.md` with a 1-hour cache (chrome.storage.local) and a manual Refresh button. Falls back to the bundled snapshot on any network failure. The summary line under each critique badges which mode fired.
+- **Pre-send gate** — opt-in toggle. When on, intercepts both the Send button click and Cmd/Ctrl+Enter on `mail.google.com`; runs the `cross-model-review` skill against the rule library; shows a blocking modal with named failures + likely counter-question + Fix / Send-anyway. The modal is a positioned-fixed overlay; it does not modify Gmail's compose DOM.
+
 ### What it does NOT do (yet)
 
-- Inline highlights directly inside Gmail's compose body (the panel is the surface for now)
-- Send-button interception with a pre-send checklist
-- Reply-thread context (the import grabs the body, not the quoted thread)
-- Auto-sync rules from GitHub — `rules/` is a snapshot; refresh via the PowerShell snippet in the extension README when `points/` or `skills/` change
+- **Inline highlights directly inside Gmail's compose body.** The side panel is the highlight surface; the compose body itself is untouched. In-compose highlights require iteration against Gmail's live contenteditable (autosave fights modifications, span offsets drift on scroll/resize), which is the next dedicated build.
+- **Reply-thread context** — the import grabs the body, not the quoted thread.
 
 Each of those is a follow-up sized similar to the v1 itself.
 

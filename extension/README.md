@@ -54,15 +54,21 @@ The key is stored in `chrome.storage.local` and never leaves your machine. API c
 - Rewrites update the working draft; ask questions and you get a 1-3 sentence evaluation
 - Click **Re-critique** after a rewrite to flag what's left
 
+## Settings reference
+
+The cog under the side panel header expands to:
+
+- **Anthropic API key** — `sk-ant-...`. Stored in `chrome.storage.local`. Never sent anywhere except `api.anthropic.com`.
+- **Model** — defaults to Sonnet 4.6. Used for both the inline critic and the pre-send gate. Opus and Haiku are alternatives.
+- **Rule source** — `Bundled snapshot` (default) or `Live from GitHub`. Live mode fetches `points/*.md` and `skills/*/SKILL.md` directly from `raw.githubusercontent.com/<owner>/<repo>/<branch>/...`. Default repo is `kalyvask/winning-writing/main`; change it to point at your own fork.
+- **Refresh rules** — wipes the cache. Use after editing a rule in your repo if you don't want to wait for the 1-hour TTL.
+- **Pre-send gate** — opt-in toggle. When on, intercepts the Send button click and Cmd/Ctrl+Enter on `mail.google.com`, runs the `cross-model-review` skill against the rule library, and either lets the send proceed or shows a blocking modal with named failure modes and the recipient's likely counter-question. A `Send anyway` button is always available as an escape hatch.
+
 ## What it does NOT do (yet)
 
-- Inline highlights directly inside Gmail's compose body (the panel is the surface for now)
-- Send-button interception with the pre-send checklist
-- Reply-thread context (the import grabs the body only)
-- Auto-sync rules from GitHub
-- Voice file editing in-panel
-
-These are tracked on the roadmap and will follow as the personal+free path solidifies.
+- **Inline highlights directly inside Gmail's compose body.** The side panel is the highlight surface; the compose body itself is left untouched. Painting spans into Gmail's contenteditable fights autosave, drifts on scroll/resize, and the DOM shifts between compose modes (popup, full, reply); that build is the next dedicated piece of work, not a quick add.
+- **Reply-thread context** — the import grabs the body, not the quoted thread.
+- **Voice file editing in-panel** — `voice-and-style.md` is still edited via the `voice-commit` and `voice-from-sent-mail` skills from Claude Code.
 
 ## Updating rules
 
