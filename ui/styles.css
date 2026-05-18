@@ -996,3 +996,85 @@ mark.ann:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 
   display: flex;
   gap: var(--s-2);
 }
+
+/* Rule-source links surfacing which file in the library triggered each flag. */
+.ann-card-source-row {
+  margin-bottom: var(--s-3);
+  font-size: var(--t-xs);
+  color: var(--ink-muted);
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+.ann-card-source,
+.ann-list-source a,
+.inline-coach-lib a {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+  text-decoration: none;
+  background: var(--accent-soft);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.ann-card-source:hover,
+.ann-list-source a:hover,
+.inline-coach-lib a:hover {
+  border-color: var(--accent);
+}
+.ann-card-source-fallback {
+  background: var(--warn-soft);
+  color: var(--warn);
+  cursor: help;
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+}
+.ann-list-source {
+  font-size: var(--t-xs);
+  margin-bottom: var(--s-2);
+  color: var(--ink-faint);
+}
+
+.inline-coach-lib {
+  margin-top: var(--s-3);
+  font-size: var(--t-xs);
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+.inline-coach-lib code {
+  font-family: var(--mono);
+  background: var(--surface-2);
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+  color: var(--ink);
+}
+.inline-coach-lib details {
+  margin-top: var(--s-1);
+}
+.inline-coach-lib summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: var(--t-xs);
+  list-style: none;
+}
+.inline-coach-lib summary::-webkit-details-marker { display: none; }
+.inline-coach-lib summary::before {
+  content: '+ ';
+  font-family: var(--mono);
+}
+.inline-coach-lib details[open] summary::before { content: '− '; }
+.inline-coach-lib ul {
+  margin: var(--s-2) 0 0 0;
+  padding-left: var(--s-4);
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.inline-coach-lib li { display: inline-flex; }
+.inline-coach-lib-fallback { color: var(--warn); }

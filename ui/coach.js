@@ -1,6 +1,7 @@
 import { SYSTEM_PROMPT } from './coach-prompt.js';
 import { CROSS_MODEL_SYSTEM_PROMPT } from './cross-model-prompt.js';
 import { runSingleShotWithPolish, runFullAgentic, runInlineCritic } from './agents.js';
+import { loadRulesForIntent } from './skill-loader.js';
 
 const $ = (id) => document.getElementById(id);
 const KEY_STORE = 'winning-writing.coach.apikey';
@@ -616,14 +617,18 @@ async function run() {
 // ---------- Inline coach ----------
 
 const inline = {
-  source: null,          // 'input' | 'output'
+  source: null,            // 'input' | 'output'
   originalDraft: '',
   workingDraft: '',
-  annotations: [],       // [{id, quote, rule_id, severity, category, suggested, why, status, start, end}]
+  annotations: [],         // [{id, quote, rule_id, rule_source, severity, category, suggested, why, status, start, end}]
   summary: '',
   intent: 'cold-email',
   lastDraftedEmail: '',
+  rulesLoaded: [],         // Array of rule source paths the critic ran against
+  rulesIntent: null,       // Echoed intent the loader resolved to
 };
+
+const RULE_BASE = '..';    // relative to ui/, so points/ and skills/ resolve correctly
 
 let stickyCardId = null;
 
@@ -716,6 +721,19 @@ function removeAnnCard() {
   if (c) c.remove();
 }
 
+function ruleSourceLink(source) {
+  if (!source) return '';
+  if (source === 'fallback') {
+    return `<span class="ann-card-source ann-card-source-fallback" title="Rule library not loaded — using embedded taxonomy">fallback</span>`;
+  }
+  // points/foo.md → ../points/foo.md ; skills/em-dash-killer → ../skills/em-dash-killer/SKILL.md
+  let href;
+  if (source.startsWith('points/')) href = `${RULE_BASE}/${source}`;
+  else if (source.startsWith('skills/')) href = `${RULE_BASE}/${source}/SKILL.md`;
+  else href = `${RULE_BASE}/${source}`;
+  return `<a class="ann-card-source" href="${href}" target="_blank" rel="noreferrer" title="Open the rule source">${escapeHtmlForTrace(source)}</a>`;
+}
+
 function positionAnnCard(el) {
   const a = inline.annotations.find((x) => x.id === el.dataset.annId);
   if (!a) return;
@@ -726,6 +744,9 @@ function positionAnnCard(el) {
   const suggestedHtml = a.suggested
     ? `<div class="ann-card-suggest"><span class="ann-card-label">Suggested:</span> ${escapeHtmlForTrace(a.suggested)}</div>`
     : '';
+  const sourceHtml = a.rule_source
+    ? `<div class="ann-card-source-row"><span class="ann-card-label">Rule:</span> ${ruleSourceLink(a.rule_source)}</div>`
+    : '';
   card.innerHTML = `
     <div class="ann-card-head">
       <span class="ann-card-cat ann-card-${a.severity}">${escapeHtmlForTrace(a.category)}</span>
@@ -733,6 +754,7 @@ function positionAnnCard(el) {
     </div>
     <div class="ann-card-why">${escapeHtmlForTrace(a.why)}</div>
     ${suggestedHtml}
+    ${sourceHtml}
     <div class="ann-card-actions">
       <button class="btn btn-small" data-act="accept">Accept</button>
       <button class="btn btn-small" data-act="reject">Reject</button>
@@ -788,9 +810,13 @@ function handleAnnAction(annId, act) {
 
 function renderInlineCoach() {
   $('inline-coach-section').style.display = '';
-  $('inline-coach-summary').innerHTML = inline.summary
+  const summaryHtml = inline.summary
     ? `<strong>Read:</strong> ${escapeHtmlForTrace(inline.summary)}`
     : '';
+  const libHtml = inline.rulesLoaded.length
+    ? `<div class="inline-coach-lib">Critiqued against <strong>${inline.rulesLoaded.length}</strong> rule sources from the library (intent: <code>${escapeHtmlForTrace(inline.rulesIntent || 'cold-email')}</code>). <details><summary>Show sources</summary><ul>${inline.rulesLoaded.map((s) => `<li>${ruleSourceLink(s)}</li>`).join('')}</ul></details></div>`
+    : `<div class="inline-coach-lib inline-coach-lib-fallback">Rule library not reachable — using fallback taxonomy.</div>`;
+  $('inline-coach-summary').innerHTML = summaryHtml + libHtml;
   const counts = countAnnotations();
   $('inline-coach-stats').innerHTML = `
     <strong>${counts.open}</strong> open
@@ -834,6 +860,9 @@ function renderInlineSidebar() {
     const trunc = a.quote.length > 80 ? a.quote.slice(0, 80) + '…' : a.quote;
     const suggest = a.suggested ? `<div class="ann-list-suggest">→ ${escapeHtmlForTrace(a.suggested)}</div>` : '';
     const unresolved = a.start < 0 ? '<span class="ann-list-unresolved">unmatched</span>' : '';
+    const sourceRow = a.rule_source
+      ? `<div class="ann-list-source">${ruleSourceLink(a.rule_source)}</div>`
+      : '';
     html += `
       <li class="ann-list-item ann-list-${a.severity}" data-ann-id="${a.id}">
         <div class="ann-list-head">
@@ -844,6 +873,7 @@ function renderInlineSidebar() {
         <div class="ann-list-quote">"${escapeHtmlForTrace(trunc)}"</div>
         <div class="ann-list-why">${escapeHtmlForTrace(a.why)}</div>
         ${suggest}
+        ${sourceRow}
         <div class="ann-list-actions">
           <button class="btn btn-small" data-act="accept" data-ann-id="${a.id}">Accept</button>
           <button class="btn btn-small" data-act="reject" data-ann-id="${a.id}">Reject</button>
@@ -873,13 +903,21 @@ async function runInlineCritiqueOnDraft(source) {
   const btn = $(btnId);
   const origLabel = btn ? btn.textContent : '';
   if (btn) { btn.disabled = true; btn.textContent = 'Critiquing…'; }
-  setStatus(`Running inline critic on ${source === 'input' ? 'pasted draft' : 'drafted email'}…`, 'ok');
+  setStatus('Loading rule library…', 'ok');
   try {
+    const rules = await loadRulesForIntent('cold-email');
+    inline.rulesLoaded = rules.sources;
+    inline.rulesIntent = rules.intent;
+    const libNote = rules.sources.length
+      ? `${rules.sources.length} sources loaded (${rules.pointCount} points + ${rules.skillCount} skills). Running critic…`
+      : 'Rule library not reachable, falling back to embedded taxonomy…';
+    setStatus(libNote, 'ok');
     const result = await runInlineCritic({
       apiKey,
       model: 'claude-sonnet-4-6',
       draft,
       intent: 'cold-email',
+      rules,
       onEvent: handlePipelineEvent,
     });
     inline.source = source;
@@ -891,7 +929,8 @@ async function runInlineCritiqueOnDraft(source) {
     renderInlineCoach();
     $('inline-coach-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     const n = inline.annotations.length;
-    setStatus(`Inline critique done. ${n} flag${n === 1 ? '' : 's'}.`, 'ok');
+    const lib = rules.sources.length ? ` against ${rules.sources.length} loaded rule sources` : ' (fallback taxonomy)';
+    setStatus(`Inline critique done. ${n} flag${n === 1 ? '' : 's'}${lib}.`, 'ok');
   } catch (err) {
     setStatus(`Inline critique failed: ${err.message}`, 'err');
   } finally {

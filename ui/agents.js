@@ -252,71 +252,104 @@ Output a markdown table:
 
 Below the table, add a "## Flags" section with anything the user should verify before sending (unverified claims, jargon hits, missing names/dates, length over target).`;
 
-const INLINE_CRITIC_PROMPT = `You are a writing critic returning span-level annotations on a draft. Find specific words, phrases, and sentences that break the rules of Winning Writing (Stanford GSB, Glenn Kramon + Rachel Konrad).
+// Used when the rule library above is loaded (the new, preferred path). The library
+// itself supplies the taxonomy; this block only specifies the output contract.
+const INLINE_CRITIC_INSTRUCTIONS = `You are a writing critic. Read the user's draft below and return STRICT JSON with span-level annotations against the rule library loaded above.
 
-Rules taxonomy. Use these rule_ids exactly:
-- "em-dash" — any em-dash (—) or double-hyphen (--); severity high
-- "banned-word" — synergy, leverage, drive (corporate sense), strategize, empower, enable, deliverables, utilize, align/alignment, impactful, irregardless; severity high
-- "ai-tell" — "it's not just X, it's Y", "delve into", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "in today's X world"; severity high
-- "jargon-phrase" — "at the intersection of", "I hope this email finds you well", "I'd love to pick your brain", "I'd love to grab coffee", "passionate about complex problems", "driving innovation", "building and scaling"; severity high
-- "vague-ask" — asks without a date, time, format, or specific question; severity high (cold-email intent only)
-- "generic-opener" — "I hope you are well", "My name is X", "I'm reaching out because", "just wanted to check in", flattery about accomplishments; severity high (cold-email intent only)
-- "throat-clearing" — preamble before the actual point; severity medium
-- "intensifier" — very, really, actually, basically, clearly, obviously, literally, definitely, simply, totally, absolutely; severity medium
-- "sentence-adverb" — sentence-starting adverbs (Importantly, Notably, Interestingly, Frankly, Honestly, Ultimately, Fundamentally,); severity medium
-- "tell-not-show" — abstract emotional summaries ("I was excited", "we struggled", "it was amazing") with no scene; severity medium
-- "missing-specific" — generic category nouns ("a tool", "an engineer", "a company") where a specific would land harder; severity medium
-- "weak-subject" — generic subject lines ("Hoping to connect", "Quick question", "Touching base"); severity medium (cold-email only)
-- "bland-signoff" — "Best", "Sincerely", "Regards" with no personality; severity low
-- "hedge" — "I think maybe", "perhaps", "I wonder if", "it could be argued"; severity low
-- "passive-voice" — passive constructions where active would be punchier; severity low
-- "length-over" — the whole draft is over its target word count; severity medium (annotate the closing sentence as the quote)
+The rule library above is the AUTHORITATIVE source of truth. Every annotation must trace back to a rule in one of the source files in the library. Set \`rule_source\` to the EXACT source path from the library (e.g. "points/named-failure-modes.md" or "skills/em-dash-killer") of the rule you're applying. Do not invent paths; only use paths that appear in the library.
 
-Output STRICT JSON. No markdown fences. No commentary outside the JSON object. Schema:
+Output schema:
 
 {
-  "summary": "one to three sentences on overall quality and the top one or two issues",
-  "intent": "cold-email" | "op-ed" | "pitch" | "general",
+  "summary": "1-3 sentences on overall quality and the top one or two issues",
+  "intent": "<the writing intent the user gave>",
   "word_count": <integer>,
   "annotations": [
     {
       "quote": "<exact substring from the draft, character-for-character>",
-      "rule_id": "<one of the rule_ids above>",
+      "rule_id": "<short kebab-case slug for this rule, e.g. 'vague-ask', 'em-dash', 'pick-your-brain'>",
+      "rule_source": "<source path from the library, e.g. 'points/named-failure-modes.md' or 'skills/em-dash-killer'>",
       "severity": "high" | "medium" | "low",
-      "category": "<short human-readable label, e.g. 'Em-dash' or 'Vague ask'>",
+      "category": "<human-readable label, e.g. 'Vague ask', 'Em-dash', 'Generic flattery'>",
       "suggested": "<rewrite, or \\"(delete)\\" to cut it>",
-      "why": "<one sentence: the problem and the fix>"
+      "why": "<one sentence: what the rule says, why the quote breaks it, and the fix>"
     }
   ]
 }
 
 Quote rules:
 - "quote" MUST be an exact substring of the draft, including punctuation and case. If a word appears multiple times and you want a specific instance, include 2-3 surrounding words for uniqueness.
-- Cap at 12 annotations. Prioritize high severity first, then medium, then low. Within each, prioritize what a reader would miss on a re-read.
+- Cap at 12 annotations. Prioritize highest severity first; within each severity, prioritize what a reader would most miss on a re-read.
+- Severity is your judgment grounded in the rule library: high = clear violation that should block sending; medium = obvious violation but not fatal; low = a nit.
 - If the draft is clean, return an empty annotations array and say so in summary.
-- Never invent issues that aren't in the text. Never flag minor stylistic preferences.
+- Never invent rules that aren't in the library. Never flag minor stylistic preferences.
 - Escape backslashes and double-quotes inside JSON string values.
 
-Return ONLY the JSON object.`;
+Return ONLY the JSON object. No markdown fences. No commentary outside the JSON.`;
+
+// Fallback used when the rule library cannot be fetched (file://, offline, dev
+// without a server). Embeds a compact taxonomy so the critic still functions.
+const INLINE_CRITIC_FALLBACK_PROMPT = `You are a writing critic returning span-level annotations on a draft. The rule library could not be loaded, so use this compact taxonomy as the source of truth.
+
+Rules taxonomy. Use these rule_ids exactly:
+- "em-dash" — any em-dash (—) or double-hyphen (--); severity high
+- "banned-word" — synergy, leverage, drive (corporate sense), strategize, empower, enable, deliverables, utilize, align/alignment, impactful, irregardless; severity high
+- "ai-tell" — "delve into", "tapestry of", "navigate the complexities", "robust solution", "cutting-edge", "game-changer", "in today's X world"; severity high
+- "jargon-phrase" — "at the intersection of", "I hope this email finds you well", "pick your brain", "grab coffee", "passionate about", "driving innovation"; severity high
+- "vague-ask" — asks without a date, time, format, or specific question; severity high
+- "generic-opener" — "I hope you are well", "My name is X", "I'm reaching out because", flattery about accomplishments; severity high
+- "intensifier" — very, really, actually, basically, clearly, obviously, literally, definitely, simply, totally; severity medium
+- "tell-not-show" — abstract emotional summaries with no scene; severity medium
+- "missing-specific" — generic category nouns where a specific would land harder; severity medium
+- "bland-signoff" — "Best", "Sincerely", "Regards" with no personality; severity low
+
+Output STRICT JSON. Same schema as the loaded-library path, with rule_source set to "fallback" for every annotation:
+
+{
+  "summary": "...",
+  "intent": "...",
+  "word_count": <int>,
+  "annotations": [
+    { "quote": "...", "rule_id": "...", "rule_source": "fallback", "severity": "...", "category": "...", "suggested": "...", "why": "..." }
+  ]
+}
+
+"quote" must be an exact substring of the draft. Cap at 12 annotations. Return ONLY the JSON.`;
 
 export async function runInlineCritic({
   apiKey,
   model = 'claude-sonnet-4-6',
   draft,
   intent = 'cold-email',
+  rules = null,
   onEvent = () => {},
 }) {
   if (!draft || !draft.trim()) {
-    return { summary: 'No draft to critique.', annotations: [], intent, word_count: 0, raw: '', usage: {} };
+    return { summary: 'No draft to critique.', annotations: [], intent, word_count: 0, sources: [], raw: '', usage: {} };
   }
-  onEvent({ type: 'step-start', name: 'inline-critic', model, note: 'Generating span-level annotations' });
+  const useRules = !!(rules && rules.markdown && Array.isArray(rules.sources) && rules.sources.length > 0);
+  const system = useRules
+    ? [
+        { type: 'text', text: rules.markdown, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: INLINE_CRITIC_INSTRUCTIONS },
+      ]
+    : INLINE_CRITIC_FALLBACK_PROMPT;
+
+  onEvent({
+    type: 'step-start',
+    name: 'inline-critic',
+    model,
+    note: useRules
+      ? `Critiquing against ${rules.sources.length} rule sources (${rules.pointCount} points, ${rules.skillCount} skills)`
+      : 'Generating span-level annotations (fallback taxonomy)',
+  });
   const t = performance.now();
   try {
     const userMessage = `# Intent\n${intent}\n\n# Draft\n\n${draft}\n\n---\n\nReturn the JSON now.`;
     const result = await callStep({
       apiKey,
       model,
-      system: INLINE_CRITIC_PROMPT,
+      system,
       user: userMessage,
       maxTokens: 3000,
     });
@@ -329,7 +362,7 @@ export async function runInlineCritic({
       usage: result.usage,
       output: `${parsed.annotations.length} annotation${parsed.annotations.length === 1 ? '' : 's'}\n\n${parsed.summary || ''}`,
     });
-    return { ...parsed, raw: result.text, usage: result.usage };
+    return { ...parsed, sources: useRules ? rules.sources : [], raw: result.text, usage: result.usage };
   } catch (err) {
     onEvent({ type: 'step-error', name: 'inline-critic', error: err.message });
     throw err;
@@ -352,6 +385,7 @@ function parseInlineCritic(text) {
             id: `ann-${i}`,
             quote: a.quote,
             rule_id: a.rule_id,
+            rule_source: typeof a.rule_source === 'string' ? a.rule_source : '',
             severity: ['high', 'medium', 'low'].includes(a.severity) ? a.severity : 'medium',
             category: typeof a.category === 'string' && a.category ? a.category : a.rule_id,
             suggested: typeof a.suggested === 'string' ? a.suggested : '',
