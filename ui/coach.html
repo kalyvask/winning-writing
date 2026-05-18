@@ -70,6 +70,18 @@
         <div id="inline-coach-viewer" class="inline-coach-viewer"></div>
         <aside id="inline-coach-sidebar" class="inline-coach-sidebar"></aside>
       </div>
+
+      <div class="inline-coach-chat" id="inline-coach-chat">
+        <h3>Refine</h3>
+        <p class="desc">Tell Coach what to change. It rewrites the working draft and remembers the conversation for this session. Click <strong>Re-critique</strong> to flag what's left in the new version. Asking a question (<em>"what's wrong with the opener?"</em>) returns an evaluation, not a rewrite.</p>
+        <ul id="inline-coach-chat-turns" class="chat-turns"></ul>
+        <div class="chat-input-row">
+          <input id="inline-coach-chat-input" type="text" placeholder='e.g. cut 30 words, move the ask earlier, what is wrong with the opener?' autocomplete="off">
+          <button class="btn btn-primary" id="inline-coach-chat-send">Send</button>
+          <button class="btn" id="inline-coach-recritique">Re-critique</button>
+          <button class="btn" id="inline-coach-chat-reset">Reset chat</button>
+        </div>
+      </div>
     </section>
 
     <div class="card">

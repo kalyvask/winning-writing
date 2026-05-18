@@ -1078,3 +1078,96 @@ mark.ann:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 
 }
 .inline-coach-lib li { display: inline-flex; }
 .inline-coach-lib-fallback { color: var(--warn); }
+
+/* ---------- Refinement chat ---------- */
+
+.inline-coach-chat {
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+}
+.inline-coach-chat h3 {
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin: 0 0 var(--s-2) 0;
+  font-weight: 500;
+}
+
+.chat-turns {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-3) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  max-height: 22rem;
+  overflow-y: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-3);
+}
+.chat-empty {
+  color: var(--ink-faint);
+  font-style: italic;
+  font-size: var(--t-sm);
+  text-align: center;
+  padding: var(--s-3);
+}
+.chat-turn {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: var(--s-3);
+  align-items: start;
+  font-size: var(--t-sm);
+  line-height: 1.55;
+}
+.chat-turn-role {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  padding-top: 0.15rem;
+}
+.chat-turn-text {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--s-2) var(--s-3);
+  color: var(--ink);
+}
+.chat-turn-user .chat-turn-role { color: var(--accent); }
+.chat-turn-user .chat-turn-text {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+}
+.chat-turn-assistant .chat-turn-role { color: var(--good); }
+.chat-turn-assistant .chat-turn-text {
+  border-left: 3px solid var(--good);
+}
+.chat-turn-evaluation .chat-turn-text {
+  border-left: 3px solid var(--warn);
+  background: var(--warn-soft);
+}
+.chat-turn-error .chat-turn-text {
+  border-left: 3px solid var(--bad);
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.chat-input-row {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: var(--s-3);
+}
+.chat-input-row input {
+  flex: 1 1 20rem;
+  min-width: 14rem;
+  font-size: var(--t-sm);
+}

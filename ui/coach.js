@@ -1,6 +1,6 @@
 import { SYSTEM_PROMPT } from './coach-prompt.js';
 import { CROSS_MODEL_SYSTEM_PROMPT } from './cross-model-prompt.js';
-import { runSingleShotWithPolish, runFullAgentic, runInlineCritic } from './agents.js';
+import { runSingleShotWithPolish, runFullAgentic, runInlineCritic, runRefinementTurn } from './agents.js';
 import { loadRulesForIntent } from './skill-loader.js';
 
 const $ = (id) => document.getElementById(id);
@@ -626,6 +626,7 @@ const inline = {
   lastDraftedEmail: '',
   rulesLoaded: [],         // Array of rule source paths the critic ran against
   rulesIntent: null,       // Echoed intent the loader resolved to
+  chatHistory: [],         // [{role: 'user'|'assistant', text, error?, isEvaluation?}]
 };
 
 const RULE_BASE = '..';    // relative to ui/, so points/ and skills/ resolve correctly
@@ -828,6 +829,7 @@ function renderInlineCoach() {
   `;
   renderAnnotatedDraft();
   renderInlineSidebar();
+  renderChatTurns();
 }
 
 function countAnnotations() {
@@ -968,6 +970,141 @@ function applyWorkingDraftToInput() {
   setStatus('Working draft copied into the draft-input field. Re-run the coach for a full pipeline pass on it.', 'ok');
 }
 
+// ----- Refinement chat -----
+
+function renderChatTurns() {
+  const ul = $('inline-coach-chat-turns');
+  if (inline.chatHistory.length === 0) {
+    ul.innerHTML = '<li class="chat-empty">No refinement turns yet. Tell Coach what to change.</li>';
+    return;
+  }
+  let html = '';
+  for (const t of inline.chatHistory) {
+    let cls = 'chat-turn-assistant';
+    if (t.role === 'user') cls = 'chat-turn-user';
+    else if (t.error) cls = 'chat-turn-error';
+    else if (t.isEvaluation) cls = 'chat-turn-evaluation';
+    const role = t.role === 'user' ? 'You' : 'Coach';
+    html += `<li class="chat-turn ${cls}">
+      <div class="chat-turn-role">${role}</div>
+      <div class="chat-turn-text">${escapeHtmlForTrace(t.text).replace(/\n/g, '<br>')}</div>
+    </li>`;
+  }
+  ul.innerHTML = html;
+  ul.scrollTop = ul.scrollHeight;
+}
+
+async function sendRefinementTurn() {
+  const inputEl = $('inline-coach-chat-input');
+  const instruction = inputEl.value.trim();
+  if (!instruction) return;
+  if (!inline.workingDraft) {
+    setStatus('No draft to refine. Run a critique first.', 'err');
+    return;
+  }
+  persistKey();
+  const apiKey = $('api-key').value.trim();
+  if (!apiKey) { setStatus('Paste your Anthropic API key first.', 'err'); return; }
+
+  const sendBtn = $('inline-coach-chat-send');
+  sendBtn.disabled = true;
+  inputEl.disabled = true;
+
+  inline.chatHistory.push({ role: 'user', text: instruction });
+  renderChatTurns();
+  inputEl.value = '';
+
+  try {
+    setStatus('Refining…', 'ok');
+    const rules = await loadRulesForIntent(inline.rulesIntent || 'cold-email');
+    const result = await runRefinementTurn({
+      apiKey,
+      model: 'claude-sonnet-4-6',
+      draft: inline.workingDraft,
+      history: inline.chatHistory.slice(0, -1),
+      instruction,
+      rules,
+      intent: inline.intent || 'cold-email',
+      onEvent: handlePipelineEvent,
+    });
+
+    if (result.isEvaluation) {
+      inline.chatHistory.push({
+        role: 'assistant',
+        text: result.note,
+        isEvaluation: true,
+      });
+      renderChatTurns();
+      setStatus('Evaluation returned. Draft unchanged.', 'ok');
+    } else {
+      const wc = result.rewrittenDraft.split(/\s+/).filter(Boolean).length;
+      const summary = (result.note ? `NOTE: ${result.note}\n\n` : '') + `Rewrote the draft — now ${wc} words. Old flags cleared. Click Re-critique to flag what's in the new version.`;
+      inline.chatHistory.push({
+        role: 'assistant',
+        text: summary,
+      });
+      inline.workingDraft = result.rewrittenDraft;
+      inline.annotations = [];
+      inline.summary = `Draft refined in chat. Click Re-critique to flag the new version.`;
+      renderInlineCoach();
+      renderChatTurns();
+      setStatus('Draft refined. Click Re-critique to flag what is left.', 'ok');
+    }
+  } catch (err) {
+    inline.chatHistory.push({
+      role: 'assistant',
+      text: `Error: ${err.message}`,
+      error: true,
+    });
+    renderChatTurns();
+    setStatus(`Refinement failed: ${err.message}`, 'err');
+  } finally {
+    sendBtn.disabled = false;
+    inputEl.disabled = false;
+    inputEl.focus();
+  }
+}
+
+async function reCritique() {
+  if (!inline.workingDraft) { setStatus('No working draft.', 'err'); return; }
+  persistKey();
+  const apiKey = $('api-key').value.trim();
+  if (!apiKey) { setStatus('Paste your Anthropic API key first.', 'err'); return; }
+
+  const btn = $('inline-coach-recritique');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Re-critiquing…';
+  setStatus('Re-critiquing current working draft…', 'ok');
+  try {
+    const rules = await loadRulesForIntent(inline.rulesIntent || 'cold-email');
+    const result = await runInlineCritic({
+      apiKey,
+      model: 'claude-sonnet-4-6',
+      draft: inline.workingDraft,
+      intent: inline.intent || 'cold-email',
+      rules,
+      onEvent: handlePipelineEvent,
+    });
+    inline.summary = result.summary || '';
+    inline.annotations = (result.annotations || []).map((a) => ({ ...a, status: 'open', start: -1, end: -1 }));
+    renderInlineCoach();
+    const n = inline.annotations.length;
+    setStatus(`Re-critique done. ${n} flag${n === 1 ? '' : 's'} on the refined draft.`, 'ok');
+  } catch (err) {
+    setStatus(`Re-critique failed: ${err.message}`, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+}
+
+function resetChat() {
+  inline.chatHistory = [];
+  renderChatTurns();
+  setStatus('Chat history cleared. Draft unchanged.', 'ok');
+}
+
 // Close sticky card when clicking outside
 document.addEventListener('click', (e) => {
   if (!stickyCardId) return;
@@ -1006,6 +1143,15 @@ function init() {
   $('inline-coach-reset').addEventListener('click', resetInline);
   $('inline-coach-copy').addEventListener('click', copyWorkingDraft);
   $('inline-coach-apply').addEventListener('click', applyWorkingDraftToInput);
+  $('inline-coach-chat-send').addEventListener('click', sendRefinementTurn);
+  $('inline-coach-recritique').addEventListener('click', reCritique);
+  $('inline-coach-chat-reset').addEventListener('click', resetChat);
+  $('inline-coach-chat-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendRefinementTurn();
+    }
+  });
 
   // Optional dev convenience: load a local-only key file (gitignored)
   import('./.local-key.js').catch(() => {}).then((m) => {

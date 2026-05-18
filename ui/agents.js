@@ -403,6 +403,109 @@ function parseInlineCritic(text) {
   }
 }
 
+// ---------- Refinement turn ----------
+//
+// Multi-turn chat against the working draft. Each turn: user gives an
+// instruction ("cut 30 words", "move the ask earlier", "what's wrong with
+// the opener?"); model returns either a rewritten draft or a 1-3 sentence
+// evaluation. Same rule library backs every turn via cached system block.
+
+const REFINEMENT_PROMPT = `You are a writing refiner. The user has a draft and is iterating on it. Each turn, the user gives a single instruction. You apply it and return ONLY the rewritten draft as plain text — no commentary, no diff, no markdown fences.
+
+The rule library above (if present) still applies on every turn: zero em-dashes, no banned words, no AI-tell prose, no jargon phrases. If the user's instruction conflicts with a rule (e.g., "add an em-dash here"), do what they ask but prefix your response with a single short line starting with "NOTE:" explaining the conflict.
+
+If the instruction is asking for an EVALUATION rather than a rewrite ("what's wrong with the opener?", "does the ask work?", "is the length right?"), respond in 1-3 sentences. Prefix with "NOTE:" and return no rewrite.
+
+Output format:
+- Rewrite: return the rewritten draft body only.
+- Evaluation: start with "NOTE:" and a 1-3 sentence answer.
+- Rule conflict: start with "NOTE:" explaining the conflict, blank line, then the rewrite.
+
+Constraints:
+- Preserve the recipient's name, named mutual contacts, and specific dates/numbers from the current draft unless the user explicitly asks to change them.
+- Do not shrink to almost nothing or expand to a wall of text unless the user asks for that change.
+- Stay within the same writing intent the previous critique used (the system prompt names it).`;
+
+export async function runRefinementTurn({
+  apiKey,
+  model = 'claude-sonnet-4-6',
+  draft,
+  history = [],
+  instruction,
+  rules = null,
+  intent = 'cold-email',
+  onEvent = () => {},
+}) {
+  if (!instruction || !instruction.trim()) {
+    throw new Error('No instruction provided.');
+  }
+  if (!draft || !draft.trim()) {
+    throw new Error('No current draft to refine.');
+  }
+
+  const useRules = !!(rules && rules.markdown && Array.isArray(rules.sources) && rules.sources.length > 0);
+  const system = useRules
+    ? [
+        { type: 'text', text: rules.markdown, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: REFINEMENT_PROMPT },
+      ]
+    : REFINEMENT_PROMPT;
+
+  let userMessage = `# Writing intent\n${intent}\n\n# Current draft\n\n${draft}\n`;
+  if (history.length > 0) {
+    userMessage += `\n# Previous turns in this session\n\n`;
+    for (const turn of history) {
+      const role = turn.role === 'user' ? 'User' : 'Refiner';
+      userMessage += `**${role}:** ${turn.text}\n\n`;
+    }
+  }
+  userMessage += `\n# New instruction\n${instruction}\n\nApply the instruction. Output per the format rules in the system prompt.`;
+
+  onEvent({ type: 'step-start', name: 'refinement', model, note: instruction.slice(0, 80) });
+  const t = performance.now();
+  try {
+    const result = await callStep({
+      apiKey,
+      model,
+      system,
+      user: userMessage,
+      maxTokens: 2000,
+    });
+    const parsed = parseRefinementResponse(result.text);
+    onEvent({
+      type: 'step-done',
+      name: 'refinement',
+      model,
+      elapsed: ((performance.now() - t) / 1000).toFixed(1),
+      usage: result.usage,
+      output: parsed.isEvaluation
+        ? `Evaluation: ${parsed.note}`
+        : `${parsed.note ? `NOTE: ${parsed.note}\n\n` : ''}${parsed.rewrittenDraft.slice(0, 400)}${parsed.rewrittenDraft.length > 400 ? '…' : ''}`,
+    });
+    return { ...parsed, raw: result.text, usage: result.usage };
+  } catch (err) {
+    onEvent({ type: 'step-error', name: 'refinement', error: err.message });
+    throw err;
+  }
+}
+
+function parseRefinementResponse(text) {
+  const trimmed = (text || '').trim();
+  if (!trimmed) return { note: '', rewrittenDraft: '', isEvaluation: false };
+  // If the response starts with NOTE:, capture the note up to a blank line (or end).
+  const noteMatch = trimmed.match(/^NOTE:\s*([\s\S]*?)(?:\n\s*\n|$)/i);
+  if (noteMatch) {
+    const note = noteMatch[1].trim();
+    const rest = trimmed.slice(noteMatch[0].length).trim();
+    return {
+      note,
+      rewrittenDraft: rest,
+      isEvaluation: rest.length === 0,
+    };
+  }
+  return { note: '', rewrittenDraft: trimmed, isEvaluation: false };
+}
+
 // ---------- JSON parsing helper ----------
 
 function parsePolishPlan(text) {
