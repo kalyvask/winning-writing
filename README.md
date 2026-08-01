@@ -128,7 +128,7 @@ skill-evals/         Broader regression suite covering the catalog skill plus co
 
 ## The points
 
-Eleven reference docs, each focused on one slice of the course:
+Thirteen reference docs, each focused on one slice of the source material:
 
 | File | Covers |
 |------|--------|
@@ -136,9 +136,10 @@ Eleven reference docs, each focused on one slice of the course:
 | [banned-jargon.md](points/banned-jargon.md) | Words and phrases to kill on sight, with replacements |
 | [frameworks.md](points/frameworks.md) | BLUF, S.H.I.T., 7-part pitch, op-ed structure, gratitude formula |
 | [cold-email-rules.md](points/cold-email-rules.md) | Konrad's 10 rules + Heidi Roizen's mailing rules |
-| [exec-memo-rules.md](points/exec-memo-rules.md) | Decision-memo rules: TL;DR up front, one ask per memo, named decision criterion, sourced numbers, early-failure signal, the 60-second test |
+| [exec-memo-rules.md](points/exec-memo-rules.md) | Decision-memo rules: TL;DR up front, one ask per memo, named decision criterion, sourced numbers, early-failure signal, the 60-second test, plus format mechanics from Alper & Kluger's Memo on Memos (informative headers, verb-first recommendations, 5-sentence/17-word readability targets) |
 | [performance-review-rules.md](points/performance-review-rules.md) | Performance-review rules from Kramon: letter to the person not about them, lead with what you like then what you would like, near-term + long-term goals (including their next job), colleague feedback as multiplier, no psychoanalyzing or ambushing, close with thank-you, the house-on-fire test |
-| [speech-rules.md](points/speech-rules.md) | Speech and talk-delivery rules from Kramon Session 8 ("Wowing the Crowd"): write the closing line first, repeat the main thought, one story, audience-size adjustments, three opening + closing archetypes, pre-talk checklist |
+| [speech-rules.md](points/speech-rules.md) | Speech and talk-delivery rules from Kramon Session 8 ("Wowing the Crowd"): write the closing line first, repeat the main thought, one story, the Sparkline (alternate "what is" with "what could be"), audience-size adjustments, three opening + closing archetypes, pre-talk checklist |
+| [delivery-rules.md](points/delivery-rules.md) | Spoken-delivery mechanics from Kluger & Alper's Strategic Communication (GSBGEN 315/515): the three Vs (verbal/vocal/visual), the four derailers with fixes (tactical pause, end-low inflection), Q&A answer structures (lead with the answer), nerve management, the record-and-review loop |
 | [kramon-master.md](points/kramon-master.md) | Full Kramon reference, all four sessions |
 | [examples-and-critiques.md](points/examples-and-critiques.md) | Model letters, op-ed headlines, before/after rewrites |
 | [ai-writing-rules.md](points/ai-writing-rules.md) | How to use AI without sounding like AI ("centaur" mode) |
@@ -379,6 +380,9 @@ The harness reads the same canonical `bundles.json` as the browser loaders, so i
 ## Sources
 
 - Glenn Kramon's *Winning Writing* (GSBGEN 352.1), Stanford GSB
+- Allison Kluger and Burt Alper's *Strategic Communication* (GSBGEN 315/515), Stanford GSB — delivery mechanics, derailers, Q&A structures, and the Memo on Memos
+- Nancy Duarte's *Resonate* (the Sparkline, structure-before-slides) and *Slidedocs*
+- Mary Munter and Lynn Russell's *Guide to Presentations* (the AIM framework)
 - Rachel Konrad's guest lectures on cold outreach
 - Heidi Roizen's mailing rules
 - Adam Bryant on writing about yourself ("desirable confidence") and the *Corner Office* interviews with 500+ CEOs

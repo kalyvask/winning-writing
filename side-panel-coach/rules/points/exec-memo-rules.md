@@ -90,6 +90,18 @@ Three "options" where two are straw men and you've already picked the third. Rev
 ### The trailing ask
 "Thanks for considering!" instead of "Please approve by Friday so we can start Monday." The reader doesn't know what to do with the document.
 
+## Format mechanics
+
+From Burt Alper and Allison Kluger's "Memo on Memos" (Strategic Communication, GSBGEN 315/515, Stanford GSB) — the layout rules that make a memo skimmable. Content is king, but format decides whether the content gets read:
+
+- **Three-act structure.** Intro, sectioned body, conclusion. The reader should be able to reconstruct the argument from the section headers alone.
+- **Informative headers, not labels.** "Recommendation: kill X, reallocate to Y" helps a skimmer; "Recommendation" merely labels. Every header should carry information.
+- **Left justification only.** Full justification stretches and scrunches words; business readers expect a ragged right edge.
+- **Bullets for lists of three or more short phrases; numbers when order matters** (process steps, priority). Never bullet full paragraphs — a bulleted paragraph loses the set-off effect that makes lists scannable.
+- **Readability targets: ~5 sentences per paragraph, ~17 words per sentence,** on average. Not a ceiling per sentence — an average that forces variance.
+- **Every recommendation starts with a specific verb.** "Approve the Q3 budget," "Assign two engineers," "Kill the pilot" — a recipe the reader can execute. A recommendation that starts with "It would be beneficial to consider..." is not a recommendation.
+- **Verb vividness is the passive-voice detector.** Count your is/are/was/were constructions; too many means you're writing passively. Swap in verbs that name the action.
+
 ## Structure cheat sheet
 
 ```

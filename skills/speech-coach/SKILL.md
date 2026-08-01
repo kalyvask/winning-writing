@@ -5,7 +5,7 @@ description: Drafts and critiques speeches, talks, keynotes, lightning talks, de
 
 # Speech coach
 
-Source: `points/speech-rules.md` (the 12 rules + the order-of-operations drafting flow), `points/kramon-master.md` (rhythm, jargon, warmth), `points/banned-jargon.md` (especially for spoken delivery — every banned phrase hits even harder when read aloud).
+Source: `points/speech-rules.md` (the 12 rules + the order-of-operations drafting flow + the Sparkline), `points/delivery-rules.md` (the three Vs, derailers, Q&A structures — for Mode 3 coaching), `points/kramon-master.md` (rhythm, jargon, warmth), `points/banned-jargon.md` (especially for spoken delivery — every banned phrase hits even harder when read aloud).
 
 ## What this skill does
 
@@ -46,6 +46,7 @@ Mark the draft against the 12 rules. Quote the specific lines that fail and rewr
 - **Apologies for being underprepared, nervous, rushed** — never. Cut all of them.
 - **No repetition of the main thought** — say it once early, once mid, once at the close. Choose deliberately.
 - **The end is weaker than the opener** — flip the energy. The closing line is what they will quote.
+- **Three or more consecutive "what is" paragraphs** — the Sparkline is flat. Dense analytical stretches with no peak of wonder, humor, or rhetorical question lose the room. Mark each paragraph *is* or *could be*; insert a peak where three *is* run together. (See the Sparkline section of `points/speech-rules.md`.)
 
 ## Mode 3 — Coaching the user through the read-aloud
 
@@ -56,6 +57,8 @@ If the user has the draft and is preparing to deliver, do not rewrite — coach 
 3. Where do you stumble? (Stumbles are not the user's fault — they are listener confusion points. Rewrite those sentences plainer.)
 4. What's the one slide / image that the audience will photograph? (If none, the talk needs a visual anchor.)
 5. What's your fallback if the projector dies? (If none, the user is not ready.)
+6. Run the delivery checklist from `points/delivery-rules.md`: pace and volume one notch beyond comfortable, sentences ending low not high, fillers replaced with the tactical pause, feet planted, no self-commenting — the audience doesn't know about mistakes you don't announce.
+7. For the Q&A: rehearse the three most likely questions using answer-first structures (Problem/Solution/Result, What/So What/Now What, Point/Reason/Example) — and prepare a one-sentence honest answer to the question the user doesn't want asked.
 
 ## Audience-size adjustments
 

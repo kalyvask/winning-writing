@@ -1,6 +1,6 @@
 # Speech and talk delivery rules
 
-Distilled from Glenn Kramon's *Winning Writing* Session 8 ("Wowing the Crowd"), Stanford GSB. The rules a writing class teaches about spoken delivery, because most "bad speeches" are actually badly *written* speeches read aloud.
+Distilled from Glenn Kramon's *Winning Writing* Session 8 ("Wowing the Crowd"), Stanford GSB. The rules a writing class teaches about spoken delivery, because most "bad speeches" are actually badly *written* speeches read aloud. For the physical mechanics — voice, posture, filler words, Q&A — see [delivery-rules.md](delivery-rules.md).
 
 ## The shape of a talk
 
@@ -39,6 +39,15 @@ Order of operations (do NOT start at the top):
 6. **Draft the body.** Short paragraphs, the way you actually speak.
 7. **Cut by one third.** Every talk gets longer than planned. Pre-cut so the live version still fits.
 8. **Read aloud at performance pace.** Mark every place you stumbled. Stumbles are the listener's confusion points; rewrite them.
+
+## The Sparkline — alternate "what is" with "what could be"
+
+From Nancy Duarte's *Resonate* (via the Feynman "Law of Gravity" lecture, taught in Kluger & Alper's Strategic Communication): a talk that holds a room runs on two tracks at once.
+
+- **The analytical track ("what is")** — the facts, the structure, the signposts ("three points, here's the first"). This earns trust.
+- **The emotional track ("what could be")** — wonder, self-deprecating humor, rhetorical questions, the better future your argument points at. This holds attention.
+
+A Sparkline is the talk's timeline drawn as a wave: the flat baseline of fact, punctuated by peaks of the emotional track. All baseline and the room checks their phones; all peaks and the talk has no substance. The rhythm of alternation is what maintains attention, marks transitions, and gives dense material room to breathe. When drafting, mark each paragraph *is* or *could be* — three *is* paragraphs in a row means insert a peak.
 
 ## What never goes in a talk
 

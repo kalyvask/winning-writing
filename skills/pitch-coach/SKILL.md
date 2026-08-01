@@ -64,6 +64,13 @@ LinkedIn bios and "tell me about yourself" answers have their own failure modes:
 - **Tell stories, not bullet points** — even in a bio
 - **Pick a thesis** — what do you believe about your industry that others don't?
 
+## Delivered pitches — two extra rules
+
+When the pitch will be spoken to a room (demo day, class vote, investor meeting) rather than read:
+
+- **Repeat the product name.** The audience remembers one or two things per pitch; make the name one of them. Say it in the open, at the solution reveal, in the demo, and in the close — so when the voting sheet or partner meeting comes, the name recalls the pitch. Three to five repetitions across seven minutes is deliberate; more is a tic.
+- **Open on a person, close on the same person.** Lead with a named persona living the problem ("Tony, an international student from Milan, can't rent an apartment — no US credit history"), not the technology. Explain the mechanism only through what it does for that person. Close by returning to them transformed. If the audience needs background knowledge to understand a slide, the slide is too technical for a live pitch — that language belongs in the written plan.
+
 ## Consultants — the special case
 
 The stigma is real. Elon, Vinod, Mark Andreessen all say they don't hire consultants. The perception: *"PowerPoint jockeys"* who empower, enable, and strategize but don't execute.
