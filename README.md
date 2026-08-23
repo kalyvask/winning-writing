@@ -110,6 +110,8 @@ bundles.json         Canonical intent bundles — which points/skills each criti
                      Shared by the Coach UI, the side-panel extension, and the eval harness.
 tools/               sync-rules.mjs regenerates the extension's bundled rule snapshot from
                      bundles.json + points/ + skills/; --check mode gates CI on drift.
+                     jargon-coverage.mjs reports how much of the canonical banned-word
+                     list (points/banned-jargon.md) each code-side copy actually covers.
 ui/                  Optional browser entry point — Draft Critic + LLM Coach with inline critic
 side-panel-coach/    Chrome MV3 extension — Coach in the Gmail side panel. Vanilla JS,
                      no build step. Cold-email critic, pre-send gate, opt-in
@@ -119,16 +121,20 @@ inline-coach/        Chrome MV3 extension that auto-attaches to Gmail AND Linked
                      React + TS, calls Anthropic from the service worker.
 eval/                Regression harness — node eval/run.mjs replays a golden corpus against the live critic
 
-catalog/             Mode-aware single-skill variant. Same rules, but tagged per mode
-                     (cold-email, memo, essay, profile, readme, linkedin-post) so the
-                     critic filters dynamically. JSON catalog at catalog/rules/catalog.json.
+catalog/             STANDALONE variant, not in the critic path. A mode-aware single skill
+                     with 42 rules tagged per mode (cold-email, memo, essay, profile,
+                     readme, linkedin-post) in catalog/rules/catalog.json. Nothing in
+                     bundles.json or either extension loads it — the Coach and the
+                     extensions read points/ + skills/ instead. Exercised only by
+                     skill-evals/. Keep, wire in, or fold into points/ — but know that
+                     editing a rule here does not change what the critic does.
 skill-evals/         Broader regression suite covering the catalog skill plus cold-email,
                      pm-evaluator, pm-prd-drafter. 105 fixtures, deterministic matchers.
 ```
 
 ## The points
 
-Thirteen reference docs, each focused on one slice of the source material:
+Fourteen reference docs, each focused on one slice of the source material:
 
 | File | Covers |
 |------|--------|
@@ -145,6 +151,7 @@ Thirteen reference docs, each focused on one slice of the source material:
 | [ai-writing-rules.md](points/ai-writing-rules.md) | How to use AI without sounding like AI ("centaur" mode) |
 | [pre-send-checklist.md](points/pre-send-checklist.md) | The single checklist to run before hitting send |
 | [named-failure-modes.md](points/named-failure-modes.md) | 14 named cold-email failure modes (vague ask, credentials dump, generic personalization, AI-tell prose) — what to fix, not just where you scored low |
+| [plain-technical-english.md](points/plain-technical-english.md) | **Opt-in, narrow scope.** Precision rules for instructions, runbooks, and risk sections — one term per thing, no phrasal verbs, condition before action, command before consequence, sentence caps by text type. Deliberately fights the persuasive-writing skills; the file leads with when *not* to use it. Inspired by the ASD-STE100 controlled-language approach |
 
 ## The skills
 

@@ -2,6 +2,8 @@
 
 Kill on sight. These words and phrases mark you as a consultant, an AI, or someone with nothing to say.
 
+**This file is the canonical list.** The offline Draft Critic (`ui/data.js`), the inline extension (`inline-coach/src/lib/rules/cold-email.ts`), and the standalone catalog (`catalog/rules/catalog.json`) each keep their own copy because they run in different runtimes and can't import Markdown. They intentionally cover a subset. Run `node tools/jargon-coverage.mjs` to see how far each has drifted.
+
 ## The official banned list (Kramon)
 
 `currently` is the class-wide banned word — the entire class pays if anyone uses it. The rest are nearly as bad.
@@ -25,6 +27,18 @@ Kill on sight. These words and phrases mark you as a consultant, an AI, or someo
 - **building and scaling**
 - **passionate about complex problems**
 - **I'm left brain and right brain**
+- **seamless / seamlessly** — nothing is seamless; say what doesn't break
+- **holistic** — means "whole," which you didn't need to say
+- **paradigm / paradigm shift**
+- **ecosystem** (unless you mean actual organisms)
+- **best-in-class** — compared to which class, measured how?
+- **circle back / touch base / sync up** → **talk again on Thursday**
+- **low-hanging fruit** → name the actual task
+- **move the needle** → name the metric and the number
+- **double-click on** (you are not a mouse)
+- **north star** (outside of an actual metric definition)
+- **table stakes**
+- **boil the ocean**
 
 ### Grammar errors that signal carelessness
 
@@ -74,6 +88,19 @@ ChatGPT-flavored constructions to scrub:
 - **"Cutting-edge"**
 - **"Game-changer"**
 - Em-dashes used as a tic (one or two per page is fine — twelve is a tell)
+- **"Unlock"** (potential, value, insights — nothing is locked)
+- **"Elevate"**
+- **"The landscape of"** / **"the realm of"**
+- **"A testament to"**
+- **"Underscores the importance of"**
+- **"Pivotal"**
+- **"Myriad"**
+- **"Meticulous / meticulously"**
+- **"Foster"** (collaboration, innovation)
+- **"Harness"** (the power of)
+- **"Embark on a journey"**
+- **"Ever-evolving" / "rapidly evolving"**
+- **"Stands as"** ("X stands as a testament to Y" — two tells in one clause)
 - Tricolons everywhere ("X, Y, and Z" three times in three sentences)
 
 ## How to use this list

@@ -10,6 +10,7 @@ on:
       - 'tools/**'
       - 'ui/agents.js'
       - 'ui/skill-loader.js'
+      - 'ui/data.js'
       - 'side-panel-coach/lib/**'
       - 'side-panel-coach/rules/**'
       - 'eval/**'
@@ -23,6 +24,7 @@ on:
       - 'tools/**'
       - 'ui/agents.js'
       - 'ui/skill-loader.js'
+      - 'ui/data.js'
       - 'side-panel-coach/lib/**'
       - 'side-panel-coach/rules/**'
       - 'eval/**'
@@ -45,6 +47,12 @@ jobs:
       # drift fails fast without burning API budget.
       - name: Check rule snapshot is in sync
         run: node tools/sync-rules.mjs --check
+
+      # Informational: surfaces banned-word drift between points/banned-jargon.md
+      # (canonical) and the code-side copies. Does not fail the build - each
+      # surface legitimately scopes to its own use case.
+      - name: Report banned-word coverage
+        run: node tools/jargon-coverage.mjs
 
       - name: Run inline-critic regression eval
         env:

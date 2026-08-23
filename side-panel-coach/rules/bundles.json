@@ -56,7 +56,8 @@
       "core-rules.md",
       "banned-jargon.md",
       "ai-writing-rules.md",
-      "exec-memo-rules.md"
+      "exec-memo-rules.md",
+      "plain-technical-english.md"
     ],
     "skills": [
       "style-tells",
@@ -85,7 +86,15 @@
     ]
   },
   "general": {
-    "points": ["core-rules.md", "banned-jargon.md", "ai-writing-rules.md"],
-    "skills": ["style-tells", "vividness", "compression"]
+    "points": [
+      "core-rules.md",
+      "banned-jargon.md",
+      "ai-writing-rules.md"
+    ],
+    "skills": [
+      "style-tells",
+      "vividness",
+      "compression"
+    ]
   }
 }
