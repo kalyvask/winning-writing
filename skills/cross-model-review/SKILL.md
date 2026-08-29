@@ -115,6 +115,12 @@ HIGH | MEDIUM | LOW
 - Do not soften the verdict. "PASS with concerns" is not a thing.
 - Do not be polite about a fail.
 
+## Run `fact-checker` before this gate
+
+This skill checks *strategy and posture*. It does not verify that the numbers are real. A draft can pass every one of the 14 failure modes and still contain a fabricated statistic or a misattributed quote — and that error costs more than any style problem this gate catches.
+
+Run [`fact-checker`](../fact-checker/SKILL.md) first. If it returns any wrong or unverifiable claim, the draft is not ready for this gate yet.
+
 ## When in doubt
 
 Fail it.

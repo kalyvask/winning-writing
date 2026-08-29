@@ -84,7 +84,13 @@ for (const s of SURFACES) {
 
 console.log(
   `\nNote: partial coverage is expected — each surface scopes to its own use case.\n` +
-    `Total coverage is not the goal; the AI-tell gaps are what matter.`
+    `Total coverage is not the goal; the AI-tell gaps are what matter.
+` +
+    `This check does literal substring matching, so a term implemented as a regex
+` +
+    `(e.g. /in today's [a-z-]+ world/) reads as a gap even when it is covered.
+` +
+    `Confirm against the source before acting on a multi-word gap.`
 );
 
 if (strict && coreGaps > 0) {

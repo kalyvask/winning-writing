@@ -8,7 +8,7 @@
       "name": "winning-writing",
       "source": "./",
       "displayName": "Winning Writing",
-      "description": "30 writing skills for cold outreach, op-eds, pitches, exec memos, performance reviews, bios, speeches, gratitude notes, press inquiries, and reply-rate tracking. Distilled from Stanford GSB's Winning Writing (Glenn Kramon, GSBGEN 352).",
+      "description": "31 writing skills for cold outreach, op-eds, pitches, exec memos, performance reviews, bios, speeches, gratitude notes, press inquiries, and reply-rate tracking. Distilled from Stanford GSB's Winning Writing (Glenn Kramon, GSBGEN 352).",
       "version": "1.0.0",
       "author": {
         "name": "Alexandros Kalyvas"
@@ -16,7 +16,14 @@
       "homepage": "https://github.com/kalyvask/winning-writing",
       "repository": "https://github.com/kalyvask/winning-writing",
       "license": "MIT",
-      "keywords": ["writing", "cold-email", "editing", "exec-memo", "performance-review", "pitch"],
+      "keywords": [
+        "writing",
+        "cold-email",
+        "editing",
+        "exec-memo",
+        "performance-review",
+        "pitch"
+      ],
       "category": "productivity"
     }
   ]

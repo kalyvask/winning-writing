@@ -2,7 +2,7 @@
 
 [![eval](https://github.com/kalyvask/winning-writing/actions/workflows/eval.yml/badge.svg)](https://github.com/kalyvask/winning-writing/actions/workflows/eval.yml)
 
-> 30 Claude skills for cold outreach, op-eds, pitches, press inquiries, bios, exec memos, performance reviews, spoken-delivery talks, and reply-rate tracking. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352), Rachel Konrad's cold-outreach lectures, and Andrew Ross Sorkin's reporter playbook. Run them from Claude Code, from Cowork, from a three-mode browser Coach with a span-level inline critic and refinement chat, or from a Chrome side panel that imports the active Gmail compose.
+> 31 Claude skills for cold outreach, op-eds, pitches, press inquiries, bios, exec memos, performance reviews, spoken-delivery talks, fact-checking, and reply-rate tracking. Distilled from Stanford GSB's *Winning Writing* (Glenn Kramon, GSBGEN 352), Rachel Konrad's cold-outreach lectures, and Andrew Ross Sorkin's reporter playbook. Run them from Claude Code, from Cowork, from a three-mode browser Coach with a span-level inline critic and refinement chat, or from a Chrome side panel that imports the active Gmail compose.
 
 ## The shortest path
 
@@ -73,7 +73,7 @@ The rules are not in the model's training — they're loaded from `skills/` and 
 Five pieces:
 
 - **`points/`** — distilled rules and frameworks. The "what."
-- **`skills/`** — 30 focused Claude skills (`SKILL.md` files). The "how."
+- **`skills/`** — 31 focused Claude skills (`SKILL.md` files). The "how."
 - **`context/`** — `about-me.md` + `voice-and-style.md` so Claude writes in your voice, not generic AI voice. Update them incrementally via `voice-update --source manual` (one rule at a time), `voice-update --source memory` (batch pull from Claude Code's auto-memory), or `voice-update --source sent-mail` (audit recent Gmail sent mail against the voice file).
 - **`ui/`** — optional browser pages: an offline draft critic, and a Claude-powered Coach with a span-level inline critic and refinement chat. Not needed if you're already in Claude Code.
 - **`side-panel-coach/`** and **`inline-coach/`** — two Chrome MV3 extensions backed by the same rule library. `side-panel-coach` opens in Chrome's side panel on click and supports multiple critic intents; `inline-coach` auto-attaches to Gmail and LinkedIn compose surfaces. Personal-use, load unpacked.
@@ -172,6 +172,7 @@ Drop the `skills/` directory into `~/.claude/skills/` (or your Cowork folder) an
 | `performance-review-coach` | Drafting or critiquing an annual review, mid-year check-in, self-review, 360 feedback, or peer review. Catches the four classic failure modes: written-about-them, lead-with-the-negative, ambush, and psychoanalysis. Includes a "reframe the blunt manager line" kit for the in-meeting verbal version too. |
 | `winning-writing-critic` | Grading any draft against the full rubric and returning a rewrite |
 | `cross-model-review` | Independent second-model gate before send — must run on a different model than the drafter. Names the specific failure mode from a 14-mode catalog and predicts the recipient's most likely counter-question |
+| `fact-checker` | Verifies every checkable claim before send — numbers, names, titles, dates, quotes, citations, superlatives. Returns a verified / unverifiable / wrong table and never lets an unverifiable claim pass as verified. Run it *before* `cross-model-review` |
 
 ### Cold-outreach pipeline (run in order)
 
