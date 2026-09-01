@@ -8,7 +8,7 @@
 //   - connectionAngle: top 3 "like you" hooks based on recipient hints
 
 import Anthropic from '@anthropic-ai/sdk';
-import { ALEX_PROFILE } from '../lib/alex-profile';
+import { getSenderProfile } from '../lib/sender-profile';
 import { COLD_EMAIL_RULES, countWords, LENGTH_LIMIT_WORDS } from '../lib/rules/cold-email';
 import type {
   ChecklistRequest,
@@ -50,7 +50,7 @@ function clientOrError(apiKey: string | null): Anthropic | { error: string } {
 // many-lanes, show-dont-tell, vague-ask) that aren't pattern-matchable. The
 // model returns JSON; we merge with the local flags.
 
-const CRITIQUE_SYSTEM = `You are a cold-email critic for Alex Kalyvas. You catch the higher-order failure modes that regex cannot: vague ask, missing offer, "like you" not being specific, story with no scene, picks-too-many-lanes (resume dump), flattery-opener (recapping the recipient's accomplishments), self-diminishing ("like you but at a smaller scale").
+const CRITIQUE_SYSTEM = `You are a cold-email critic for the sender described in the profile above. You catch the higher-order failure modes that regex cannot: vague ask, missing offer, "like you" not being specific, story with no scene, picks-too-many-lanes (resume dump), flattery-opener (recapping the recipient's accomplishments), self-diminishing ("like you but at a smaller scale").
 
 Return STRICT JSON. No commentary outside the JSON.
 
@@ -120,12 +120,13 @@ Return the JSON.`;
 
   let takeaway = '';
   let modelFlags: Flag[] = [];
+  const senderProfile = await getSenderProfile();
   try {
     const response = await client.messages.create({
       model,
       max_tokens: 1500,
       system: [
-        { type: 'text', text: ALEX_PROFILE, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: senderProfile, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: CRITIQUE_SYSTEM },
       ],
       messages: [{ role: 'user', content: userMessage }],
@@ -260,7 +261,7 @@ Return the JSON.`;
 
 // --- Connection angles ---
 
-const CONNECTION_SYSTEM = `You find specific, genuine "like you" connection angles between Alex Kalyvas (sender, see profile above) and the recipient. Rank top 3 by leverage.
+const CONNECTION_SYSTEM = `You find specific, genuine "like you" connection angles between the sender (see profile above) and the recipient. If the profile is the unfilled template, return an empty angles array rather than inventing biography. Rank top 3 by leverage.
 
 Categories from highest leverage to lowest:
 1. Unusual / coincidental detail (same hobby, same year in same city, same uncommon experience)
@@ -271,7 +272,7 @@ Categories from highest leverage to lowest:
 Return STRICT JSON. Schema:
 {
   "angles": [
-    { "headline": "<short noun phrase>", "detail": "<one sentence Alex can paraphrase into the email>" }
+    { "headline": "<short noun phrase>", "detail": "<one sentence the sender can paraphrase into the email>" }
   ]
 }
 
@@ -289,12 +290,13 @@ Recipient notes: ${req.recipient.notes || '(none)'}
 
 Return the JSON.`;
 
+  const senderProfile = await getSenderProfile();
   try {
     const response = await client.messages.create({
       model,
       max_tokens: 600,
       system: [
-        { type: 'text', text: ALEX_PROFILE, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: senderProfile, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: CONNECTION_SYSTEM },
       ],
       messages: [{ role: 'user', content: userMessage }],

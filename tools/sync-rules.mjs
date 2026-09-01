@@ -12,6 +12,11 @@
 // (or reported, in --check mode). Missing canonical files are always an error:
 // the extension loader silently drops files it cannot fetch, so a missing
 // snapshot file means an intent quietly loses rules.
+//
+// The same script also mirrors ui/agents.js into side-panel-coach/lib/agents.js.
+// That file is a byte-for-byte copy (the side panel is a thin shell over the
+// same runInlineCritic / runRefinementTurn); it used to be hand-copied and
+// drifted. Edit ui/agents.js, never the mirror.
 
 import { readFile, writeFile, mkdir, rm, readdir, stat } from 'node:fs/promises';
 import { join, dirname, sep } from 'node:path';
@@ -19,6 +24,11 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const snapshotRoot = join(repoRoot, 'side-panel-coach', 'rules');
+
+// Code files mirrored verbatim: canonical -> copy (both relative to repoRoot).
+const MIRRORS = [
+  ['ui/agents.js', 'side-panel-coach/lib/agents.js'],
+];
 const checkMode = process.argv.includes('--check');
 
 const problems = [];
@@ -97,20 +107,42 @@ for (const rel of actualPaths) {
   if (!expected.has(rel)) actions.push({ type: 'remove', rel });
 }
 
+// ---- Mirrored code files (outside the rules/ snapshot) ----
+
+const mirrorActions = [];
+for (const [src, dst] of MIRRORS) {
+  const content = await readFile(join(repoRoot, src), 'utf-8');
+  const dstFull = join(repoRoot, dst);
+  if (!(await exists(dstFull))) {
+    mirrorActions.push({ type: 'add', rel: dst, content, full: dstFull, src });
+  } else if ((await readFile(dstFull, 'utf-8')) !== content) {
+    mirrorActions.push({ type: 'update', rel: dst, content, full: dstFull, src });
+  }
+}
+
 // ---- Report / apply ----
 
-if (actions.length === 0) {
-  console.log(`Snapshot in sync: ${expected.size} files (${pointFiles.size} points, ${skillSlugs.size} skills, bundles.json).`);
+if (actions.length === 0 && mirrorActions.length === 0) {
+  console.log(`Snapshot in sync: ${expected.size} files (${pointFiles.size} points, ${skillSlugs.size} skills, bundles.json); ${MIRRORS.length} mirrored code file(s) in sync.`);
   process.exit(0);
 }
 
 for (const a of actions) {
   console.log(`${a.type.toUpperCase().padEnd(7)} ${a.rel.split(sep).join('/')}`);
 }
+for (const a of mirrorActions) {
+  console.log(`${a.type.toUpperCase().padEnd(7)} ${a.rel}  (mirror of ${a.src})`);
+}
 
 if (checkMode) {
-  console.error(`\nSnapshot drift: ${actions.length} file(s) out of sync. Run \`node tools/sync-rules.mjs\` and commit the result.`);
+  const n = actions.length + mirrorActions.length;
+  console.error(`\nSnapshot drift: ${n} file(s) out of sync. Run \`node tools/sync-rules.mjs\` and commit the result.`);
   process.exit(1);
+}
+
+for (const a of mirrorActions) {
+  await mkdir(dirname(a.full), { recursive: true });
+  await writeFile(a.full, a.content);
 }
 
 for (const a of actions) {
@@ -132,4 +164,4 @@ for (const a of actions) {
     await writeFile(full, a.content);
   }
 }
-console.log(`\nApplied ${actions.length} change(s).`);
+console.log(`\nApplied ${actions.length + mirrorActions.length} change(s).`);

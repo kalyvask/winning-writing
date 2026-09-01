@@ -35,7 +35,7 @@
     {
       "id": "delve-tapestry",
       "name": "AI-tell vocabulary",
-      "description": "Words that pattern-match to LLM output: delve, tapestry, navigate the complexities, robust solution, cutting-edge, game-changer, transformative, leverage (verb form). Replace with plain English or cut the sentence.",
+      "description": "Words and phrases that pattern-match to LLM output: delve into, tapestry, navigate the complexities of, robust solution, cutting-edge, game-changer, transformative, leverage (verb form), in today's fast-paced world, unlock (potential, value, insights), elevate, the landscape of, the realm of, a testament to, underscores the importance of, pivotal, myriad, meticulous, foster (collaboration, innovation), harness (the power of), embark on a journey, ever-evolving, stands as. Replace with plain English or cut the sentence. Canonical list: points/banned-jargon.md, section 'AI tells'.",
       "modes": ["cold-email", "memo", "essay", "linkedin-post", "profile", "readme"],
       "severity": "critical",
       "examples": [
@@ -46,6 +46,10 @@
         {
           "before": "We built a robust, cutting-edge solution.",
           "after": "We built the inventory ordering model. It saved $64M."
+        },
+        {
+          "before": "In today's ever-evolving landscape, our meticulous approach stands as a testament to the myriad ways we harness AI to unlock value.",
+          "after": "We use AI to cut invoice-matching time from 3 days to 4 hours. Here is how."
         }
       ]
     },

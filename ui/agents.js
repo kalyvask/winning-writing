@@ -108,9 +108,11 @@ Apply these moves:
 - Drop the subject pronoun in ONE casual opener if the email has one ("Just got back from London" not "I just got back")
 - Vary one sentence's punctuation slightly imperfectly (period where comma would be cleaner)
 - Optionally combine two short adjacent paragraphs into one
-- At most ONE safe typo: a doubled small word ("to to"), a missing space, or a dropped period on the very last sentence only
+
+Do NOT introduce typos of any kind. Typos are opt-in in the humanize skill and this pass never opts in.
 
 NEVER:
+- Typos, including "safe" ones (doubled words, missing spaces, dropped periods)
 - Homophone slips (your/you're, their/there)
 - Mid-sentence dropped periods
 - Drop articles, negations, subjects, or verbs
@@ -254,7 +256,10 @@ Below the table, add a "## Flags" section with anything the user should verify b
 
 // Used when the rule library above is loaded (the new, preferred path). The library
 // itself supplies the taxonomy; this block only specifies the output contract.
-const INLINE_CRITIC_INSTRUCTIONS = `You are a writing critic. Read the user's draft below and return STRICT JSON with span-level annotations against the rule library loaded above.
+// Exported so eval/lib/critic.mjs can import the exact same prompt instead of
+// keeping a copy. This file has no browser-only top-level code, so Node can
+// import it directly.
+export const INLINE_CRITIC_INSTRUCTIONS = `You are a writing critic. Read the user's draft below and return STRICT JSON with span-level annotations against the rule library loaded above.
 
 The rule library above is the AUTHORITATIVE source of truth. Every annotation must trace back to a rule in one of the source files in the library. Set \`rule_source\` to the EXACT source path from the library (e.g. "points/named-failure-modes.md" or "skills/style-tells") of the rule you're applying. Do not invent paths; only use paths that appear in the library.
 
@@ -376,7 +381,7 @@ export async function runInlineCritic({
   }
 }
 
-function parseInlineCritic(text) {
+export function parseInlineCritic(text) {
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   const candidate = fenced ? fenced[1] : text;
   const objMatch = candidate.match(/\{[\s\S]*\}/);
@@ -436,12 +441,12 @@ Constraints:
 export async function runRefinementTurn({
   apiKey,
   model = 'claude-sonnet-4-6',
-  voice = '',
   draft,
   history = [],
   instruction,
   rules = null,
   intent = 'cold-email',
+  voice = '',
   onEvent = () => {},
 }) {
   if (!instruction || !instruction.trim()) {

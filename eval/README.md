@@ -28,7 +28,7 @@ The harness loads the rule library **per case-intent**, caching by intent across
 
 ### Cost
 
-With prompt caching on the rule-library block, a full 6-case run is roughly **$0.05-0.10** (Sonnet 4.6). First case at each intent pays the cache-write price; subsequent same-intent cases within ~5 minutes pay ~10% on the rule block. Cases that switch intents pay another cache-write on the new bundle.
+With prompt caching on the rule-library block, a full 10-case run is roughly **$0.10-0.20** (Sonnet 4.6). First case at each intent pays the cache-write price; subsequent same-intent cases within ~5 minutes pay ~10% on the rule block. Cases that switch intents pay another cache-write on the new bundle; the corpus now spans all six intents, so expect six cache-writes per run.
 
 ## Corpus format
 
@@ -74,6 +74,12 @@ Each case in `corpus/` is a JSON file:
 | 04 | Banned words stack | cold-email | Eight banned/jargon words in a short email, but otherwise structurally fine. Tests that banned-jargon.md is being applied. |
 | 05 | Credentials dump | cold-email | Pick-a-lane failure: lists three companies, four interest areas, vague job ask. Tests the named-failure-modes catalog (#4, #5). |
 | 06 | Exec memo with buried lede | exec-memo | Hedge-stack memo with no TL;DR, unsourced numbers, vague next steps, trailing ask. Tests that `exec-memo-rules.md` is being applied (buried lede, hedge, vague ask, trailing ask) on top of the shared jargon / banned-word checks. |
+| 07 | Op-ed with no anecdote | op-ed | Opens on a thesis instead of a scene, no real names or numbers, no counterargument, AI-tell prose throughout. Tests that `frameworks.md` / `kramon-master.md` op-ed structure is applied alongside the banned-word checks. |
+| 08 | Pitch with no differentiation | pitch | No plain-English one-liner, unsized market, unnamed customers, brand-by-bot phrasing, vague close. Tests the 7-part pitch rules from `frameworks.md`. |
+| 09 | Performance review written about, not to | performance-review | Third-person report-card voice, leads with the negative, the B-word, psychoanalysis, passive-aggressive credit, process close. Tests that `performance-review-rules.md` and `feedback-rephraser` are applied. |
+| 10 | General prose with AI tells and rhythm tells | general | LinkedIn post stacked with AI-tell vocabulary, fragment chains, and a tricolon habit. Tests the shared bundle (`core-rules`, `banned-jargon`, `ai-writing-rules`) plus `style-tells` on the smallest intent. |
+
+Cases 07–10 were written from the rule files and have not yet been calibrated against a live run; their `recall_threshold` is set to 0.5 with wide `categories` lists on purpose. The first time you run them, use `FILTER=07 VERBOSE=1 node eval/run.mjs` (and so on) and tighten the thresholds to what the critic actually produces.
 
 ## Adding a case
 
@@ -94,9 +100,9 @@ Each case in `corpus/` is a JSON file:
 ## Architecture
 
 - `lib/load-rules.mjs` — loads `points/` and `skills/` from disk and assembles the same rule-library markdown the browser builds at runtime
-- `lib/critic.mjs` — mirrors `runInlineCritic` from `ui/agents.js`. Two-block system prompt with cache_control on the rule library; JSON-only output contract
+- `lib/critic.mjs` — mirrors `runInlineCritic` from `ui/agents.js` and **imports the prompt and parser from it** (`INLINE_CRITIC_INSTRUCTIONS`, `parseInlineCritic`), so the two cannot drift. Two-block system prompt with cache_control on the rule library; JSON-only output contract
 - `lib/score.mjs` — recall + clean-tolerance + per-source counts + cost estimate
 - `run.mjs` — orchestrator, prints per-case + summary, sets exit code
 - `corpus/*.json` — the cases
 
-The prompt in `lib/critic.mjs` is duplicated from `ui/agents.js`. **Keep them in sync** when you edit either. A future cleanup unifies them behind a build step or moves the prompt to a shared `.mjs` module that both sides import.
+`ui/agents.js` has no browser-only top-level code, which is what makes the Node import possible. CI checks that the import still works. If you ever add a top-level `window` or `document` reference to `ui/agents.js`, the eval breaks first.

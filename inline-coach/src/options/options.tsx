@@ -4,9 +4,11 @@
 
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { DEFAULT_SENDER_PROFILE, PROFILE_KEY } from '../lib/sender-profile';
 
 const KEY_STORE = 'gmail-writing-coach.apikey';
 const MODEL_STORE = 'gmail-writing-coach.model';
+const PROFILE_MAX_CHARS = 6000;
 
 const MODELS = [
   { id: 'claude-sonnet-4-6', label: 'Sonnet 4.6 (default)' },
@@ -17,18 +19,24 @@ const MODELS = [
 function Options() {
   const [apiKey, setApiKey] = useState('');
   const [model, setModel] = useState(MODELS[0].id);
+  const [profile, setProfile] = useState('');
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved'>('idle');
 
   useEffect(() => {
-    chrome.storage.local.get([KEY_STORE, MODEL_STORE]).then((r) => {
+    chrome.storage.local.get([KEY_STORE, MODEL_STORE, PROFILE_KEY]).then((r) => {
       setApiKey(r[KEY_STORE] ?? '');
       setModel(r[MODEL_STORE] ?? MODELS[0].id);
+      setProfile(r[PROFILE_KEY] ?? '');
     });
   }, []);
 
   async function save() {
     setSaved('saving');
-    await chrome.storage.local.set({ [KEY_STORE]: apiKey, [MODEL_STORE]: model });
+    await chrome.storage.local.set({
+      [KEY_STORE]: apiKey,
+      [MODEL_STORE]: model,
+      [PROFILE_KEY]: profile.slice(0, PROFILE_MAX_CHARS),
+    });
     setSaved('saved');
     setTimeout(() => setSaved('idle'), 1500);
   }
@@ -78,6 +86,23 @@ function Options() {
         </p>
       </section>
 
+      <section className="mt-4">
+        <label className="block text-sm font-medium text-gray-800">Sender profile</label>
+        <textarea
+          className="mt-1 w-full px-3 py-2 border border-gray-300 rounded font-mono text-xs"
+          rows={12}
+          placeholder={DEFAULT_SENDER_PROFILE}
+          value={profile}
+          maxLength={PROFILE_MAX_CHARS}
+          onChange={(e) => setProfile(e.target.value)}
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          Who is sending. Used for connection angles and the higher-order critique. Same shape as
+          <code className="font-mono"> context/about-me.md</code> in the repo. Stored locally only;
+          {' '}{profile.length}/{PROFILE_MAX_CHARS} characters.
+        </p>
+      </section>
+
       <button
         onClick={save}
         disabled={saved !== 'idle'}
@@ -97,8 +122,8 @@ function Options() {
           <strong>What this does not send:</strong> attachments, your inbox, your calendar, signed-in identity.
         </p>
         <p>
-          <strong>Storage scopes:</strong> API key + model preference live in <code>chrome.storage.local</code>.
-          They do not sync across devices.
+          <strong>Storage scopes:</strong> API key, model preference, and sender profile live in{' '}
+          <code>chrome.storage.local</code>. They do not sync across devices.
         </p>
       </section>
     </main>

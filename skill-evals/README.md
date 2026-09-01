@@ -8,12 +8,10 @@ Catches the failure mode "I tweaked a skill prompt and didn't realize it stopped
 
 | Skill | Fixtures shipped | Spec coverage target | Status |
 |---|---|---|---|
-| `winning-writing` | 55 positives + 15 negatives | 60+ positives + 1 negative per rule | All 37 rules in the catalog have at least one positive; 8 rules have second-mode variants for the mode-arg form. |
-| `cold-email` | 15 full-email cases | 15+ | Met |
-| `pm-evaluator` | 10 rubric cases | 10+ | Met |
-| `pm-prd-drafter` | 10 PRD cases | 10+ | Met |
+| `winning-writing` (the catalog skill in `../catalog/`) | 55 positives + 15 negatives | 60+ positives + 1 negative per rule | Most of the 42 catalog rules have at least one positive; 8 rules have second-mode variants for the mode-arg form. |
+| `cold-email` (`../skills/cold-email-coach/`) | 15 full-email cases | 15+ | Met |
 
-105 total fixtures. Positives are distributed across all six non-default modes (cold-email 16, memo 12, readme 8, linkedin-post 7, essay 6, profile 6), so the mode-arg form of the catalog is exercised end-to-end.
+85 total fixtures. Fixtures for `pm-evaluator` and `pm-prd-drafter` were removed in 1.1.0: those skills do not live in this repo, so the runner could never load them here. Positives are distributed across all six non-default modes (cold-email 16, memo 12, readme 8, linkedin-post 7, essay 6, profile 6), so the mode-arg form of the catalog is exercised end-to-end.
 
 ## Run it
 
@@ -24,6 +22,15 @@ ANTHROPIC_API_KEY=sk-ant-... npm run eval
 ```
 
 Exits 0 on all pass, 1 on any fail.
+
+Before spending on a run, lint the fixtures (no API key, no install needed; CI runs this on every change):
+
+```bash
+node skill-evals/lint-fixtures.mjs      # from the repo root
+npm run lint                            # from skill-evals/
+```
+
+The lint checks that every fixture parses, has a unique id and exactly one expectation family, names a skill that exists in this repo, and (for the catalog skill) references a real rule id and mode.
 
 ### Options
 
@@ -38,7 +45,7 @@ npm run eval -- --skill cold-email --verbose  # dump full model output on fail
 |---|---|---|
 | `ANTHROPIC_API_KEY` | required | Your Anthropic API key |
 | `MODEL` | `claude-sonnet-4-6` | Critic model; match what you run the skill on |
-| `SKILLS_DIR` | `~/.claude/skills` | Override to test a forked skill set |
+| `SKILLS_DIR` | unset (skills resolve inside this repo) | Set to a directory laid out as `<dir>/<skill-name>/SKILL.md` to test an installed or forked copy instead. Unset, `winning-writing` resolves to `../catalog/` and `cold-email` to `../skills/cold-email-coach/`. |
 
 ## How fixtures work
 

@@ -29,7 +29,10 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [gratitude-note-coach](gratitude-note-coach/SKILL.md) | Thank-you notes, recommendation letters, recognition |
 | [dealing-with-reporters](dealing-with-reporters/SKILL.md) | Drafting answers to reporter questions, on-the-record statements, crisis comms — Sorkin's 11 rules + AP attribution, with the Sorkin/Tylenol-Kramon school tension named explicitly |
 | [yourself-story](yourself-story/SKILL.md) | Bios, LinkedIn About sections, intro slides, "tell me about yourself" — Bryant + Weinstein + the six Kramon model bios |
+| [performance-review-coach](performance-review-coach/SKILL.md) | Annual reviews, mid-year check-ins, self-reviews, 360 and peer feedback — Kramon's seven rules; catches written-about-them, lead-with-the-negative, ambush, and psychoanalysis |
 | [winning-writing-critic](winning-writing-critic/SKILL.md) | Grading any draft against the full rubric and rewriting |
+| [fact-checker](fact-checker/SKILL.md) | Verifies every checkable claim before send — numbers, names, titles, dates, quotes, citations. Returns verified / unverifiable / wrong; run before `cross-model-review` |
+| [cross-model-review](cross-model-review/SKILL.md) | Independent pass/fail gate on a different model than the drafter. Names the failure mode from a 14-mode catalog and predicts the recipient's counter-question |
 
 ### Cold-outreach pipeline (run in order before drafting)
 | Skill | Triggers when |
@@ -50,9 +53,21 @@ Each skill has frontmatter that tells Claude when to auto-invoke it.
 | [warmth-and-competence](warmth-and-competence/SKILL.md) | Auditing a draft on Fiske's two-axis model — warmth + competence — and finding the load-bearing sentence that hits both |
 | [headline-as-claim](headline-as-claim/SKILL.md) | Rewriting section titles, slide titles, and subject lines from category labels ("Product," "Market") into bold arguable claims |
 | [bluf-rewriter](bluf-rewriter/SKILL.md) | Re-organizing so the bottom line is up front |
-| [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, exactly one harmless micro-typo |
+| [humanize](humanize/SKILL.md) | Roughening up a too-clean draft — contractions, dropped subjects, rhythm variation. Typos are off by default; pass `--typo` to allow one |
+| [rhythm-killer](rhythm-killer/SKILL.md) | Fixes the two sentence-rhythm AI tells: `--target fragment-chain\|uniform-length\|all`. Three short sentences in a row, or consecutive sentences of the same length with parallel structure |
+| [feedback-rephraser](feedback-rephraser/SKILL.md) | Rewrites blunt downward or peer feedback as "what I like + what I would like," about the work not the person, ideally as a question |
 | [pick-a-lane](pick-a-lane/SKILL.md) | Diagnosing drafts that tell three half-stories instead of one full one — different from compression, this cuts whole stories, not just words |
 | [irrelevant-detail-killer](irrelevant-detail-killer/SKILL.md) | Cuts cinematic details that are vivid but don't serve the main point — different from compression (cuts words) and pick-a-lane (cuts stories); this cuts within a story |
+
+### Maintaining your voice
+| Skill | Triggers when |
+|-------|---------------|
+| [voice-update](voice-update/SKILL.md) | Growing `context/voice-and-style.md` and `context/about-me.md` from one of three sources: `--source manual\|memory\|sent-mail`. Always proposes a diff and asks per file; never auto-writes |
+
+### Closing the outcome loop
+| Skill | Triggers when |
+|-------|---------------|
+| [sent-mail-outcome-tracker](sent-mail-outcome-tracker/SKILL.md) | "Did my cold emails get replies?" Reads sent mail over a connected Gmail MCP, classifies outcomes, and surfaces what the replied-to messages had in common. Read-only |
 
 ## How they fit together
 
@@ -60,6 +75,12 @@ The recommended cold-outreach flow:
 
 ```
 recipient-research → connection-finder → fun-angle → cold-email-coach
+```
+
+Before sending anything with a number or a named person in it:
+
+```
+fact-checker → cross-model-review
 ```
 
 For everything else, `winning-writing-critic` is the orchestrator — invoke it when you don't know which specialized skill applies, and it'll grade the draft and route to the right one. Most skills point back to `points/` for the source rules.

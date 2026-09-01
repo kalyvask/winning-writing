@@ -11,10 +11,13 @@
 // Env:
 //   ANTHROPIC_API_KEY  required
 //   MODEL              default: claude-sonnet-4-6
-//   SKILLS_DIR         default: ~/.claude/skills (use a fork to test a branch)
+//   SKILLS_DIR         optional. When unset, skills resolve to their
+//                      directories inside this repo (REPO_SKILL_PATHS below),
+//                      so the suite tests the checked-in skills. Set it to a
+//                      directory laid out as <dir>/<skill-name>/SKILL.md to
+//                      test an installed or forked copy instead.
 
 import Anthropic from '@anthropic-ai/sdk';
-import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { loadFixtures } from './lib/fixtures.ts';
 import { invokeSkill } from './lib/invoke-skill.ts';
@@ -22,7 +25,22 @@ import { matchFixture } from './lib/matchers.ts';
 import { printPerRuleBreakdown, printSkillResult, printSummary } from './lib/reporter.ts';
 import type { Fixture, FixtureResult, SkillName, SkillResult } from './lib/types.ts';
 
-const SKILLS: SkillName[] = ['winning-writing', 'cold-email', 'pm-evaluator', 'pm-prd-drafter'];
+const SKILLS: SkillName[] = ['winning-writing', 'cold-email'];
+
+// Where each fixture skill lives in this repo, relative to the repo root.
+// The catalog skill is named "winning-writing" in its frontmatter; the
+// cold-email fixtures exercise skills/cold-email-coach.
+export const REPO_SKILL_PATHS: Record<SkillName, string> = {
+  'winning-writing': 'catalog',
+  'cold-email': 'skills/cold-email-coach',
+};
+
+const REPO_ROOT = join(import.meta.dirname ?? __dirname, '..');
+
+function resolveSkillDir(skillsDir: string | undefined, skill: SkillName): string {
+  if (skillsDir) return join(skillsDir, skill);
+  return join(REPO_ROOT, REPO_SKILL_PATHS[skill]);
+}
 
 function parseArgs(argv: string[]) {
   const args = { skill: undefined as SkillName | undefined, verbose: false };
@@ -78,13 +96,13 @@ function classifyFatalApiError(message: string): { summary: string; detail: stri
   return null;
 }
 
-async function runOne(client: Anthropic, model: string, skillsDir: string, fixture: Fixture): Promise<FixtureResult> {
+async function runOne(client: Anthropic, model: string, skillsDir: string | undefined, fixture: Fixture): Promise<FixtureResult> {
   const t0 = Date.now();
   try {
     const { text } = await invokeSkill({
       client,
       model,
-      skillsDir,
+      skillDir: resolveSkillDir(skillsDir, fixture.skill),
       skillName: fixture.skill,
       mode: fixture.mode,
       input: fixture.input,
@@ -107,7 +125,7 @@ async function runOne(client: Anthropic, model: string, skillsDir: string, fixtu
   }
 }
 
-async function runSkill(client: Anthropic, model: string, skillsDir: string, fixturesDir: string, skill: SkillName): Promise<SkillResult> {
+async function runSkill(client: Anthropic, model: string, skillsDir: string | undefined, fixturesDir: string, skill: SkillName): Promise<SkillResult> {
   const fixtures = await loadFixtures(fixturesDir, skill);
   if (fixtures.length === 0) {
     return { skill, results: [], passed: 0, failed: 0, total: 0 };
@@ -134,7 +152,7 @@ async function main() {
   }
 
   const model = process.env.MODEL ?? 'claude-sonnet-4-6';
-  const skillsDir = process.env.SKILLS_DIR ?? join(homedir(), '.claude', 'skills');
+  const skillsDir = process.env.SKILLS_DIR || undefined;
   const fixturesDir = join(import.meta.dirname ?? __dirname, 'fixtures');
 
   const args = parseArgs(process.argv.slice(2));
@@ -142,7 +160,7 @@ async function main() {
 
   console.log(`Skill eval suite`);
   console.log(`  model:       ${model}`);
-  console.log(`  skills dir:  ${skillsDir}`);
+  console.log(`  skills dir:  ${skillsDir ?? '(repo: ' + Object.values(REPO_SKILL_PATHS).join(', ') + ')'}`);
   console.log(`  fixtures:    ${fixturesDir}`);
   console.log(`  skills:      ${skillsToRun.join(', ')}`);
 
