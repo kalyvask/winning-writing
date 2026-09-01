@@ -14,6 +14,9 @@ on:
       - 'side-panel-coach/lib/**'
       - 'side-panel-coach/rules/**'
       - 'eval/**'
+      - 'catalog/**'
+      - 'skill-evals/**'
+      - 'inline-coach/src/lib/rules/**'
       - '.github/workflows/eval.yml'
   pull_request:
     branches: [main]
@@ -28,6 +31,9 @@ on:
       - 'side-panel-coach/lib/**'
       - 'side-panel-coach/rules/**'
       - 'eval/**'
+      - 'catalog/**'
+      - 'skill-evals/**'
+      - 'inline-coach/src/lib/rules/**'
       - '.github/workflows/eval.yml'
   workflow_dispatch:
 
@@ -42,17 +48,30 @@ jobs:
         with:
           node-version: '20'
 
-      # Free, deterministic gate: the extension's bundled rule snapshot must
-      # match bundles.json + points/ + skills/. Runs before the paid eval so
-      # drift fails fast without burning API budget.
-      - name: Check rule snapshot is in sync
+      # Free, deterministic gates run first so drift fails fast without
+      # burning API budget.
+
+      # The extension's bundled rule snapshot must match bundles.json +
+      # points/ + skills/, and side-panel-coach/lib/agents.js must be a
+      # byte-for-byte mirror of ui/agents.js.
+      - name: Check rule snapshot and code mirrors are in sync
         run: node tools/sync-rules.mjs --check
 
-      # Informational: surfaces banned-word drift between points/banned-jargon.md
-      # (canonical) and the code-side copies. Does not fail the build - each
-      # surface legitimately scopes to its own use case.
-      - name: Report banned-word coverage
-        run: node tools/jargon-coverage.mjs
+      # Every term points/banned-jargon.md tags as an AI tell must be caught
+      # by each code-side copy. Partial coverage of the rest of the list is
+      # expected and only reported.
+      - name: Check AI-tell coverage of code-side banned-word lists
+        run: node tools/jargon-coverage.mjs --strict
+
+      # skill-evals fixtures must parse, name skills that exist in this repo,
+      # and reference real catalog rule ids and modes.
+      - name: Lint skill-evals fixtures
+        run: node skill-evals/lint-fixtures.mjs
+
+      # ui/agents.js must stay importable from Node: eval/lib/critic.mjs
+      # imports the critic prompt and parser from it.
+      - name: Check ui/agents.js imports from Node
+        run: node -e "import('./ui/agents.js').then(m => { if (!m.INLINE_CRITIC_INSTRUCTIONS || !m.parseInlineCritic) { console.error('missing exports'); process.exit(1); } })"
 
       - name: Run inline-critic regression eval
         env:

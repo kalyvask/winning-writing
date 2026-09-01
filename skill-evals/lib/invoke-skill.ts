@@ -16,7 +16,9 @@ const HIGHLIGHT_LIMIT_TOKENS = 4096;
 interface InvokeArgs {
   client: Anthropic;
   model: string;
-  skillsDir: string;
+  /** Directory containing SKILL.md (plus optional rules/ and references/). */
+  skillDir: string;
+  /** Name used in the "Invoking: /<name>" header of the user message. */
   skillName: string;
   mode?: string;
   input: string;
@@ -24,8 +26,7 @@ interface InvokeArgs {
 
 // Load SKILL.md plus any reference files in the skill directory so the model
 // has the same context Claude Code would give it.
-async function loadSkillSystem(skillsDir: string, skillName: string): Promise<string> {
-  const root = join(skillsDir, skillName);
+export async function loadSkillSystem(root: string): Promise<string> {
   const skillMd = await readFile(join(root, 'SKILL.md'), 'utf8');
   let system = skillMd;
 
@@ -77,7 +78,7 @@ function buildUserMessage(skillName: string, mode: string | undefined, input: st
 }
 
 export async function invokeSkill(args: InvokeArgs): Promise<{ text: string; durationMs: number }> {
-  const system = await loadSkillSystem(args.skillsDir, args.skillName);
+  const system = await loadSkillSystem(args.skillDir);
   const userMessage = buildUserMessage(args.skillName, args.mode, args.input);
 
   const t0 = Date.now();

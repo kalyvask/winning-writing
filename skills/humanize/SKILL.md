@@ -1,13 +1,24 @@
 ---
 name: humanize
-description: Makes a draft read like a real human typed it — adds asymmetry, light contractions, and (rarely) one safe typo. Use only when a draft is technically correct but reads polished beyond plausibility, when the user wants to "rough it up," "make it more human," or "less AI-clean." Does NOT run on high-stakes writing (see "When NOT to humanize"). Triggers on "humanize," "rough it up," "less polished," "more casual," "sounds too clean."
+description: Makes a draft read like a real human typed it — adds asymmetry, light contractions, and rhythm variation. Typos are OFF by default; pass --typo (or ask for one explicitly) to allow at most one safe typo. Use only when a draft is technically correct but reads polished beyond plausibility, when the user wants to "rough it up," "make it more human," or "less AI-clean." Does NOT run on high-stakes writing (see "When NOT to humanize"). Triggers on "humanize," "rough it up," "less polished," "more casual," "sounds too clean." Pass --typo to opt in to one safe typo.
 ---
 
 # Humanize
 
 Source: `points/ai-writing-rules.md` and the centaur-writer thesis. The point of this skill is the inverse of every other skill in this repo — most of them sharpen, this one *de-sharpens* deliberately.
 
-**Operator note (2026-05-07):** Dialed back from the original aggressive setting (too many typos and missing words landed in finals), then re-tuned for a middle ground: a few safe roughening moves are still welcome even in short pieces. The bias is "fewer types of typos, but still some texture" — not "skip everything."
+**Operator note (2026-05-07):** Dialed back from the original aggressive setting (too many typos and missing words landed in finals), then re-tuned for a middle ground: a few safe roughening moves are still welcome even in short pieces.
+
+**Operator note (2026-09-01):** Typos are now opt-in. By default this skill introduces zero typos and relies on the safe rhythm moves alone. A typo is only allowed when the user passes `--typo` or explicitly asks for one in the request. The reason: typos that landed in finals cost more credibility than the "texture" earned, and the rhythm moves carry most of the humanizing effect on their own.
+
+## Invocation
+
+```
+/humanize [--typo] [--mode shorten|roughen]
+```
+
+- `--typo` — opt in to at most one safe typo (see the approved list below). Without this flag, no typo of any kind is introduced.
+- `--mode shorten` (default) cuts 10–20% of the words as well as roughening; `--mode roughen` preserves length.
 
 ## The premise
 
@@ -28,7 +39,7 @@ Take the draft and:
 3. Drop the *subject pronoun* in one casual opener if the draft has one (never drop articles)
 4. Vary one sentence's punctuation in a slightly imperfect way (a period instead of a comma; a sentence fragment)
 5. Optionally combine two short adjacent paragraphs into one (or keep an aside on the same line instead of breaking) — humans don't always hit return where AI does
-6. Apply at most ONE safe typo (see below). Pieces under ~150 words: max 1 typo. Pieces over 300 words: still max 2 typos total. Never accumulate.
+6. **Only if `--typo` was passed:** apply at most ONE safe typo (see below). Pieces over 300 words: still max 2 typos total. Never accumulate. Without `--typo`, skip this step entirely.
 
 ### Mode 2 — Roughen only (preserve length)
 Same as above, no length cut.
@@ -43,7 +54,9 @@ These are not typos — they are rhythm choices that read as a real person rathe
 - **One sentence-fragment** where a full sentence would also work
 - **Replace one comma with a period** (or vice versa) where both would scan
 
-## Approved typo types (use sparingly — see counts above)
+## Approved typo types (opt-in only, via `--typo`)
+
+This section only applies when the user passed `--typo` or asked for a typo in so many words. Otherwise the answer to "which typo?" is "none."
 
 Only these types qualify as safe typos. Pick ONE for short pieces, at most TWO across longer pieces.
 
@@ -61,7 +74,7 @@ That's it. The three above are the only approved typo types.
 - Broken capitalization at sentence start (mid-piece — lowercase opener of an email is a separate stylistic choice and is fine if the user does it consistently).
 - **Dropped articles, negations, subjects, verbs, or any content-bearing word.** Missing words are not informalisms — they are damage. The reader cannot recover the meaning.
 
-The wrong typo is worse than no typo. **When uncertain, skip the typo (but still apply the safe rhythm moves above).**
+The wrong typo is worse than no typo. **When uncertain, skip the typo (but still apply the safe rhythm moves above).** And when `--typo` was not passed, there is no decision to make: no typo.
 
 ## Approved contraction rules
 
@@ -97,7 +110,7 @@ The skill does not run on:
 
 For all of the above, the skill should output the original draft unchanged and explicitly note: *"Skipped humanize — high-stakes context."*
 
-Substack drafts, Slack messages, peer-to-peer cold emails to startup CEOs, and similar lower-stakes writing are fair game — apply the safe rhythm moves and (optionally) one typo per the counts above. The under-200-words skip rule from the previous version is removed: short pieces can still have one safe typo + rhythm moves.
+Substack drafts, Slack messages, peer-to-peer cold emails to startup CEOs, and similar lower-stakes writing are fair game — apply the safe rhythm moves, and one typo only if `--typo` was passed. The under-200-words skip rule from the previous version is removed: short pieces still get the rhythm moves.
 
 ## Output format
 
@@ -113,7 +126,7 @@ Substack drafts, Slack messages, peer-to-peer cold emails to startup CEOs, and s
 - Contractions: [list]
 - Subject-pronoun drops: [list, max 1]
 - Punctuation variation: [where, what changed, max 1]
-- Micro-typo introduced: [the typo, where, why this type — or "none"]
+- Micro-typo introduced: [the typo, where, why this type — or "none (typos off; pass --typo to opt in)"]
 - High-stakes detected: [yes/no — if yes, no changes were applied]
 
 ## Pre-output review (required)
@@ -121,7 +134,7 @@ Substack drafts, Slack messages, peer-to-peer cold emails to startup CEOs, and s
 - [ ] No required words missing (subjects, verbs, articles, negations)
 - [ ] No homophone slips
 - [ ] No mid-paragraph dropped periods (only the very last sentence may drop its period)
-- [ ] At most one typo per ~150 words; max two across the whole piece
+- [ ] No typo unless `--typo` was passed; if it was, at most one per ~150 words and two across the whole piece
 - [ ] Reads as "in a hurry," not "drunk" or "sloppy"
 ```
 

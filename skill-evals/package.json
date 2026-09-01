@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Regression test suite for writing-related Claude skills. Catches silent regressions when skill prompts change.",
   "scripts": {
-    "eval": "tsx runner.ts"
+    "eval": "tsx runner.ts",
+    "lint": "node lint-fixtures.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0"

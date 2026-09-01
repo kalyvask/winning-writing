@@ -1,0 +1,55 @@
+{
+  "name": "Performance review written ABOUT the person, leads with the negative, uses the B-word, psychoanalyzes, and closes on process",
+  "intent": "performance-review",
+  "draft": "Annual review: Priya Natarajan\n\nPriya's output this year was mixed. Her reports can be too long and boring, and she should strive to be more concise. We understand that her performance was affected by her move and the situation with her father, which is why several deadlines slipped in Q2.\n\nPriya has been actively involved on the team that shipped the new onboarding flow. She is a solid contributor and continues to evolve in her own way so that the team stays productive and effective.\n\nGoing forward, Priya should leverage her strengths and take more ownership. She needs to speak up more in meetings and stop being so passive.\n\nI look forward to next year's review.",
+  "expected_clean": false,
+  "min_total_flags": 6,
+  "recall_threshold": 0.5,
+  "expected_flags": [
+    {
+      "quote_contains": "Priya's output this year was mixed",
+      "categories": ["Third person", "Written about not to", "Report-card voice", "Lead with negative", "Leads with the negative", "Letter to the person"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "too long and boring",
+      "categories": ["B-word", "Boring", "Vague criticism", "Vague", "Insult", "Specific examples"],
+      "min_severity": "high"
+    },
+    {
+      "quote_contains": "she should strive to",
+      "categories": ["Third person", "Report-card voice", "Kindergarten", "Written about not to", "Letter to the person"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "affected by her move and the situation with her father",
+      "categories": ["Psychoanalysis", "Psychoanalyzing", "Personal life", "Private", "Never psychoanalyze"],
+      "min_severity": "high"
+    },
+    {
+      "quote_contains": "has been actively involved on the team",
+      "categories": ["Passive-aggressive credit", "Vague compliment", "Vague praise", "Credit", "Specific examples", "Vague"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "continues to evolve in her own way",
+      "categories": ["Vague compliment", "Vague praise", "Vague", "Specific examples", "Empty praise"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "leverage",
+      "categories": ["Jargon", "Banned word", "Banned jargon"],
+      "min_severity": "low"
+    },
+    {
+      "quote_contains": "stop being so passive",
+      "categories": ["Trait attack", "Character not behavior", "Stop without replacement", "What I would like", "Blunt feedback", "Behavior not person"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "I look forward to next year's review",
+      "categories": ["Process close", "Closing with a process note", "No thank you", "End with thank you", "Weak close"],
+      "min_severity": "medium"
+    }
+  ]
+}

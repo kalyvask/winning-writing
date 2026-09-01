@@ -1,0 +1,50 @@
+{
+  "name": "Startup pitch with no plain-English one-liner, no differentiation, no customer names, and brand-by-bot phrasing",
+  "intent": "pitch",
+  "draft": "Nimbus is a next-generation platform at the intersection of AI, data, and enterprise workflows. We are building and scaling a best-in-class solution that empowers teams to unlock the full potential of their data and drive impactful outcomes.\n\nThe market is massive and growing rapidly. Enterprises everywhere are struggling with fragmented tools and siloed information. Our holistic, seamless approach leverages state-of-the-art models to deliver transformative value across the entire ecosystem.\n\nWe have strong early traction with several customers who love the product. Our team is passionate about solving complex problems and has deep experience in the space.\n\nWe are raising a seed round to accelerate growth and would love to connect to discuss how we can partner together.",
+  "expected_clean": false,
+  "min_total_flags": 6,
+  "recall_threshold": 0.5,
+  "expected_flags": [
+    {
+      "quote_contains": "at the intersection of",
+      "categories": ["Jargon", "Banned phrase", "Banned jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "building and scaling",
+      "categories": ["Jargon", "Banned phrase", "Banned jargon", "Brand-by-bot"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "best-in-class",
+      "categories": ["Jargon", "Banned word", "Banned jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "unlock the full potential",
+      "categories": ["AI-tell", "AI tell", "Jargon", "Banned phrase", "Banned jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "The market is massive and growing rapidly",
+      "categories": ["Unsourced", "Vague claim", "Missing specifics", "Market size", "Unquantified claim", "Vividness", "Abstract"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "several customers who love the product",
+      "categories": ["Vague claim", "Missing specifics", "Customer examples", "Unquantified claim", "No names", "Vividness", "Abstract", "Unsourced"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "passionate about solving complex problems",
+      "categories": ["Jargon", "Banned phrase", "Banned jargon", "Brand-by-bot", "Superhero story", "Resume"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "would love to connect",
+      "categories": ["Vague ask", "Ask", "Weak close", "Call to action"],
+      "min_severity": "medium"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "General prose (LinkedIn post) stacked with AI tells, fragment chains, and a tricolon habit",
+  "intent": "general",
+  "draft": "I've been thinking a lot about leadership lately.\n\nIt's not just about vision. It's about execution.\n\nGreat leaders delve into the details. They navigate the complexities. They embrace ambiguity.\n\nThis week I had a conversation that was a testament to the power of listening. A mentor, a colleague, a friend. Three perspectives, one lesson.\n\nIn today's fast-paced world, we are all on a journey. The landscape of work is ever-evolving. The path forward is unclear.\n\nBut here's the thing: leadership is a tapestry. Woven from small moments. Built on trust. Earned every day.\n\nWhat's one lesson leadership taught you this year? Drop it in the comments.",
+  "expected_clean": false,
+  "min_total_flags": 6,
+  "recall_threshold": 0.5,
+  "expected_flags": [
+    {
+      "quote_contains": "It's not just about vision",
+      "categories": ["AI-tell", "AI tell", "Not just X", "Banned phrase"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "delve into",
+      "categories": ["AI-tell", "AI tell", "Jargon", "Banned phrase"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "navigate the complexities",
+      "categories": ["AI-tell", "AI tell", "Jargon", "Banned phrase"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "a testament to",
+      "categories": ["AI-tell", "AI tell", "Banned phrase", "Jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "In today's fast-paced world",
+      "categories": ["AI-tell", "AI tell", "Banned phrase", "Generic opener", "Throat-clearing"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "ever-evolving",
+      "categories": ["AI-tell", "AI tell", "Banned phrase", "Jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "tapestry",
+      "categories": ["AI-tell", "AI tell", "Banned phrase", "Jargon"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "Woven from small moments. Built on trust. Earned every day.",
+      "categories": ["Rhythm", "Fragment chain", "Choppy", "Uniform rhythm", "Staccato", "Sentence length", "AI-tell", "AI tell", "Vary sentence length"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "A mentor, a colleague, a friend. Three perspectives, one lesson.",
+      "categories": ["Tricolon", "Rhythm", "Fragment chain", "AI-tell", "AI tell", "Vary sentence length", "Uniform rhythm"],
+      "min_severity": "low"
+    }
+  ]
+}

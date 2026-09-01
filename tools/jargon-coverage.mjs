@@ -17,6 +17,14 @@
 //
 // CORE terms are derived, not hand-listed: they are the terms the canonical file
 // marks as AI tells, which are the ones every surface is expected to catch.
+//
+// Matching: a term counts as covered when the surface contains it verbatim, OR
+// when every significant word of the term (bracketed placeholders and stop
+// words removed) appears in the surface as a word-boundary stem of its first
+// five letters. That second rule is what lets a regex such as
+// /navigate the complexit\w*/ or /in today's [a-z-]+ world/ count as covering
+// "navigate the complexities of" and "in today's [adjective] world" without
+// the surface having to carry the literal phrase in a comment.
 
 import { readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
@@ -50,6 +58,28 @@ function parseCanonical(md) {
   return terms;
 }
 
+const STOP = new Set(['the', 'of', 'a', 'an', 'to', 'on', 'in', 'as', 'it', "it's", 'its', 'x', 'y', 'is', 'and', 'or']);
+
+// Significant words of a term: drop [placeholders], punctuation, and stop words.
+function significantWords(term) {
+  return term
+    .replace(/\[[^\]]*\]/g, ' ')
+    .replace(/[^a-z' ]/g, ' ')
+    .split(/\s+/)
+    .map((w) => w.replace(/^'+|'+$/g, ''))
+    .filter((w) => w && !STOP.has(w));
+}
+
+function covers(body, term) {
+  if (body.includes(term)) return true;
+  const words = significantWords(term);
+  if (!words.length) return false;
+  return words.every((w) => {
+    const stem = w.slice(0, 5).replace(/'/g, "'?");
+    return new RegExp(`(^|[^a-z])${stem}`).test(body);
+  });
+}
+
 const md = await readFile(join(repoRoot, CANONICAL), 'utf-8');
 const canonical = parseCanonical(md);
 const core = [...canonical].filter(([, s]) => /ai tell/i.test(s)).map(([t]) => t);
@@ -74,8 +104,8 @@ for (const s of SURFACES) {
     console.log(`${s.padEnd(pad)}  (not found — skipped)`);
     continue;
   }
-  const covered = [...canonical.keys()].filter((t) => body.includes(t));
-  const missingCore = core.filter((t) => !body.includes(t));
+  const covered = [...canonical.keys()].filter((t) => covers(body, t));
+  const missingCore = core.filter((t) => !covers(body, t));
   coreGaps += missingCore.length;
   const pct = Math.round((covered.length / canonical.size) * 100);
   console.log(`${s.padEnd(pad)}  ${covered.length}/${canonical.size} terms (${pct}%)   AI-tell gaps: ${missingCore.length}`);
@@ -84,13 +114,8 @@ for (const s of SURFACES) {
 
 console.log(
   `\nNote: partial coverage is expected — each surface scopes to its own use case.\n` +
-    `Total coverage is not the goal; the AI-tell gaps are what matter.
-` +
-    `This check does literal substring matching, so a term implemented as a regex
-` +
-    `(e.g. /in today's [a-z-]+ world/) reads as a gap even when it is covered.
-` +
-    `Confirm against the source before acting on a multi-word gap.`
+    `Total coverage is not the goal; the AI-tell gaps are what matter, and CI runs\n` +
+    `this script with --strict so an AI-tell gap fails the build.`
 );
 
 if (strict && coreGaps > 0) {

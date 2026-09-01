@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Chrome extension that adds an inline writing coach to Gmail and LinkedIn compose. Powered by recipient-research, alex-profile, connection-finder, winning-writing, cold-email skill content.",
+  "description": "Chrome extension that adds an inline writing coach to Gmail and LinkedIn compose. Powered by the cold-email-coach and connection-finder skill content; the sender profile is user data set on the options page.",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",

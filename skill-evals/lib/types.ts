@@ -1,10 +1,10 @@
 // Shared types for the eval harness.
 
+// Fixture skill names. Each maps to a directory in this repo (see
+// REPO_SKILL_PATHS in runner.ts) unless SKILLS_DIR overrides the lookup.
 export type SkillName =
   | 'winning-writing'
-  | 'cold-email'
-  | 'pm-evaluator'
-  | 'pm-prd-drafter';
+  | 'cold-email';
 
 export interface PositiveFixture {
   id: string;

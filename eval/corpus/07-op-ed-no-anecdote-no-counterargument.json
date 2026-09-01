@@ -1,0 +1,50 @@
+{
+  "name": "Op-ed that opens with a thesis instead of a scene, has no real names, no counterargument, and AI-tell prose",
+  "intent": "op-ed",
+  "draft": "Why Business Schools Must Embrace AI\n\nIn today's rapidly evolving world, artificial intelligence is transforming every industry. Business schools cannot afford to ignore this paradigm shift. It's not just a technological change — it's a fundamental reimagining of how we prepare leaders.\n\nMany students feel that their curriculum is outdated. Numerous employers have expressed concern that graduates lack the skills needed to navigate the complexities of an AI-driven economy. Studies show that a significant percentage of jobs will be impacted.\n\nBusiness schools should leverage cutting-edge tools to empower students. They should foster a culture of innovation and embrace the opportunities that AI presents. Faculty must be incentivized to update their courses.\n\nThe time to act is now. If we fail to adapt, we risk becoming irrelevant. The future of business education depends on our ability to harness the power of AI and drive meaningful change.",
+  "expected_clean": false,
+  "min_total_flags": 6,
+  "recall_threshold": 0.5,
+  "expected_flags": [
+    {
+      "quote_contains": "In today's rapidly evolving world",
+      "categories": ["AI-tell", "AI tell", "Banned phrase", "Generic opener", "Organ music", "Missing anecdote", "No cinematic opener"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "paradigm shift",
+      "categories": ["Jargon", "Banned word", "Banned jargon", "AI-tell", "AI tell"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "It's not just a technological change",
+      "categories": ["AI-tell", "AI tell", "Not just X", "Banned phrase"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "navigate the complexities",
+      "categories": ["AI-tell", "AI tell", "Jargon", "Banned phrase"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "Studies show that a significant percentage",
+      "categories": ["Unsourced", "Vague claim", "Missing specifics", "Abstract", "Unquantified claim", "Real names", "No real numbers", "Vividness"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "leverage cutting-edge tools to empower",
+      "categories": ["Jargon", "Banned word", "Banned jargon", "AI-tell", "AI tell"],
+      "min_severity": "medium"
+    },
+    {
+      "quote_contains": "Many students feel",
+      "categories": ["Vague", "Abstract", "Missing specifics", "Real names", "Vividness", "Unsourced", "Unquantified claim", "Show don't tell"],
+      "min_severity": "low"
+    },
+    {
+      "quote_contains": "harness the power of AI and drive meaningful change",
+      "categories": ["Jargon", "Banned word", "Banned jargon", "AI-tell", "AI tell", "Weak close", "Vague solution"],
+      "min_severity": "medium"
+    }
+  ]
+}

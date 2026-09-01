@@ -47,12 +47,13 @@ export const COLD_EMAIL_RULES: DetectableRule[] = [
   {
     id: 'delve-tapestry',
     name: 'AI-tell vocabulary',
-    description: 'delve, tapestry, navigate the complexities, robust solution, cutting-edge, game-changer.',
+    description:
+      'delve into, tapestry, navigate the complexities, robust solution, cutting-edge, game-changer, unlock, elevate, the landscape of, a testament to, underscores the importance of, pivotal, myriad, meticulous, foster, harness, embark on a journey, ever-evolving, stands as. Mirrors the "AI tells" section of points/banned-jargon.md.',
     severity: 'critical',
     detect: (body) =>
       matchAll(
         body,
-        /\b(delve|tapestry|navigate the complexit|robust solution|cutting[- ]edge|game[- ]chang|transformative)\w*/gi,
+        /\b(delve(s|d)? into|delv(e|es|ed|ing)|tapestry|navigate the complexit\w*|robust solution|cutting[- ]edge|game[- ]chang\w*|transformative|in today'?s [a-z-]+ world|unlock(s|ed|ing)? (the |your |their )?(full )?(potential|value|power|insights?)|elevat(e|es|ed|ing) (your|the|our)|(the )?(landscape|realm) of|(a|is a) testament to|underscor(e|es|ed|ing) the (importance|need|value)|pivotal|myriad|meticulous(ly)?|foster(s|ed|ing)? (a |an )?(culture|collaboration|innovation|environment)|harness(es|ed|ing)? (the power of|the)|embark(s|ed|ing)? on a journey|(ever|rapidly)[ -]evolving|stands as a)\b/gi,
       ),
   },
   {

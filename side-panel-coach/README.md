@@ -17,7 +17,7 @@ side-panel-coach/
 ├── sidepanel.css          OKLCH styles, side-panel compact
 ├── sidepanel.js           Inline critic + refinement chat (uses chrome.storage)
 ├── lib/
-│   ├── agents.js          Copy of ui/agents.js — runInlineCritic + runRefinementTurn
+│   ├── agents.js          Generated mirror of ui/agents.js — runInlineCritic + runRefinementTurn
 │   └── skill-loader.js    Extension-aware loader (uses chrome.runtime.getURL)
 └── rules/                 Generated snapshot — exactly the files bundles.json references
     ├── bundles.json       Copy of the canonical repo-root bundles.json (intent composition)
@@ -90,7 +90,7 @@ A one-time migration on first boot after upgrading copies any existing model / s
 
 ## Updating rules
 
-`rules/` is a generated snapshot of the canonical `bundles.json` + `points/` + `skills/` at the repo root. When any of those change, regenerate it:
+`rules/` is a generated snapshot of the canonical `bundles.json` + `points/` + `skills/` at the repo root, and `lib/agents.js` is a byte-for-byte mirror of `ui/agents.js`. When any of those change, regenerate both:
 
 ```bash
 # from the repo root
