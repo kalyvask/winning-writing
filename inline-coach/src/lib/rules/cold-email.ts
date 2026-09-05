@@ -1,6 +1,10 @@
-// Cold-email rule definitions ported from the winning-writing skill catalog.
-// This is a snapshot, not a live import. To update, edit catalog.json in the
-// winning-writing skill repo and rerun the build (no automated sync in v0).
+// Cold-email rule definitions for the inline extension.
+//
+// This is a snapshot, not a live import. The canonical banned-word list is
+// points/banned-jargon.md at the repo root (NOT catalog/rules/catalog.json,
+// which is a standalone variant that nothing in the critic path loads).
+// After editing, run `node tools/jargon-coverage.mjs` to see what this file
+// still misses, then rerun the build. There is no automated sync.
 //
 // Each rule has a detect() function that returns spans where the rule fires.
 // The service worker also passes the body through Claude for the higher-order
@@ -136,6 +140,28 @@ export const COLD_EMAIL_RULES: DetectableRule[] = [
       }
       return [];
     },
+  },
+  {
+    id: 'modern-ai-tells',
+    name: 'Modern AI vocabulary',
+    description: 'unlock the potential, elevate your, the landscape/realm of, a testament to, underscores, embark on a journey, ever-evolving, in todays X world, foster collaboration, harness the power, seamless, holistic, meticulous, myriad, pivotal.',
+    severity: 'critical',
+    detect: (body) =>
+      matchAll(
+        body,
+        /\b(unlock\w* (the |your )?(full )?(potential|value|power|insights)|elevat(e|es|ed|ing) (your|the|our)|(the )?(landscape|realm) of|(a|is a) testament to|underscor(e|es|ed|ing) the|embark\w* on a journey|(ever|rapidly)[- ]evolving|stands as a|in today'?s [a-z-]+ world|foster\w* (a |an |the )?(collaboration|innovation|culture|community|growth|environment)|harness\w* (the )?(power|potential|strength|capabilit\w+)|seamless\w*|holistic\w*|meticulous\w*|myriad|pivotal|paradigm)\b/gi,
+      ),
+  },
+  {
+    id: 'consultant-filler',
+    name: 'Consultant filler',
+    description: 'circle back, touch base, low-hanging fruit, move the needle, boil the ocean, table stakes, best-in-class, double-click on.',
+    severity: 'issue',
+    detect: (body) =>
+      matchAll(
+        body,
+        /\b(circle back|touch base|sync up|low[- ]hanging fruit|move the needle|boil the ocean|table stakes|best[- ]in[- ]class|double[- ]click on)\b/gi,
+      ),
   },
 ];
 
